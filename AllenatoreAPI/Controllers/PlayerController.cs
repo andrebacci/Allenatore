@@ -44,6 +44,10 @@ namespace AllenatoreAPI.Controllers
 
         // Metodo che aggiorna un giocatore già esistente
 
+        // Metodo che restituisce tutti i giocatori di una squadra
+
+        // Metodo che restituisce tutti i giocatori dato nome e cognome
+
         // Metodo che restituisce le statistiche per un giocatore
     }
 }

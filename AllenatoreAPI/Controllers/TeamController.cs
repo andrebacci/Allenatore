@@ -1,4 +1,4 @@
-﻿using AllenatoreAPI.InternalModels;
+using AllenatoreAPI.InternalModels;
 using AllenatoreAPI.Result;
 using AllenatoreAPI.Utils;
 using BusinessLogic;
@@ -82,8 +82,8 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                TeamManager tm = new TeamManager(_connectionString);
-                Team team = await tm.Get(id);
+                TeamManager manager = new TeamManager(_connectionString);
+                Team team = await manager.Get(id);
                 if (team == null)
                 {
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Nessuna squadra trovata." });
@@ -108,32 +108,48 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("Insert")]
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] TeamAPI body)
+        public async Task<IActionResult> Insert([FromBody] Team body)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
-                Team team = new Team
-                {
-                    Id = body.Id,
-                    Name = body.Name,
-                    City = body.City,
-                    Logo = body.Logo,
-                    Mister = body.Mister,
-                    Category = body.Category
-                };
-
-                TeamManager tm = new TeamManager(_connectionString);
-                Team addedTeam = await tm.Insert(team);
-                if (addedTeam != null)
-                    return StatusCode(200, new ResultData { Data = addedTeam, Status = true, FunctionName = functionName, Message = $"Squadra inserita correttamente." });
+                TeamManager manager = new TeamManager(_connectionString);
+                Team team = await manager.Insert(body);
+                if (team != null)
+                    return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra inserita correttamente." });
                 else
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento della squadra {body.Name}." });
             }
             catch (Exception exc)
             {
                 return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Aggiorna una squadra esistente
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        [Route("Update")]
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] Team body)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                TeamManager manager = new TeamManager(_connectionString);
+                Team team = await manager.Update(body);
+                if (team != null)
+                    return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra aggiornata correttamente." });
+                else
+                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'aggiornamento della squadra {body.Name}." });            
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });                
             }
         }
 

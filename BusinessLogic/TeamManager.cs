@@ -44,5 +44,17 @@ namespace BusinessLogic
 
             return await Get(team.Id);
         }
+
+        // Aggiorna un elemento presente
+        public async Task<Team> Update(Team team)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                await ctx.Teams.Update(team);
+                await ctx.SaveChangesAsync();
+            }
+
+            return await Get(team.Id);
+        }
     }
 }
