@@ -1,9 +1,7 @@
 ﻿using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic
@@ -23,6 +21,15 @@ namespace BusinessLogic
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
                 return await ctx.Teams.Where(x => x.Id == id).FirstOrDefaultAsync();
+            }
+        }
+
+        // Ritorna la lista di tutti gli elementi
+        public async Task<List<Team>> GetAll()
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Teams.OrderBy(x => x.Name).ToListAsync();
             }
         }
 

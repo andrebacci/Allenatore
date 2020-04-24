@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,16 @@ namespace AllenatoreAPI.InternalModels
 {
     public class TeamInternal
     {
+        public TeamInternal(Team team)
+        {
+            Id = team.Id;
+            Name = team.Name;
+            City = team.City;
+            Mister = team.Mister;
+            Category = team.Category;
+            Logo = team.Logo;
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }
