@@ -13,6 +13,12 @@ namespace DataAccess.Models
         {
         }
 
+        public virtual DbSet<CardType> CardTypes { get; set; }
+
+        public virtual DbSet<Feet> Feets { get; set; }
+
+        public virtual DbSet<SubstitutionSession> SubstitutionSessions { get; set; }
+
         public virtual DbSet<Team> Teams { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,6 +32,33 @@ namespace DataAccess.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CardType>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.ToTable("CardTypes");
+
+                entity.Property(e => e.Description).HasMaxLength(25);
+            });
+
+            modelBuilder.Entity<Feet>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.ToTable("Feets");
+
+                entity.Property(e => e.Description).HasMaxLength(25);
+            });
+
+            modelBuilder.Entity<SubstitutionSession>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.ToTable("SubstitutionSessions");
+
+                entity.Property(e => e.Description).HasMaxLength(25);
+            });
+
             modelBuilder.Entity<Team>(entity =>
             {
                 entity.HasKey(e => e.Id);
