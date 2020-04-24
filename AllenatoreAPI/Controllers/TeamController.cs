@@ -172,7 +172,7 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
-        /// Restituisce le statistiche dato l'id della squadra
+        /// Restituisce le statistiche di una squadra dato il suo id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
