@@ -44,10 +44,6 @@ namespace AllenatoreAPI.Controllers
 
         // Metodo che aggiorna un giocatore già esistente
 
-        // Metodo che cancella un giocatore
-
-        // Metodo che restituisce un giocatore dato il suo nome e il cognome
-
-        // test per provare a fare check-in da cancellare
+        // Metodo che restituisce le statistiche per un giocatore
     }
 }

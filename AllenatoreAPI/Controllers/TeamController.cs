@@ -150,7 +150,7 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                StatisticsAPI statistics = new StatisticsAPI();
+                TeamStatisticsAPI statistics = new TeamStatisticsAPI();
                 return StatusCode(500, new ResultData { Data = statistics, Status = true, FunctionName = functionName, Message = $"Statistiche trovate con successo." });
             }
             catch (Exception exc)
