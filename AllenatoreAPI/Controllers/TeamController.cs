@@ -54,13 +54,13 @@ namespace AllenatoreAPI.Controllers
                 }
                 else
                 {
-                    List<TeamInternal> teamInternals = new List<TeamInternal>();
+                    List<TeamAPI> teamAPI = new List<TeamAPI>();
                     foreach (Team t in teams)
                     {
-                        teamInternals.Add(new TeamInternal(t));
+                        teamAPI.Add(new TeamAPI(t));
                     }
 
-                    return StatusCode(200, new ResultData { Data = teamInternals, Status = true, FunctionName = functionName, Message = $"Squadre trovate." });
+                    return StatusCode(200, new ResultData { Data = teamAPI, Status = true, FunctionName = functionName, Message = $"Squadre trovate." });
                 }
             }
             catch (Exception exc)
@@ -90,9 +90,9 @@ namespace AllenatoreAPI.Controllers
                 }
                 else
                 {
-                    TeamInternal ti = new TeamInternal(team);
+                    TeamAPI teamAPI = new TeamAPI(team);
 
-                    return StatusCode(200, new ResultData { Data = ti, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
+                    return StatusCode(200, new ResultData { Data = teamAPI, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
                 }
             }
             catch (Exception exc)
@@ -108,7 +108,7 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("Insert")]
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] TeamInternal body)
+        public async Task<IActionResult> Insert([FromBody] TeamAPI body)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
@@ -130,6 +130,28 @@ namespace AllenatoreAPI.Controllers
                     return StatusCode(200, new ResultData { Data = addedTeam, Status = true, FunctionName = functionName, Message = $"Squadra inserita correttamente." });
                 else
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento della squadra {body.Name}." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Restituisce le statistiche dato l'id della squadra
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        [Route("Statistics")]
+        [HttpGet]
+        public async Task<IActionResult> GetStatistics([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                StatisticsAPI statistics = new StatisticsAPI();
+                return StatusCode(500, new ResultData { Data = statistics, Status = true, FunctionName = functionName, Message = $"Statistiche trovate con successo." });
             }
             catch (Exception exc)
             {

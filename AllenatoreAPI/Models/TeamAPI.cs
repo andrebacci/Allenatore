@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AllenatoreAPI.InternalModels
+namespace AllenatoreAPI.Models
 {
-    public class TeamInternal
+    public class TeamAPI
     {
-        public TeamInternal(Team team)
+        public TeamAPI(Team team)
         {
             Id = team.Id;
             Name = team.Name;
