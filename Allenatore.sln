@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allenatore", "Allenatore\Al
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllenatoreAPI", "AllenatoreAPI\AllenatoreAPI.csproj", "{09ABE2FC-B29B-40E0-84BC-3F7D410AEE17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{3B6464AA-9D84-49B8-82F2-B4AC922D4EDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{C3E21B80-0BBC-4622-8578-C4A0A5094AB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{09ABE2FC-B29B-40E0-84BC-3F7D410AEE17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09ABE2FC-B29B-40E0-84BC-3F7D410AEE17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09ABE2FC-B29B-40E0-84BC-3F7D410AEE17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B6464AA-9D84-49B8-82F2-B4AC922D4EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B6464AA-9D84-49B8-82F2-B4AC922D4EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B6464AA-9D84-49B8-82F2-B4AC922D4EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B6464AA-9D84-49B8-82F2-B4AC922D4EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3E21B80-0BBC-4622-8578-C4A0A5094AB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3E21B80-0BBC-4622-8578-C4A0A5094AB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3E21B80-0BBC-4622-8578-C4A0A5094AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3E21B80-0BBC-4622-8578-C4A0A5094AB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
