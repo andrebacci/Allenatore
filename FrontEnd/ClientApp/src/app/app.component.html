@@ -1,6 +1,13 @@
 <body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+  <!--<app-nav-menu></app-nav-menu>-->
+  <div class="row">
+    <div class="col-lg-3">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-lg-9">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
 </body>
