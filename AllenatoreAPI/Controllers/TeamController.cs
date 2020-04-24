@@ -1,5 +1,6 @@
 ﻿using AllenatoreAPI.InternalModels;
 using AllenatoreAPI.Result;
+using AllenatoreAPI.Utils;
 using BusinessLogic;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -41,14 +42,26 @@ namespace AllenatoreAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            string functionName = MethodBase.GetCurrentMethod().Name;
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
                 TeamManager tm = new TeamManager(_connectionString);
                 List<Team> teams = await tm.GetAll();
+                if (teams == null || teams.Count == 0)
+                {
+                    return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Nessuna squadra trovata." });
+                }
+                else
+                {
+                    List<TeamInternal> teamInternals = new List<TeamInternal>();
+                    foreach (Team t in teams)
+                    {
+                        teamInternals.Add(new TeamInternal(t));
+                    }
 
-                return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Method ended with success." });
+                    return StatusCode(200, new ResultData { Data = teamInternals, Status = true, FunctionName = functionName, Message = $"Squadre trovate." });
+                }
             }
             catch (Exception exc)
             {
@@ -65,16 +78,22 @@ namespace AllenatoreAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] int id)
         {
-            string functionName = MethodBase.GetCurrentMethod().Name;
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
                 TeamManager tm = new TeamManager(_connectionString);
                 Team team = await tm.Get(id);
+                if (team == null)
+                {
+                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Nessuna squadra trovata." });
+                }
+                else
+                {
+                    TeamInternal ti = new TeamInternal(team);
 
-                TeamInternal ti = new TeamInternal(team);
-
-                return StatusCode(200, new ResultData { Data = ti, Status = true, FunctionName = functionName, Message = $"Method ended with success." });
+                    return StatusCode(200, new ResultData { Data = ti, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
+                }
             }
             catch (Exception exc)
             {
@@ -91,7 +110,7 @@ namespace AllenatoreAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] TeamInternal body)
         {
-            string functionName = MethodBase.GetCurrentMethod().Name;
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
@@ -108,9 +127,9 @@ namespace AllenatoreAPI.Controllers
                 TeamManager tm = new TeamManager(_connectionString);
                 Team addedTeam = await tm.Insert(team);
                 if (addedTeam != null)
-                    return StatusCode(200, new ResultData { Data = addedTeam, Status = true, FunctionName = functionName, Message = $"Method ended with success." });
+                    return StatusCode(200, new ResultData { Data = addedTeam, Status = true, FunctionName = functionName, Message = $"Squadra inserita correttamente." });
                 else
-                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Error during insert team." });
+                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento della squadra {body.Name}." });
             }
             catch (Exception exc)
             {
