@@ -22,5 +22,7 @@ namespace AllenatoreAPI.Controllers
         // Metodo che cancella un giocatore
 
         // Metodo che restituisce un giocatore dato il suo nome e il cognome
+
+        // test per provare a fare check-in da cancellare
     }
 }
