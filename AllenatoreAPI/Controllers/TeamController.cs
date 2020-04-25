@@ -101,6 +101,11 @@ namespace AllenatoreAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Ritorna la squadra dato il suo nome
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Route("GetByName")]
         [HttpGet]
         public async Task<IActionResult> GetByName([FromQuery] string name)
