@@ -74,8 +74,8 @@ export class PlayerComponent {
     this.lastname = this.player.lastname;
     this.firstname = this.player.firstname;
     this.age = this.player.age;
-    this.feet = this.player.feet.toString();
-    this.role = this.player.role.toString();
+    this.feet = this.player.feet;
+    this.role = this.player.role;
     this.lastteam = this.player.lastTeamString;
     this.penalty = this.player.penalty.toString();
     this.details = this.player.details;
@@ -96,10 +96,5 @@ export class PlayerComponent {
     var a = this.feet;
     var b = this.role;
     var c = this.penalty;
-  }
-
-  // Evento chiamato quando si cambia la select del piede
-  onChangeFeet(event: Event): void {
-
   }
 }
