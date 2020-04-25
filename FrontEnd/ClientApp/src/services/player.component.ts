@@ -18,4 +18,13 @@ export class PlayerService {
       }
     });
   }
+
+  // Restituisce il giocatore dato il suo id
+  getById(id: any) {
+    return this.http.get(this.baseUrl + 'api/Player/GetById', {
+      params: {
+        id: id
+      }
+    })
+  }
 }

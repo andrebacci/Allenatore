@@ -25,5 +25,14 @@ namespace BusinessLogic
                 return await ctx.Players.Where(x => x.IdTeam == id).OrderBy(x => x.Lastname).ToListAsync();
             }
         }
+
+        // Ritorna il giocatore dato il suo id
+        public async Task<Players> GetById(int id)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Players.Where(x => x.Id == id).FirstOrDefaultAsync();
+            }
+        }
     }
 }

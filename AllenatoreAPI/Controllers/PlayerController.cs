@@ -55,17 +55,33 @@ namespace AllenatoreAPI.Controllers
 
                 foreach (Players p in players)
                 {
-                    PlayerAPI pa = new PlayerAPI(p)
-                    {
-                        FeetString = Constant.FeetToString(p.Feet.GetValueOrDefault()),
-                        RoleString = Constant.RoleToString(p.Role.GetValueOrDefault()),
-                        LastTeamString = await TeamUtility.GetLastTeamNameAsync(controller, p.IdTeam.GetValueOrDefault(), p.LastTeam.GetValueOrDefault())
-                    };
-
+                    PlayerAPI pa = new PlayerAPI(p);
                     playersAPI.Add(pa);
                 }
-                
+
                 return StatusCode(200, new ResultData { Data = playersAPI, Status = true, FunctionName = functionName, Message = $"Giocatori trovati." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        [Route("GetById")]
+        [HttpGet]
+        public async Task<IActionResult> GetById([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                PlayerManager manager = new PlayerManager(_connectionString);
+                Players player = await manager.GetById(id);
+                if (player == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Giocatore non trovato." });
+
+                PlayerAPI pa = new PlayerAPI(player);
+                return StatusCode(200, new ResultData { Data = pa, Status = true, FunctionName = functionName, Message = $"Giocatore trovato con successo." });
             }
             catch (Exception exc)
             {

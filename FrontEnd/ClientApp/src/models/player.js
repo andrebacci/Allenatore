@@ -7,10 +7,13 @@ var Player = /** @class */ (function () {
         this.lastname = "";
         this.firstname = "";
         this.age = 0;
+        this.role = 0;
         this.roleString = "";
+        this.feet = 0;
         this.feetString = "";
         this.lastTeamString = "";
-        this.penalty = false;
+        this.penalty = 0;
+        this.penaltyString = "";
         this.details = "";
         this.image = "";
     }

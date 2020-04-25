@@ -40,12 +40,12 @@ export class TeamComponent {
       if (this.mode == "create") {
         this.isReadOnly = false;
       } else {
+        this.idTeam = params['id'];
+
         if (this.mode == "update") {
-          this.isReadOnly = false;
-          this.idTeam = params['id'];
+          this.isReadOnly = false;          
         } else if (this.mode == "detail") {
-          this.isReadOnly = true;
-          this.idTeam = params['id'];
+          this.isReadOnly = true;          
         }
 
         // Recupero le informazioni della squadra

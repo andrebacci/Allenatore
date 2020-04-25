@@ -10,7 +10,7 @@ namespace AllenatoreAPI.Utils
 {
     public static class TeamUtility
     {
-        public static async Task<string> GetLastTeamNameAsync(TeamController controller, int idTeam, int idLastTeam)
+        public static string GetLastTeamNameAsync(int idTeam, int idLastTeam)
         {
             try
             {
@@ -20,7 +20,8 @@ namespace AllenatoreAPI.Utils
                 if (idTeam == idLastTeam)
                     return "Confermato";
 
-                ObjectResult objectResult = await controller.GetNameById(idTeam) as ObjectResult;
+                TeamController controller = new TeamController();
+                ObjectResult objectResult = controller.GetNameById(idTeam).Result as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
                 return resultData.Data.ToString();
             }
