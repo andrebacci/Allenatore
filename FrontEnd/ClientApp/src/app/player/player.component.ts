@@ -26,8 +26,8 @@ export class PlayerComponent {
   age: number = 0;
   lastteam: string = "";
   details: string = ""
-  feet: string = "";
-  role: string = "";
+  feet: number = 0;
+  role: number = 0;
   penalty: string = "";
 
   constructor(private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {
@@ -96,5 +96,10 @@ export class PlayerComponent {
     var a = this.feet;
     var b = this.role;
     var c = this.penalty;
+  }
+
+  // Evento chiamato quando si cambia la select del piede
+  onChangeFeet(event: Event): void {
+
   }
 }

@@ -67,6 +67,11 @@ namespace AllenatoreAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Ritorna il giocatore dato il suo id
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [Route("GetById")]
         [HttpGet]
         public async Task<IActionResult> GetById([FromQuery] int id)
