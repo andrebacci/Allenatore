@@ -116,8 +116,27 @@ namespace AllenatoreAPI.Controllers
             {
                 TeamManager manager = new TeamManager(_connectionString);
                 Teams team = await manager.Get(name);
-                TeamAPI teamAPI = new TeamAPI(team);
-                return StatusCode(200, new ResultData { Data = teamAPI, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
+                
+                return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        [Route("GetNameById")]
+        [HttpGet]
+        public async Task<IActionResult> GetNameById([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                TeamManager manager = new TeamManager(_connectionString);
+                string name = await manager.GetNameById(id);
+
+                return StatusCode(200, new ResultData { Data = name, Status = true, FunctionName = functionName, Message = $"Nome squadra trovato: {name}." });
             }
             catch (Exception exc)
             {

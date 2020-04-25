@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { TeamService } from '../../services/team.service';
 import { Team } from '../../models/team';
 import { ResultData } from '../../models/resultData';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Player } from '../../models/player';
+import { PlayerService } from '../../services/player.component';
 
 @Component({
   selector: 'app-team',
@@ -12,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 export class TeamComponent {
 
   team: Team = null;
+  players: Player[] = [];
 
   idTeam: number = -1;
 
@@ -26,7 +29,7 @@ export class TeamComponent {
 
   isReadOnly: boolean = false;
 
-  constructor(private teamService: TeamService, private route: ActivatedRoute) {
+  constructor(private teamService: TeamService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -45,8 +48,8 @@ export class TeamComponent {
           this.idTeam = params['id'];
         }
 
-        // Recupero il team
-        this.getTeamById(this.idTeam);
+        // Recupero le informazioni della squadra
+        this.getTeamById(this.idTeam);        
       }
     });
   }
@@ -60,6 +63,9 @@ export class TeamComponent {
 
         // Inizializzo la form una volta che ho il team
         this.initForm();
+
+        // Recupero la rosa della squadra
+        this.getPlayers();
       } else {
         // Errore
       }
@@ -84,15 +90,32 @@ export class TeamComponent {
 
   // Salva le modifiche
   save(): void {
+    if (this.team == undefined)
+      this.team = new Team();
+
     this.team.name = this.teamName;
     this.team.city = this.teamCity;
     this.team.category = this.teamCategory;
     this.team.mister = this.teamMister;
 
     if (this.mode == "update") {
-      // UPDATE
+      this.teamService.update(this.team).subscribe(res => {
+        var resultData = res as ResultData;
+        if (resultData.status) {
+          let team = resultData.data as Team;
+          this.redirect('/team/detail/' + team.id);
+        } else {
+          // Errore
+        }
+      })
     } else if (this.mode == "create") {
-      // CREATE
+      this.teamService.insert(this.team).subscribe(res => {
+        var resultData = res as ResultData;
+        if (resultData.status) {
+          let team = resultData.data as Team;
+          this.redirect('/team/detail/' + team.id);
+        }
+      })
     } else {
       // Errore
     }
@@ -109,6 +132,23 @@ export class TeamComponent {
 
   // Passa dalla modalità "detail" alla modalità "update"
   update(): void {
-    this.isReadOnly = false;
+    this.redirect('/team/update/' + this.team.id);
+  }
+
+  // Redirect della pagina
+  redirect(url: string): void {
+    this.router.navigate([]).then(res => { window.open(url, '_self') });
+  }
+
+  // Recupero la rosa della squadra
+  getPlayers(): void {
+    this.playerService.getByTeamId(this.team.id).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.players = resultData.data as Player[];
+      } else {
+        // Errore
+      }
+    });
   }
 }

@@ -42,6 +42,15 @@ namespace BusinessLogic
             }
         }
 
+        // Ritorna il nome della squadra dato il suo id
+        public async Task<string> GetNameById(int id)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Teams.Where(x => x.Id == id).Select(x => x.Name).FirstOrDefaultAsync();
+            }
+        }
+
         // Aggiunge una nuova squadra
         public async Task<Teams> Insert(Teams team)
         {

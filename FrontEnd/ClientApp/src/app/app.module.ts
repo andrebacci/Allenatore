@@ -16,6 +16,7 @@ import { TeamComponent } from './team/team.component';
 import { TeamsComponent } from './teams/teams.component';
 
 // Servizi
+import { PlayerService } from '../services/player.component';
 import { TeamService } from '../services/team.service';
 
 @NgModule({
@@ -42,6 +43,7 @@ import { TeamService } from '../services/team.service';
     ])
   ],
   providers: [
+    PlayerService,
     TeamService
   ],
   bootstrap: [AppComponent]

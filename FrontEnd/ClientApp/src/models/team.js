@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Team = /** @class */ (function () {
     function Team() {
-        this.id = -1;
+        this.id = 0;
         this.name = "";
         this.city = "";
         this.mister = "";

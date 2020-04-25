@@ -1,5 +1,6 @@
 import { Injectable, Inject } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { Team } from "../models/team";
 
 @Injectable()
 export class TeamService {
@@ -26,8 +27,10 @@ export class TeamService {
 
   // Aggiunge una nuova squadra
   insert(team: Team) {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let options = {
+      headers: headers
+    };
 
     let body = JSON.stringify({
       id: team.id,
@@ -42,8 +45,10 @@ export class TeamService {
 
   // Aggiorna una squadra esistente
   update(team: Team) {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let options = {
+      headers: headers
+    };
 
     let body = JSON.stringify({
       id: team.id,
@@ -53,6 +58,6 @@ export class TeamService {
       mister: team.mister
     });
 
-    return this.http.put(this.baseUrl + 'api/Team/Insert', body, options);
+    return this.http.put(this.baseUrl + 'api/Team/Update', body, options);
   }
 }
