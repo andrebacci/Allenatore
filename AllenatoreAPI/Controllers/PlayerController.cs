@@ -33,6 +33,33 @@ namespace AllenatoreAPI.Controllers
             _connectionString = _configuration.GetValue<string>("ConnectionString");
         }
 
+        [Route("GetAll")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                PlayerManager manager = new PlayerManager(_connectionString);
+                List<Players> players = await manager.GetAll();
+
+                List<PlayerAPI> playersAPI = new List<PlayerAPI>();
+
+                foreach (Players p in players)
+                {
+                    PlayerAPI pa = new PlayerAPI(p);
+                    playersAPI.Add(pa);
+                }
+
+                return StatusCode(200, new ResultData { Data = playersAPI, Status = true, FunctionName = functionName, Message = $"Giocatori trovati."});
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}"});
+            }
+        }
+
         /// <summary>
         /// Ritorna tutti i giocatori dato l'id di una squadra
         /// </summary>
