@@ -36,7 +36,8 @@ import { TeamService } from '../services/team.service';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'team/:id/:mode', component: TeamComponent },
+      { path: 'team/:mode', component: TeamComponent },
+      { path: 'team/:mode/:id', component: TeamComponent },
       { path: 'teams', component: TeamsComponent }
     ])
   ],

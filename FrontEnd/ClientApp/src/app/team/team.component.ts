@@ -31,21 +31,24 @@ export class TeamComponent {
   }
 
   ngOnInit(): void {
-    this.sub = this.route.params.subscribe(params => {
-      this.idTeam = params['id'];
+    this.sub = this.route.params.subscribe(params => {      
       this.mode = params['mode'];
 
-      if (this.mode == "detail") {
-        this.isReadOnly = true;
-      } else {
+      if (this.mode == "create") {
         this.isReadOnly = false;
+      } else {
+        if (this.mode == "update") {
+          this.isReadOnly = false;
+          this.idTeam = params['id'];
+        } else if (this.mode == "detail") {
+          this.isReadOnly = true;
+          this.idTeam = params['id'];
+        }
+
+        // Recupero il team
+        this.getTeamById(this.idTeam);
       }
     });
-
-    // Recupero il team
-    this.getTeamById(this.idTeam);
-
-    this.teamName = this.team.name;
   }
 
   // Inizializza il team dato il suo id

@@ -35,11 +35,11 @@ export class TeamsComponent {
 
   // Apre la pagina del singolo team
   detailTeam(id: number): void {
-    this.router.navigate([]).then(res => { window.open('/team/' + id + '/detail', '_self') });
+    this.router.navigate([]).then(res => { window.open('/team/detail/' + id, '_self') });
   }
 
   // Apre la pagina di modifica del team
   updateTeam(id: number): void {
-    this.router.navigate([]).then(res => { window.open('/team/' + id + '/update') });
+    this.router.navigate([]).then(res => { window.open('/team/update/' + id, '_self') });
   }
 }
