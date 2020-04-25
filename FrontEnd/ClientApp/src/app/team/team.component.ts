@@ -74,6 +74,14 @@ export class TeamComponent {
     this.teamMister = this.team.mister;    
   }
 
+  // Svuota tutti i campi
+  cleanForm(): void {
+    this.teamName = "";
+    this.teamCity = "";
+    this.teamCategory = "";
+    this.teamMister = "";
+  }
+
   // Salva le modifiche
   save(): void {
     this.team.name = this.teamName;
@@ -88,5 +96,19 @@ export class TeamComponent {
     } else {
       // Errore
     }
+  }
+
+  // Annulla le modifiche fatte
+  undo(): void {
+    if (this.mode == "update") {
+      this.initForm();
+    } else if (this.mode == "create") {
+      this.cleanForm();
+    }
+  }
+
+  // Passa dalla modalità "detail" alla modalità "update"
+  update(): void {
+    this.isReadOnly = false;
   }
 }
