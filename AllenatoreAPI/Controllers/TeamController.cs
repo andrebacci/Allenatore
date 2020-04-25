@@ -1,4 +1,4 @@
-using AllenatoreAPI.InternalModels;
+using AllenatoreAPI.Models;
 using AllenatoreAPI.Result;
 using AllenatoreAPI.Utils;
 using BusinessLogic;
@@ -47,20 +47,20 @@ namespace AllenatoreAPI.Controllers
             try
             {
                 TeamManager tm = new TeamManager(_connectionString);
-                List<Team> teams = await tm.GetAll();
+                List<Teams> teams = await tm.GetAll();
                 if (teams == null || teams.Count == 0)
                 {
                     return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Nessuna squadra trovata." });
                 }
                 else
                 {
-                    List<TeamAPI> teamAPI = new List<TeamAPI>();
-                    foreach (Team t in teams)
-                    {
-                        teamAPI.Add(new TeamAPI(t));
-                    }
+                    //List<TeamAPI> teamAPI = new List<TeamAPI>();
+                    //foreach (Team t in teams)
+                    //{
+                    //    teamAPI.Add(new TeamAPI(t));
+                    //}
 
-                    return StatusCode(200, new ResultData { Data = teamAPI, Status = true, FunctionName = functionName, Message = $"Squadre trovate." });
+                    return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Squadre trovate." });
                 }
             }
             catch (Exception exc)
@@ -74,16 +74,16 @@ namespace AllenatoreAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Route("TeamById")]
+        [Route("GetById")]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] int id)
+        public async Task<IActionResult> GetById([FromQuery] int id)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
                 TeamManager manager = new TeamManager(_connectionString);
-                Team team = await manager.Get(id);
+                Teams team = await manager.Get(id);
                 if (team == null)
                 {
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Nessuna squadra trovata." });
@@ -101,16 +101,17 @@ namespace AllenatoreAPI.Controllers
             }
         }
 
-        [Route("TeamByName")]
+        [Route("GetByName")]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string name)
+        public async Task<IActionResult> GetByName([FromQuery] string name)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
                 TeamManager manager = new TeamManager(_connectionString);
-                Team team = await manager.Get(name);
+                Teams team = await manager.Get(name);
+                TeamAPI teamAPI = new TeamAPI(team);
                 return StatusCode(200, new ResultData { Data = teamAPI, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
             }
             catch (Exception exc)
@@ -126,14 +127,14 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("Insert")]
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] Team body)
+        public async Task<IActionResult> Insert([FromBody] Teams body)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
                 TeamManager manager = new TeamManager(_connectionString);
-                Team team = await manager.Insert(body);
+                Teams team = await manager.Insert(body);
                 if (team != null)
                     return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra inserita correttamente." });
                 else
@@ -152,14 +153,14 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("Update")]
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Team body)
+        public async Task<IActionResult> Update([FromBody] Teams body)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
                 TeamManager manager = new TeamManager(_connectionString);
-                Team team = await manager.Update(body);
+                Teams team = await manager.Update(body);
                 if (team != null)
                     return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra aggiornata correttamente." });
                 else

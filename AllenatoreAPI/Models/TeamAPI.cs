@@ -8,7 +8,7 @@ namespace AllenatoreAPI.Models
 {
     public class TeamAPI
     {
-        public TeamAPI(Team team)
+        public TeamAPI(Teams team)
         {
             Id = team.Id;
             Name = team.Name;

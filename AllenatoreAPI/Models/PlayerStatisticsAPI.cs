@@ -23,7 +23,7 @@ namespace AllenatoreAPI.Models
 
         public int SubstituteInHome { get; set; }
 
-        public int SubstituteOutHome { get; set; }
+        public int SubstituteInAway { get; set; }
 
         public int SubstituteOut { get; set; }
 

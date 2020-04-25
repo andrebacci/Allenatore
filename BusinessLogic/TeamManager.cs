@@ -16,7 +16,7 @@ namespace BusinessLogic
         }
 
         // Ritorna una squadra dato il suo id
-        public async Task<Team> Get(int id)
+        public async Task<Teams> Get(int id)
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
@@ -25,7 +25,7 @@ namespace BusinessLogic
         }
 
         // Ritorna una squadra dato il suo nome
-        public async Task<Team> Get(string name)
+        public async Task<Teams> Get(string name)
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
@@ -34,7 +34,7 @@ namespace BusinessLogic
         }
 
         // Ritorna la lista di tutte le squadre
-        public async Task<List<Team>> GetAll()
+        public async Task<List<Teams>> GetAll()
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
@@ -43,7 +43,7 @@ namespace BusinessLogic
         }
 
         // Aggiunge una nuova squadra
-        public async Task<Team> Insert(Team team)
+        public async Task<Teams> Insert(Teams team)
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
@@ -55,11 +55,11 @@ namespace BusinessLogic
         }
 
         // Aggiorna una squadra esistente
-        public async Task<Team> Update(Team team)
+        public async Task<Teams> Update(Teams team)
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
-                await ctx.Teams.Update(team);
+                ctx.Teams.Update(team);
                 await ctx.SaveChangesAsync();
             }
 
