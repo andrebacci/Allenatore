@@ -26,37 +26,58 @@
             <div class="form-row">
               <div class="col-md-4 mb-3">
                 <label for="validationCustom01">Squadra Casa</label>
-                <input type="text" class="form-control" id="validationCustom01" placeholder="Cognome" [(ngModel)]="lastname" name="lastname" #ctrl="ngModel" required>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="Squadra Casa" [(ngModel)]="teamHome" name="teamHome" #ctrl="ngModel" required>
                 <div class="valid-feedback">
                   Looks good!
                 </div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom02">Squadra Trasferta</label>
-                <input type="text" class="form-control" id="validationCustom02" placeholder="Nome" [(ngModel)]="firstname" name="firstname" #ctrl="ngModel" required>
+                <input type="text" class="form-control" id="validationCustom02" placeholder="Squadra Trasferta" [(ngModel)]="teamAway" name="teamAway" #ctrl="ngModel" required>
                 <div class="valid-feedback">
                   Looks good!
                 </div>
               </div>
-              <div class="col-md-4 mb-3">
+              <div class="col-md-2 mb-3">
                 <label for="validationCustom03">Risultato</label>
-                <input type="text" class="form-control" id="validationCustom03" placeholder="Anno" [(ngModel)]="age" name="age" #ctrl="ngModel" required>
+                <input type="text" class="form-control" id="validationCustom03" placeholder="" [(ngModel)]="golHome" name="golHome" #ctrl="ngModel" required>
                 <div class="valid-feedback">
                   Looks good!
+                </div>
+              </div>
+              <div class="col-md-2 mb-3">
+                <label for="validationCustom03">Data</label>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="golAway" name="golAway" #ctrl="ngModel" required>
+                <div class="invalid-feedback">
+                  Please provide a valid city.
                 </div>
               </div>
             </div>
             <div class="form-row">
-              <div class="col-md-4 mb-3">
-                <label for="validationCustom03">Data</label>
-                <input type="text" class="form-control" id="validationCustom04" placeholder="Squadra" [(ngModel)]="team" name="team" #ctrl="ngModel" required>
+              <div class="col-md-3 mb-3">
+                <label for="validationCustom03">Modulo Casa</label>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Modulo Casa" [(ngModel)]="moduleHome" name="moduleHome" #ctrl="ngModel" required>
+                <div class="invalid-feedback">
+                  Please provide a valid city.
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="validationCustom03">Modulo Trasferta</label>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Modulo Trasferta" [(ngModel)]="moduleAway" name="moduleAway" #ctrl="ngModel" required>
+                <div class="invalid-feedback">
+                  Please provide a valid city.
+                </div>
+              </div>
+              <div class="col-md-2 mb-3">
+                <label for="validationCustom03">Giornata</label>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Giornata" [(ngModel)]="round" name="round" #ctrl="ngModel" required>
                 <div class="invalid-feedback">
                   Please provide a valid city.
                 </div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Giornata</label>
-                <input type="text" class="form-control" id="validationCustom04" placeholder="Provenienza" [(ngModel)]="lastteam" name="lastteam" #ctrl="ngModel" required>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Data" [(ngModel)]="date" name="date" #ctrl="ngModel" required>
                 <div class="invalid-feedback">
                   Please provide a valid city.
                 </div>
@@ -74,7 +95,7 @@
     </div>
 
     <!-- altre informazioni -->
-    <div class="main-card mb-3 card" *ngIf="isReadOnly">
+    <div class="main-card mb-3 card">
       <div class="card-body">
         <!-- header del tab -->
         <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav mb-3">

@@ -7,6 +7,8 @@ namespace DataAccess.Models
     {
         public Teams()
         {
+            GamesIdTeamAwayNavigation = new HashSet<Games>();
+            GamesIdTeamHomeNavigation = new HashSet<Games>();
             PlayersIdTeamNavigation = new HashSet<Players>();
             PlayersLastTeamNavigation = new HashSet<Players>();
         }
@@ -18,6 +20,8 @@ namespace DataAccess.Models
         public string Category { get; set; }
         public string Logo { get; set; }
 
+        public virtual ICollection<Games> GamesIdTeamAwayNavigation { get; set; }
+        public virtual ICollection<Games> GamesIdTeamHomeNavigation { get; set; }
         public virtual ICollection<Players> PlayersIdTeamNavigation { get; set; }
         public virtual ICollection<Players> PlayersLastTeamNavigation { get; set; }
     }

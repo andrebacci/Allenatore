@@ -19,6 +19,7 @@ import { TeamsComponent } from './teams/teams.component';
 
 // Servizi
 import { FeetService } from '../services/feet.service';
+import { GameService } from '../services/game.service';
 import { PlayerService } from '../services/player.service';
 import { RoleService } from '../services/role.service';
 import { TeamService } from '../services/team.service';
@@ -44,6 +45,7 @@ import { TeamService } from '../services/team.service';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'game/:mode', component: GameComponent },
+      { path: 'game/:mode/:id', component: GameComponent },
       { path: 'player/:mode/:id', component: PlayerComponent },
       { path: 'team/:mode', component: TeamComponent },
       { path: 'team/:mode/:id', component: TeamComponent },
@@ -52,6 +54,7 @@ import { TeamService } from '../services/team.service';
   ],
   providers: [
     FeetService,
+    GameService,
     PlayerService,
     RoleService,
     TeamService

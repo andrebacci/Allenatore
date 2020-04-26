@@ -17,6 +17,7 @@ namespace DataAccess.Models
 
         public virtual DbSet<CardTypes> CardTypes { get; set; }
         public virtual DbSet<Feets> Feets { get; set; }
+        public virtual DbSet<Games> Games { get; set; }
         public virtual DbSet<Players> Players { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<SubstitutionSessions> SubstitutionSessions { get; set; }
@@ -45,6 +46,27 @@ namespace DataAccess.Models
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(25);
+            });
+
+            modelBuilder.Entity<Games>(entity =>
+            {
+                entity.Property(e => e.Date).HasColumnType("datetime");
+
+                entity.Property(e => e.ModuleAway).HasMaxLength(16);
+
+                entity.Property(e => e.ModuleHome).HasMaxLength(16);
+
+                entity.HasOne(d => d.IdTeamAwayNavigation)
+                    .WithMany(p => p.GamesIdTeamAwayNavigation)
+                    .HasForeignKey(d => d.IdTeamAway)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Games_Teams1");
+
+                entity.HasOne(d => d.IdTeamHomeNavigation)
+                    .WithMany(p => p.GamesIdTeamHomeNavigation)
+                    .HasForeignKey(d => d.IdTeamHome)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Games_Teams");
             });
 
             modelBuilder.Entity<Players>(entity =>
