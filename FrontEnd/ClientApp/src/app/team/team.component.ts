@@ -151,4 +151,9 @@ export class TeamComponent {
       }
     });
   }
+
+  // Apre la pagina di dettaglio del giocatore
+  detailPlayer(id: number): void {
+    this.redirect('/player/detail/' + id);
+  }
 }

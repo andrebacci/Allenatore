@@ -18,6 +18,7 @@ namespace DataAccess.Models
         public virtual DbSet<CardTypes> CardTypes { get; set; }
         public virtual DbSet<Feets> Feets { get; set; }
         public virtual DbSet<Players> Players { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<SubstitutionSessions> SubstitutionSessions { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
 
@@ -68,6 +69,18 @@ namespace DataAccess.Models
                     .WithMany(p => p.PlayersLastTeamNavigation)
                     .HasForeignKey(d => d.LastTeam)
                     .HasConstraintName("FK_Players_Teams1");
+
+                entity.HasOne(d => d.RoleNavigation)
+                    .WithMany(p => p.Players)
+                    .HasForeignKey(d => d.Role)
+                    .HasConstraintName("FK_Players_Roles");
+            });
+
+            modelBuilder.Entity<Roles>(entity =>
+            {
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(25);
             });
 
             modelBuilder.Entity<SubstitutionSessions>(entity =>

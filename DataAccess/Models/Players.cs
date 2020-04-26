@@ -20,5 +20,6 @@ namespace DataAccess.Models
         public virtual Feets FeetNavigation { get; set; }
         public virtual Teams IdTeamNavigation { get; set; }
         public virtual Teams LastTeamNavigation { get; set; }
+        public virtual Roles RoleNavigation { get; set; }
     }
 }

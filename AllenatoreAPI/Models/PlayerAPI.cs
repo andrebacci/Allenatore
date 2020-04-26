@@ -25,10 +25,13 @@ namespace AllenatoreAPI.Models
             Penalty = p.Penalty;
 
             FeetString = Constant.FeetToString(p.Feet.GetValueOrDefault());
-            RoleString = Constant.RoleToString(p.Role.GetValueOrDefault());
+
+            RoleString = RoleUtility.GetRoleDescription(p.Role.GetValueOrDefault());
 
             LastTeamString = TeamUtility.GetLastTeamName(p.IdTeam.GetValueOrDefault(), p.LastTeam.GetValueOrDefault());
             Team = TeamUtility.GetTeamName(p.IdTeam.GetValueOrDefault());
+
+            PenaltyString = p.Penalty.GetValueOrDefault() ? "Sì" : "No";
         }
 
         public string FeetString { get; set; }
@@ -38,5 +41,7 @@ namespace AllenatoreAPI.Models
         public string LastTeamString { get; set; }
 
         public string Team { get; set; }
+
+        public string PenaltyString { get; set; }
     }
 }
