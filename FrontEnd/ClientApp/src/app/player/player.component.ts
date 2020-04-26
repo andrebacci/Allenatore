@@ -6,6 +6,8 @@ import { ResultData } from "../../models/resultData";
 import { TeamService } from "../../services/team.service";
 import { Feet } from "../../models/feet";
 import { FeetService } from "../../services/feet.service";
+import { RoleService } from "../../services/role.service";
+import { Role } from "../../models/role";
 
 @Component({
   selector: 'app-player',
@@ -32,18 +34,23 @@ export class PlayerComponent {
   details: string = "";
 
   selectedFeet;
+  selectedRole;
 
   feets: Feet[] = [];
+  roles: Role[] = [];
 
   nameTeams: string[] = [];
 
-  constructor(private playerService: PlayerService, private teamService: TeamService, private feetService: FeetService, private route: ActivatedRoute, private router: Router) {
+  constructor(private playerService: PlayerService, private teamService: TeamService, private feetService: FeetService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
 
   }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.mode = params['mode'];
+
+      // Inizializzo le variabili constanti
+      this.initConstant();
 
       if (this.mode == "create") {
         this.isReadOnly = false;
@@ -64,14 +71,21 @@ export class PlayerComponent {
       if (this.mode != "detail") {
         this.getNameTeams();
       }
-
-      // Inizializzo le variabili constanti
-      this.initConstant();
     });
   }
 
   // Inizializza le variabili constanti
   initConstant(): void {
+    // Inizializzo roles
+    this.roleService.getAll().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.roles = resultData.data as Role[];
+      } else {
+        // Errore
+      }
+    })
+
     // Inizializzo feets
     this.feetService.getAll().subscribe(res => {
       var resultData = res as ResultData;
@@ -80,7 +94,7 @@ export class PlayerComponent {
       } else {
         // Errore
       }
-    })
+    })    
   }
 
   // Recupera la lista dei nomi delle squadre
@@ -115,11 +129,12 @@ export class PlayerComponent {
     this.lastname = this.player.lastname;
     this.firstname = this.player.firstname;
     this.age = this.player.age;
-    this.lastteam = this.player.lastTeamString;    
+    this.lastteam = this.player.lastTeamString;
     this.details = this.player.details;
     this.team = this.player.team;
 
     this.selectedFeet = this.player.feetString;
+    this.selectedRole = this.player.roleString;
   }
 
   // Redirect della pagina (DA SPOSTARE IN UNA UTILITY SE POSSIBILE)
@@ -136,7 +151,7 @@ export class PlayerComponent {
   save(): void {
     if (this.player == null)
       this.player = new Player();
-    
+
     this.checkTeam();
 
     this.player.lastname = this.lastname;
@@ -147,6 +162,7 @@ export class PlayerComponent {
     this.player.team = this.team;
 
     this.player.feet = this.convertFeetToNumber(this.selectedFeet);
+    this.player.role = this.convertRoleToNumber(this.selectedRole);
 
     if (this.mode == 'update') {
       this.playerService.update(this.player).subscribe(res => {
@@ -173,7 +189,7 @@ export class PlayerComponent {
 
   // Controllo che le squadre (attuale e provenienza) inserite siano corrette
   checkTeam(): void {
-    
+
   }
 
   // Evento quando cambio il valore della select "feet"
@@ -186,5 +202,10 @@ export class PlayerComponent {
       return 1;
 
     return 2;
+  }
+
+  convertRoleToNumber(role: string): number {
+    var pos = this.roles.map(function (e) { return e.description; }).indexOf(role);
+    return pos + 1;
   }
 }

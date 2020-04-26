@@ -25,7 +25,8 @@ namespace AllenatoreAPI.Models
             Penalty = p.Penalty;
 
             FeetString = Constant.FeetToString(p.Feet.GetValueOrDefault());
-            RoleString = Constant.RoleToString(p.Role.GetValueOrDefault());
+
+            RoleString = RoleUtility.GetRoleDescription(p.Role.GetValueOrDefault());
 
             LastTeamString = TeamUtility.GetLastTeamName(p.IdTeam.GetValueOrDefault(), p.LastTeam.GetValueOrDefault());
             Team = TeamUtility.GetTeamName(p.IdTeam.GetValueOrDefault());
