@@ -17,6 +17,7 @@ import { TeamComponent } from './team/team.component';
 import { TeamsComponent } from './teams/teams.component';
 
 // Servizi
+import { FeetService } from '../services/feet.service';
 import { PlayerService } from '../services/player.service';
 import { TeamService } from '../services/team.service';
 
@@ -46,6 +47,7 @@ import { TeamService } from '../services/team.service';
     ])
   ],
   providers: [
+    FeetService,
     PlayerService,
     TeamService
   ],

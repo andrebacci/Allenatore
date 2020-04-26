@@ -4,6 +4,8 @@ import { PlayerService } from "../../services/player.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ResultData } from "../../models/resultData";
 import { TeamService } from "../../services/team.service";
+import { Feet } from "../../models/feet";
+import { FeetService } from "../../services/feet.service";
 
 @Component({
   selector: 'app-player',
@@ -27,18 +29,15 @@ export class PlayerComponent {
   age: number = 0;
   team: string = "";
   lastteam: string = "";
-  details: string = ""
-  feet: string = "";
-  role: string = "";
-  penalty: string = "";
+  details: string = "";
 
-  feets: any = ["Destro", "Sinistro"];
-  penalties: any = ["Sì", "No"];
-  roles: any = ["Portiere", "Terzino Sinistro", "Difensore Centrale", "Terzino Destro"];
+  selectedFeet;
+
+  feets: Feet[] = [];
 
   nameTeams: string[] = [];
 
-  constructor(private playerService: PlayerService, private teamService: TeamService, private route: ActivatedRoute, private router: Router) {
+  constructor(private playerService: PlayerService, private teamService: TeamService, private feetService: FeetService, private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -65,7 +64,23 @@ export class PlayerComponent {
       if (this.mode != "detail") {
         this.getNameTeams();
       }
+
+      // Inizializzo le variabili constanti
+      this.initConstant();
     });
+  }
+
+  // Inizializza le variabili constanti
+  initConstant(): void {
+    // Inizializzo feets
+    this.feetService.getAll().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.feets = resultData.data as Feet[];
+      } else {
+        // Errore
+      }
+    })
   }
 
   // Recupera la lista dei nomi delle squadre
@@ -100,12 +115,11 @@ export class PlayerComponent {
     this.lastname = this.player.lastname;
     this.firstname = this.player.firstname;
     this.age = this.player.age;
-    this.feet = this.player.feetString;
-    this.role = this.player.roleString;
-    this.lastteam = this.player.lastTeamString;
-    //this.penalty = this.player.penalty.toString();
+    this.lastteam = this.player.lastTeamString;    
     this.details = this.player.details;
     this.team = this.player.team;
+
+    this.selectedFeet = this.player.feetString;
   }
 
   // Redirect della pagina (DA SPOSTARE IN UNA UTILITY SE POSSIBILE)
@@ -128,12 +142,11 @@ export class PlayerComponent {
     this.player.lastname = this.lastname;
     this.player.firstname = this.firstname;
     this.player.age = this.age;
-    this.player.feet = this.convertFeetToNumber(this.feet);
-    this.player.role = this.convertRoleToNumber(this.role);
-    this.player.penalty = this.convertPenaltyToBool(this.penalty);
     this.player.details = this.details;
     this.player.image = "";
     this.player.team = this.team;
+
+    this.player.feet = this.convertFeetToNumber(this.selectedFeet);
 
     if (this.mode == 'update') {
       this.playerService.update(this.player).subscribe(res => {
@@ -160,33 +173,18 @@ export class PlayerComponent {
 
   // Controllo che le squadre (attuale e provenienza) inserite siano corrette
   checkTeam(): void {
-    //if (this.nameTeams.indexOf(this.team) > -1 && this.nameTeams.indexOf())
+    
   }
 
-  // Metodi di convert (DA SPOSTARE IN UNA CLASSE DI UTILITY)
-  convertFeetToNumber(feetString: string): number {
-    if (feetString == 'Sinistro')
+  // Evento quando cambio il valore della select "feet"
+  //onChangeFeet() {
+  //  this.player.feetString = this.selectedFeet;
+  //}
+
+  convertFeetToNumber(feet: string): number {
+    if (feet == 'Sinistro')
       return 1;
 
     return 2;
-  }
-
-  convertRoleToNumber(roleString: string): number {
-    // FARE UNO SWITCH
-    if (roleString == 'Portiere')
-      return 1;
-
-    if (roleString == 'Terzino Sinistro')
-      return 2;
-
-    if (roleString == 'Difensore Centrale')
-      return 3;
-  }
-
-  convertPenaltyToBool(penaltyString: string): boolean {
-    if (penaltyString == 'Sì')
-      return true;
-
-    return false;
   }
 }

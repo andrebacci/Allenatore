@@ -61,26 +61,26 @@
                   Please provide a valid city.
                 </div>
               </div>
-              <div class="col-md-4 mb-3">
+              <!--<div class="col-md-4 mb-3">
                 <label for="validationCustom03">Ruolo</label>
                 <select name="select" id="select-role" class="form-control" [(ngModel)]="role">
                   <option *ngFor="let r of roles" [value]="role">{{r}}</option>
                 </select>
-              </div>
+              </div>-->
             </div>
             <div class="form-row">
               <div class="col-md-2 mb-3">
                 <label for="validationCustom03">Piede</label>
-                <select name="select" id="select-feet" class="form-control" [(ngModel)]="feet">
-                  <option *ngFor="let f of feets" [value]="feet">{{f}}</option>
+                <select name="select" id="select-feet" class="form-control" [(ngModel)]="selectedFeet" (change)="onChangeFeet($event)">
+                  <option *ngFor="let f of feets" [value]="f.description">{{f.description}}</option>
                 </select>
               </div>
-              <div class="col-md-2 mb-3">
+              <!--<div class="col-md-2 mb-3">
                 <label for="validationCustom03">Rigori</label>
                 <select name="select" id="select-penalty" class="form-control" [(ngModel)]="penalty">
                   <option *ngFor="let p of penalties" [value]="penalty">{{p}}</option>
                 </select>
-              </div>
+              </div>-->
             </div>
             <div class="form-row">
               <div class="col-md-12 mb-3">

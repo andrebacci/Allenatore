@@ -27,9 +27,11 @@
     <None Remove="ClientApp\src\app\player\player.component.ts" />
     <None Remove="ClientApp\src\app\sidebar\sidebar.component.ts" />
     <None Remove="ClientApp\src\app\team\team.component.ts" />
+    <None Remove="ClientApp\src\models\feet.ts" />
     <None Remove="ClientApp\src\models\player.ts" />
     <None Remove="ClientApp\src\models\resultData.ts" />
     <None Remove="ClientApp\src\models\team.ts" />
+    <None Remove="ClientApp\src\services\feet.service.ts" />
     <None Remove="ClientApp\src\services\player.service.ts" />
     <None Remove="ClientApp\src\services\team.service.ts" />
   </ItemGroup>
@@ -38,9 +40,11 @@
     <TypeScriptCompile Include="ClientApp\src\app\player\player.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\sidebar\sidebar.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\team\team.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\feet.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\player.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\resultData.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\team.ts" />
+    <TypeScriptCompile Include="ClientApp\src\services\feet.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\player.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\team.service.ts" />
   </ItemGroup>
