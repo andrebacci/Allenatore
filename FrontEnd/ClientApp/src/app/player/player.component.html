@@ -63,7 +63,7 @@
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Ruolo</label>
-                <select name="select" id="select-role" class="form-control" [(ngModel)]="selectedRole">
+                <select name="select-role" id="select-role" class="form-control" [(ngModel)]="selectedRole">
                   <option *ngFor="let r of roles" [value]="r.description">{{r.description}}</option>
                 </select>
               </div>
@@ -71,16 +71,16 @@
             <div class="form-row">
               <div class="col-md-2 mb-3">
                 <label for="validationCustom03">Piede</label>
-                <select name="select" id="select-feet" class="form-control" [(ngModel)]="selectedFeet">
+                <select name="select-feet" id="select-feet" class="form-control" [(ngModel)]="selectedFeet">
                   <option *ngFor="let f of feets" [value]="f.description">{{f.description}}</option>
                 </select>
               </div>
-              <!--<div class="col-md-2 mb-3">
+              <div class="col-md-2 mb-3">
                 <label for="validationCustom03">Rigori</label>
-                <select name="select" id="select-penalty" class="form-control" [(ngModel)]="penalty">
-                  <option *ngFor="let p of penalties" [value]="penalty">{{p}}</option>
+                <select name="select-penalty" id="select-penalty" class="form-control" [(ngModel)]="selectedPenalty">
+                  <option *ngFor="let p of penalties" [value]="p.description">{{p.description}}</option>
                 </select>
-              </div>-->
+              </div>              
             </div>
             <div class="form-row">
               <div class="col-md-12 mb-3">

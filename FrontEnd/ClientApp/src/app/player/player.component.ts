@@ -8,6 +8,7 @@ import { Feet } from "../../models/feet";
 import { FeetService } from "../../services/feet.service";
 import { RoleService } from "../../services/role.service";
 import { Role } from "../../models/role";
+import { Penalty } from "../../models/penalty";
 
 @Component({
   selector: 'app-player',
@@ -39,6 +40,7 @@ export class PlayerComponent {
 
   feets: Feet[] = [];
   roles: Role[] = [];
+  penalties: Penalty[] = [];
 
   nameTeams: string[] = [];
 
@@ -97,7 +99,11 @@ export class PlayerComponent {
       } else {
         // Errore
       }
-    })    
+    })
+
+    // Inizializzo penalties
+    this.penalties.push(new Penalty(1, 'Sì'));
+    this.penalties.push(new Penalty(2, 'No'));
   }
 
   // Recupera la lista dei nomi delle squadre
@@ -138,6 +144,7 @@ export class PlayerComponent {
 
     this.selectedFeet = this.player.feetString;
     this.selectedRole = this.player.roleString;
+    this.selectedPenalty = this.player.penaltyString;
 
     this.playerFullName = this.lastname.toUpperCase() + " " + this.firstname;
   }
@@ -168,6 +175,7 @@ export class PlayerComponent {
 
     this.player.feet = this.convertFeetToNumber(this.selectedFeet);
     this.player.role = this.convertRoleToNumber(this.selectedRole);
+    this.player.penalty = this.convertPenaltyToBool(this.selectedPenalty);
 
     if (this.mode == 'update') {
       this.playerService.update(this.player).subscribe(res => {
@@ -212,5 +220,12 @@ export class PlayerComponent {
   convertRoleToNumber(role: string): number {
     var pos = this.roles.map(function (e) { return e.description; }).indexOf(role);
     return pos + 1;
+  }
+
+  convertPenaltyToBool(penalty: string): boolean {
+    if (penalty == 'Sì')
+      return true;
+
+    return false;
   }
 }
