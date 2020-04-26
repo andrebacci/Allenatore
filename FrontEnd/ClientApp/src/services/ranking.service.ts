@@ -11,7 +11,12 @@ export class RankingService {
   }
 
   // Restituisce la classifica
-  get() {
-    return this.http.get(this.baseUrl + 'api/Ranking/Get');
+  get(start: any, end: any) {
+    return this.http.get(this.baseUrl + 'api/Ranking/Get', {
+      params: {
+        start: start,
+        end: end
+      }
+    });
   }
 }

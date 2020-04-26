@@ -20,7 +20,7 @@ export class HomeComponent {
   }
 
   getRanking(): void {
-    this.rankingService.get().subscribe(res => {
+    this.rankingService.get(null, null).subscribe(res => {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.ranking = resultData.data as Ranking[];
