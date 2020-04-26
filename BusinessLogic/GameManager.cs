@@ -17,6 +17,38 @@ namespace BusinessLogic
             _connectionString = connectionString;
         }
 
+        // Ritorna tutte le partite
+        public async Task<List<Games>> GetAll()
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Games.ToListAsync();
+            }
+        }
+
+        // Ritorna le partite in un range di giornate
+        public async Task<List<Games>> GetRange(int? start, int? end)
+        {
+            using (POContext ctx = new POContext(_connectionString))
+            {
+                if (start == null)
+                {
+                    if (end == null)
+                        return await ctx.Games.ToListAsync();
+                    
+                    return await ctx.Games.Where(x => x.Round <= end).ToListAsync();
+                }
+
+                if (end == null)
+                {
+                    if (start == null)
+                        return await ctx.Games.ToListAsync();
+                    
+                    return await ctx.Games.Where(x => x.Round >= start && x.Round <= end).ToListAsync();
+                }
+            }
+        }
+
         // Ritorna tutte le partite per una determinata giornata
         public async Task<List<Games>> GetByRound(int round)
         {

@@ -31,7 +31,7 @@ namespace AllenatoreAPI.Controllers
             _configuration = builder.Build();
 
             _connectionString = _configuration.GetValue<string>("ConnectionString");
-        }
+        }        
 
         /// <summary>
         /// Ritorna tutte le partite per una data giornata
