@@ -11,6 +11,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { GameComponent } from './game/game.component';
 import { PlayerComponent } from './player/player.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TeamComponent } from './team/team.component';
@@ -29,6 +30,7 @@ import { TeamService } from '../services/team.service';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
+    GameComponent,
     PlayerComponent,
     SidebarComponent,
     TeamComponent,
@@ -41,6 +43,7 @@ import { TeamService } from '../services/team.service';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'game/:mode', component: GameComponent },
       { path: 'player/:mode/:id', component: PlayerComponent },
       { path: 'team/:mode', component: TeamComponent },
       { path: 'team/:mode/:id', component: TeamComponent },

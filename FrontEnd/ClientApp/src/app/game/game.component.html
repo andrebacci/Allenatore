@@ -1,0 +1,147 @@
+<div class="app-main__outer">
+  <div class="app-main__inner">
+    <div class="app-page-title">
+      <div class="page-title-wrapper">
+        <div class="page-title-heading">
+          <div class="page-title-icon">
+            <i class="lnr-picture text-danger">
+            </i>
+          </div>
+          <div *ngIf="game">
+            {{game.name}}
+          </div>
+          <div *ngIf="!game">
+            NUOVA PARTITA
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">INFORMAZIONI PARTITA</h5>
+
+        <!-- form -->
+        <form class="needs-validation" novalidate>
+          <fieldset [disabled]="isReadOnly">
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom01">Squadra Casa</label>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="Cognome" [(ngModel)]="lastname" name="lastname" #ctrl="ngModel" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Squadra Trasferta</label>
+                <input type="text" class="form-control" id="validationCustom02" placeholder="Nome" [(ngModel)]="firstname" name="firstname" #ctrl="ngModel" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Risultato</label>
+                <input type="text" class="form-control" id="validationCustom03" placeholder="Anno" [(ngModel)]="age" name="age" #ctrl="ngModel" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Data</label>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Squadra" [(ngModel)]="team" name="team" #ctrl="ngModel" required>
+                <div class="invalid-feedback">
+                  Please provide a valid city.
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Giornata</label>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Provenienza" [(ngModel)]="lastteam" name="lastteam" #ctrl="ngModel" required>
+                <div class="invalid-feedback">
+                  Please provide a valid city.
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- button -->
+          <!--<button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly">Salva</button>
+          <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly">Annulla</button>
+
+          <button class="btn btn-primary mr-5" type="submit" (click)="update()" *ngIf="isReadOnly">Modifica</button>-->
+        </form>
+      </div>
+    </div>
+
+    <!-- altre informazioni -->
+    <div class="main-card mb-3 card" *ngIf="isReadOnly">
+      <div class="card-body">
+        <!-- header del tab -->
+        <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav mb-3">
+          <li class="nav-item">
+            <a role="tab" class="nav-link active show" id="tab-1" data-toggle="tab" href="#tab-content-1">
+              <span>Squadra Casa</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-2">
+              <span>Squadra Trasferta</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a role="tab" class="nav-link" id="tab-3" data-toggle="tab" href="#tab-content-3">
+              <span>Marcatori</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a role="tab" class="nav-link" id="tab-3" data-toggle="tab" href="#tab-content-3">
+              <span>Cambi</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- contenuto del tab -->
+        <div class="tab-content">
+
+          <!-- tab 1 -->
+          <div class="tab-pane tabs-animation fade" id="tab-content-1" role="tabpanel">
+            <div class="row" style="background-color:red">
+              <p>TAB 1</p>
+            </div>
+          </div>
+
+          <!-- tab 2 -->
+          <div class="tab-pane tabs-animation fade" id="tab-content-2" role="tabpanel">
+            <div class="row" style="background-color:blue">
+              <p>TAB 1</p>
+            </div>
+          </div>
+
+          <!-- tab 3 -->
+          <div class="tab-pane tabs-animation fade" id="tab-content-3" role="tabpanel">
+            <div class="row" style="background-color:green">
+              <p>TAB 3</p>
+            </div>
+          </div>
+
+          <!-- tab 4 -->
+          <div class="tab-pane tabs-animation fade" id="tab-content-4" role="tabpanel">
+            <div class="row" style="background-color:green">
+              <p>TAB 4</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- button -->
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly">Salva</button>
+        <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly">Annulla</button>
+
+        <button class="btn btn-primary mr-5" type="submit" (click)="update()" *ngIf="isReadOnly">Modifica</button>
+      </div>
+    </div>
+  </div>
+</div>
