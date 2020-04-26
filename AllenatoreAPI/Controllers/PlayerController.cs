@@ -33,6 +33,10 @@ namespace AllenatoreAPI.Controllers
             _connectionString = _configuration.GetValue<string>("ConnectionString");
         }
 
+        /// <summary>
+        /// Ritorna tutti i giocatori
+        /// </summary>
+        /// <returns></returns>
         [Route("GetAll")]
         [HttpGet]
         public async Task<IActionResult> GetAll()

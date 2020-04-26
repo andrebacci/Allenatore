@@ -60,7 +60,7 @@ namespace BusinessLogic
         }
 
         // Ritorna tutti i giocatori
-        public async Task<Players> GetAll(int id)
+        public async Task<List<Players>> GetAll()
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
