@@ -114,6 +114,8 @@ namespace AllenatoreAPI.Controllers
                     rankings.Add(ranking);
                 }
 
+                rankings.OrderByDescending(x => x.Points);
+
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
@@ -142,10 +144,12 @@ namespace AllenatoreAPI.Controllers
 
                 // Recupero tutte le partite
                 GameManager gameManager = new GameManager(_connectionString);
-                List<Games> games = await gameManager.GetRangeHome(null, null);
+                List<Games> games = await gameManager.GetRangeHome(null, null);                
 
                 foreach (Teams t in teams)
                 {
+                    games = games.Where(x => x.IdTeamHome == t.Id).ToList();
+
                     RankingAPI ranking = new RankingAPI();
                     ranking.Team = t.Name;
 
@@ -176,6 +180,8 @@ namespace AllenatoreAPI.Controllers
 
                     rankings.Add(ranking);
                 }
+
+                rankings.OrderByDescending(x => x.Points);
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
@@ -209,6 +215,8 @@ namespace AllenatoreAPI.Controllers
 
                 foreach (Teams t in teams)
                 {
+                    games = games.Where(x => x.IdTeamAway == t.Id).ToList();
+
                     RankingAPI ranking = new RankingAPI();
                     ranking.Team = t.Name;
 
@@ -239,6 +247,8 @@ namespace AllenatoreAPI.Controllers
 
                     rankings.Add(ranking);
                 }
+
+                rankings.OrderByDescending(x => x.Points);
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
