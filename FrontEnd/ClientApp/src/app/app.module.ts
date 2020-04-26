@@ -21,6 +21,7 @@ import { TeamsComponent } from './teams/teams.component';
 import { FeetService } from '../services/feet.service';
 import { GameService } from '../services/game.service';
 import { PlayerService } from '../services/player.service';
+import { RankingService } from '../services/ranking.service';
 import { RoleService } from '../services/role.service';
 import { TeamService } from '../services/team.service';
 
@@ -56,6 +57,7 @@ import { TeamService } from '../services/team.service';
     FeetService,
     GameService,
     PlayerService,
+    RankingService,
     RoleService,
     TeamService
   ],
