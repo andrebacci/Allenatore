@@ -34,5 +34,29 @@ namespace BusinessLogic
                 return await ctx.Players.Where(x => x.Id == id).FirstOrDefaultAsync();
             }
         }
+
+        // Aggiunge un nuovo giocatore
+        public async Task<Players> Insert(Players player)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                await ctx.Players.AddAsync(player);
+                await ctx.SaveChangesAsync();
+            }
+
+            return await GetById(player.Id);
+        }
+
+        // Aggiorna un giocatore esistente
+        public async Task<Players> Update(Players player)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                ctx.Players.Update(player);
+                await ctx.SaveChangesAsync();
+            }
+
+            return await GetById(player.Id);
+        }
     }
 }

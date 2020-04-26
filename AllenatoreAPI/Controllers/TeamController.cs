@@ -145,6 +145,30 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Ritorna una lista con i nomi di tutte le squadre
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetNameTeams")]
+        [HttpGet]
+        public async Task<IActionResult> GetNameTeams()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                TeamManager manager = new TeamManager(_connectionString);
+                List<string> names = await manager.GetNameTeams();
+
+                return StatusCode(200, new ResultData { Data = names, Status = true, FunctionName = functionName, Message = $"Nomi trovati con successo." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+
+        }
+
+        /// <summary>
         /// Aggiunge una nuova squadra
         /// </summary>
         /// <param name="body"></param>

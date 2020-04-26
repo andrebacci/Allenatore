@@ -17,7 +17,7 @@ import { TeamComponent } from './team/team.component';
 import { TeamsComponent } from './teams/teams.component';
 
 // Servizi
-import { PlayerService } from '../services/player.component';
+import { PlayerService } from '../services/player.service';
 import { TeamService } from '../services/team.service';
 
 @NgModule({

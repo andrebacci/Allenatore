@@ -67,6 +67,11 @@ namespace AllenatoreAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Ritorna un giocatore dato il suo id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Route("GetById")]
         [HttpGet]
         public async Task<IActionResult> GetById([FromQuery] int id)
@@ -80,8 +85,64 @@ namespace AllenatoreAPI.Controllers
                 if (player == null)
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Giocatore non trovato." });
 
-                PlayerAPI pa = new PlayerAPI(player);
+                PlayerAPI pa = new PlayerAPI(player);                
                 return StatusCode(200, new ResultData { Data = pa, Status = true, FunctionName = functionName, Message = $"Giocatore trovato con successo." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Aggiunge un nuovo giocatore
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        [Route("Insert")]
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] Players body)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                PlayerManager manager = new PlayerManager(_connectionString);
+                Players player = await manager.Insert(body);
+                if (player == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento del giocatore." });
+                
+                PlayerAPI pa = new PlayerAPI(player);
+                return StatusCode(200, new ResultData { Data = pa, Status = true, FunctionName = functionName, Message = $"Giocatore inserito con successo." });
+
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Aggiorna un giocatore esistente
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        [Route("Update")]
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] Players body)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                PlayerManager manager = new PlayerManager(_connectionString);
+                Players player = await manager.Update(body);
+                if (player == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'aggiornamento del giocatore." });
+
+                PlayerAPI pa = new PlayerAPI(player);
+                return StatusCode(200, new ResultData { Data = pa, Status = true, FunctionName = functionName, Message = $"Giocatore aggiornato con successo." });
+
             }
             catch (Exception exc)
             {

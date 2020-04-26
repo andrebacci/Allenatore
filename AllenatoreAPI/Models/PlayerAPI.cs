@@ -26,7 +26,9 @@ namespace AllenatoreAPI.Models
 
             FeetString = Constant.FeetToString(p.Feet.GetValueOrDefault());
             RoleString = Constant.RoleToString(p.Role.GetValueOrDefault());
-            LastTeamString = TeamUtility.GetLastTeamNameAsync(p.IdTeam.GetValueOrDefault(), p.LastTeam.GetValueOrDefault());
+
+            LastTeamString = TeamUtility.GetLastTeamName(p.IdTeam.GetValueOrDefault(), p.LastTeam.GetValueOrDefault());
+            Team = TeamUtility.GetTeamName(p.IdTeam.GetValueOrDefault());
         }
 
         public string FeetString { get; set; }
@@ -34,5 +36,7 @@ namespace AllenatoreAPI.Models
         public string RoleString { get; set; }
 
         public string LastTeamString { get; set; }
+
+        public string Team { get; set; }
     }
 }

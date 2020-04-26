@@ -51,6 +51,15 @@ namespace BusinessLogic
             }
         }
 
+        // Ritorna una lista con i nomi di tutte le squadre
+        public async Task<List<string>> GetNameTeams()
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Teams.OrderBy(x => x.Name).Select(x => x.Name).ToListAsync();
+            }
+        }
+
         // Aggiunge una nuova squadra
         public async Task<Teams> Insert(Teams team)
         {

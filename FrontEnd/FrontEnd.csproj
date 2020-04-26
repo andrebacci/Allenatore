@@ -30,7 +30,7 @@
     <None Remove="ClientApp\src\models\player.ts" />
     <None Remove="ClientApp\src\models\resultData.ts" />
     <None Remove="ClientApp\src\models\team.ts" />
-    <None Remove="ClientApp\src\services\player.component.ts" />
+    <None Remove="ClientApp\src\services\player.service.ts" />
     <None Remove="ClientApp\src\services\team.service.ts" />
   </ItemGroup>
 
@@ -41,7 +41,7 @@
     <TypeScriptCompile Include="ClientApp\src\models\player.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\resultData.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\team.ts" />
-    <TypeScriptCompile Include="ClientApp\src\services\player.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\services\player.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\team.service.ts" />
   </ItemGroup>
 

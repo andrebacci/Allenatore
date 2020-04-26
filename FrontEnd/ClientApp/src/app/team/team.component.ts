@@ -4,7 +4,7 @@ import { Team } from '../../models/team';
 import { ResultData } from '../../models/resultData';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from '../../models/player';
-import { PlayerService } from '../../services/player.component';
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-team',
@@ -90,7 +90,7 @@ export class TeamComponent {
 
   // Salva le modifiche
   save(): void {
-    if (this.team == undefined)
+    if (this.team == null)
       this.team = new Team();
 
     this.team.name = this.teamName;

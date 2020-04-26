@@ -10,7 +10,7 @@
           <div *ngIf="player">
             {{player.name}}
           </div>
-          <div *ngIf="!team">
+          <div *ngIf="!player">
             NUOVO GIOCATORE
           </div>
         </div>
@@ -22,67 +22,73 @@
 
         <!-- form -->
         <form class="needs-validation" novalidate>
-          <div class="form-row">
-            <div class="col-md-4 mb-3">
-              <label for="validationCustom01">Cognome</label>
-              <input type="text" class="form-control" id="validationCustom01" placeholder="Cognome" [(ngModel)]="lastname" name="lastname" #ctrl="ngModel" [readonly]="isReadOnly" required>
-              <div class="valid-feedback">
-                Looks good!
+          <fieldset [disabled]="isReadOnly">
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom01">Cognome</label>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="Cognome" [(ngModel)]="lastname" name="lastname" #ctrl="ngModel" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Nome</label>
+                <input type="text" class="form-control" id="validationCustom02" placeholder="Nome" [(ngModel)]="firstname" name="firstname" #ctrl="ngModel" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Anno</label>
+                <input type="text" class="form-control" id="validationCustom03" placeholder="Anno" [(ngModel)]="age" name="age" #ctrl="ngModel" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
               </div>
             </div>
-            <div class="col-md-4 mb-3">
-              <label for="validationCustom02">Nome</label>
-              <input type="text" class="form-control" id="validationCustom02" placeholder="Nome" [(ngModel)]="firstname" name="firstname" #ctrl="ngModel" [readonly]="isReadOnly" required>
-              <div class="valid-feedback">
-                Looks good!
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Squadra Attuale</label>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Squadra" [(ngModel)]="team" name="team" #ctrl="ngModel" required>
+                <div class="invalid-feedback">
+                  Please provide a valid city.
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Provenienza</label>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Provenienza" [(ngModel)]="lastteam" name="lastteam" #ctrl="ngModel" required>
+                <div class="invalid-feedback">
+                  Please provide a valid city.
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Ruolo</label>
+                <select name="select" id="select-role" class="form-control" [(ngModel)]="role">
+                  <option *ngFor="let r of roles" [value]="role">{{r}}</option>
+                </select>
               </div>
             </div>
-            <div class="col-md-4 mb-3">
-              <label for="validationCustom03">Anno</label>
-              <input type="text" class="form-control" id="validationCustom03" placeholder="Anno" [(ngModel)]="age" name="age" #ctrl="ngModel" [readonly]="isReadOnly" required>
-              <div class="valid-feedback">
-                Looks good!
+            <div class="form-row">
+              <div class="col-md-2 mb-3">
+                <label for="validationCustom03">Piede</label>
+                <select name="select" id="select-feet" class="form-control" [(ngModel)]="feet">
+                  <option *ngFor="let f of feets" [value]="feet">{{f}}</option>
+                </select>
+              </div>
+              <div class="col-md-2 mb-3">
+                <label for="validationCustom03">Rigori</label>
+                <select name="select" id="select-penalty" class="form-control" [(ngModel)]="penalty">
+                  <option *ngFor="let p of penalties" [value]="penalty">{{p}}</option>
+                </select>
               </div>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="col-md-4 mb-3">
-              <label for="validationCustom03">Provenienza</label>
-              <input type="text" class="form-control" id="validationCustom04" placeholder="Provenienza" [(ngModel)]="lastteam" name="lastteam" #ctrl="ngModel" [readonly]="isReadOnly" required>
-              <div class="invalid-feedback">
-                Please provide a valid city.
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label for="validationCustom">Dettagli</label>
+                <textarea name="text" id="details" class="form-control" [(ngModel)]="details"></textarea>
               </div>
             </div>
-            <div class="col-md-2 mb-3">
-              <label for="validationCustom03">Piede</label>
-              <select name="select" id="select-feet" class="form-control" [(ngModel)]="feet" [disabled]="isReadOnly">
-                <option value="1">Sinistro</option>
-                <option value="2">Destro</option>
-              </select>
-            </div>
-            <div class="col-md-2 mb-3">
-              <label for="validationCustom03">Rigori</label>
-              <select name="select" id="select-penalty" class="form-control" [(ngModel)]="penalty" [disabled]="isReadOnly">
-                <option value="1">No</option>
-                <option value="2">Sì</option>
-              </select>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label for="validationCustom03">Ruolo</label>
-              <select name="select" id="select-role" class="form-control" [(ngModel)]="role" [disabled]="isReadOnly">
-                <option value="1">Portiere</option>
-                <option value="2">Terzino Sinistro</option>
-                <option value="3">Difensore Centrale</option>
-                <option value="4">Terzino Destro</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="col-md-12 mb-3">
-              <label for="validationCustom">Dettagli</label>
-              <textarea name="text" id="details" class="form-control" [(ngModel)]="details" [readonly]="isReadOnly"></textarea>
-            </div>
-          </div>
+          </fieldset>
 
           <!-- button -->
           <button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly">Salva</button>

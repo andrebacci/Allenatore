@@ -8,8 +8,9 @@ export class Player {
   roleString: string = "";
   feet: number = 0;
   feetString: string = "";
+  team: string = "";
   lastTeamString: string = "";
-  penalty: number = 0;
+  penalty: boolean = false;
   penaltyString: string = "";
   details: string = "";
   image: string = "";

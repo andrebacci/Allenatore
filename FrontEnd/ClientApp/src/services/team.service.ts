@@ -25,6 +25,11 @@ export class TeamService {
     });
   }
 
+  // Restituisce la lista dei nomi di tutte le squadre
+  getNameTeams() {
+    return this.http.get(this.baseUrl + 'api/Team/GetNameTeams');
+  }
+
   // Aggiunge una nuova squadra
   insert(team: Team) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
