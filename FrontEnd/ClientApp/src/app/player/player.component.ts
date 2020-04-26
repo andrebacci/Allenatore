@@ -28,8 +28,8 @@ export class PlayerComponent {
   team: string = "";
   lastteam: string = "";
   details: string = ""
-  feet: string = "";
-  role: string = "";
+  feet: number = 0;
+  role: number = 0;
   penalty: string = "";
 
   feets: any = ["Destro", "Sinistro"];

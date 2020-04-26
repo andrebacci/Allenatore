@@ -58,5 +58,14 @@ namespace BusinessLogic
 
             return await GetById(player.Id);
         }
+
+        // Ritorna tutti i giocatori
+        public async Task<Players> GetAll(int id)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Players.ToListAsync();
+            }
+        }
     }
 }
