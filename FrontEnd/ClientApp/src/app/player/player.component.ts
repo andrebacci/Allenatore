@@ -35,11 +35,14 @@ export class PlayerComponent {
 
   selectedFeet;
   selectedRole;
+  selectedPenalty;
 
   feets: Feet[] = [];
   roles: Role[] = [];
 
   nameTeams: string[] = [];
+
+  playerFullName: string = "";
 
   constructor(private playerService: PlayerService, private teamService: TeamService, private feetService: FeetService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
 
@@ -135,6 +138,8 @@ export class PlayerComponent {
 
     this.selectedFeet = this.player.feetString;
     this.selectedRole = this.player.roleString;
+
+    this.playerFullName = this.lastname.toUpperCase() + " " + this.firstname;
   }
 
   // Redirect della pagina (DA SPOSTARE IN UNA UTILITY SE POSSIBILE)
