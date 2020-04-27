@@ -181,11 +181,11 @@
           <div class="card-header-tab card-header-tab-animation card-header">
             <div class="card-header-title">
               <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
-              ULTIMA GIORNATA - {{lastRound.number}}° giornata ({{lastRound.date}})
+              ULTIMA GIORNATA - {{lastRound.number}}° giornata
             </div>            
           </div>
           <div class="card-body">
-            <table class="mb-0 table">
+            <table class="mb-0 table table-sm">
               <tbody>
                 <tr *ngFor="let game of lastRound.games">
                   <td class="text-right">{{game.teamHome}}</td>
@@ -207,7 +207,7 @@
           <div class="card-header-tab card-header">
             <div class="card-header-title">
               <i class="header-icon lnr-rocket icon-gradient bg-tempting-azure"> </i>
-              PROSSIMA GIORNATA
+              PROSSIMA GIORNATA - {{nextRound.number}}° giornata
             </div>            
           </div>
           <div class="card-body">

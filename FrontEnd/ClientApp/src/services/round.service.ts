@@ -14,4 +14,9 @@ export class RoundService {
   getLast() {
     return this.http.get(this.baseUrl + 'api/Round/GetLast');
   }
+
+  // Restituisce la prossima giornata
+  getNext() {
+    return this.http.get(this.baseUrl + 'api/Round/GetNext');
+  }
 }

@@ -25,5 +25,14 @@ namespace BusinessLogic
                 return await ctx.Rounds.Where(x => x.Date <= DateTime.Now).OrderByDescending(x => x.Date).FirstOrDefaultAsync();
             }
         }
+
+        // Ritorna la prossima giornata da giocare
+        public async Task<Rounds> GetNext()
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Rounds.Where(x => x.Date >= DateTime.Now).OrderBy(x => x.Date).FirstOrDefaultAsync();
+            }
+        }
     }
 }

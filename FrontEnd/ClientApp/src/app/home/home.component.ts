@@ -55,7 +55,14 @@ export class HomeComponent {
 
   // Recupera la prossima giornata
   getNextRound(): void {
-
+    this.roundService.getNext().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.nextRound = resultData.data as Round;
+      } else {
+        // Errore
+      }
+    })
   }
 
   // Apre la pagina di dettaglio della partita
