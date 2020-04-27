@@ -39,7 +39,7 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("Get")]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] int? start, int? end)
+        public async Task<IActionResult> Get([FromQuery] int start, int end)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
@@ -53,7 +53,7 @@ namespace AllenatoreAPI.Controllers
 
                 // Recupero tutte le partite
                 GameManager gameManager = new GameManager(_connectionString);
-                List<Games> games = await gameManager.GetRange(null, null);
+                List<Games> games = await gameManager.GetRange(start, end);
 
                 foreach (Teams t in teams)
                 {
@@ -115,7 +115,7 @@ namespace AllenatoreAPI.Controllers
                     rankings.Add(ranking);
                 }
 
-                rankings.OrderByDescending(x => x.Points);
+                rankings = rankings.OrderByDescending(x => x.Points).ToList();
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }

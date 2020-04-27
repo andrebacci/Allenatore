@@ -27,21 +27,21 @@ namespace BusinessLogic
         }
 
         // Ritorna le partite in un range di giornate
-        public async Task<List<Games>> GetRange(int? start, int? end)
+        public async Task<List<Games>> GetRange(int start, int end)
         {
             using (POContext ctx = new POContext(_connectionString))
             {
-                if (start == null)
+                if (start == 0)
                 {
-                    if (end == null)
+                    if (end == 0)
                         return await ctx.Games.ToListAsync();
                     
                     return await ctx.Games.Where(x => x.Round <= end).ToListAsync();
                 }
 
-                if (end == null)
+                if (end == 0)
                 {
-                    if (start == null)
+                    if (start == 0)
                         return await ctx.Games.ToListAsync();
                     
                     return await ctx.Games.Where(x => x.Round >= start && x.Round <= end).ToListAsync();

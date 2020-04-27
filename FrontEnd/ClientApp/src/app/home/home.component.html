@@ -129,19 +129,19 @@
         <div class="main-card mb-3 card">
           <div class="card-header">
             CLASSIFICA
-            <div class="btn-actions-pane-right">
+            <!--<div class="btn-actions-pane-right">
               <div role="group" class="btn-group-sm btn-group">
                 <button class="active btn btn-focus">Last Week</button>
                 <button class="btn btn-focus">All Month</button>
               </div>
-            </div>
+            </div>-->
           </div>
           <div class="table-responsive">
             <table class="align-middle mb-0 table table-borderless table-striped table-hover">
               <thead>
                 <tr>
                   <th class="text-center">#</th>
-                  <th>Squadra</th>
+                  <th class="text-center">Squadra</th>
                   <th class="text-center">Giocate</th>
                   <th class="text-center">Vinte</th>
                   <th class="text-center">Pareggiate</th>
@@ -152,24 +152,24 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let rank in ranking">
+                <tr *ngFor="let rank of ranking">
                   <td class="text-center text-muted">#345</td>                  
-                  <td class="text-center">Squadra</td> 
-                  <td class="text-center">Giocate</td>
-                  <td class="text-center">Vinte</td>
-                  <td class="text-center">Pareggiate</td>
-                  <td class="text-center">Perse</td>
-                  <td class="text-center">Gol Fatti</td>
-                  <td class="text-center">Gol Subiti</td>
-                  <td class="text-center">Diff. Reti</td>
+                  <td class="text-center">{{rank.team}}</td> 
+                  <td class="text-center">{{rank.games}}</td>
+                  <td class="text-center">{{rank.wins}}</td>
+                  <td class="text-center">{{rank.draws}}</td>
+                  <td class="text-center">{{rank.loses}}</td>
+                  <td class="text-center">{{rank.goalMade}}</td>
+                  <td class="text-center">{{rank.goalConceded}}</td>
+                  <td class="text-center">{{rank.goalDifference}}</td>
                 </tr>                                             
               </tbody>
             </table>
           </div>
-          <div class="d-block text-center card-footer">
+          <!--<div class="d-block text-center card-footer">
             <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
             <button class="btn-wide btn btn-success">Save</button>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>

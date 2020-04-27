@@ -16,11 +16,11 @@ export class HomeComponent {
   }
   
   ngOnInit(): void {
-
+    this.getRanking();
   }
 
   getRanking(): void {
-    this.rankingService.get(null, null).subscribe(res => {
+    this.rankingService.get(0, 0).subscribe(res => {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.ranking = resultData.data as Ranking[];
