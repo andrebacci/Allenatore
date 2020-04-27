@@ -11,6 +11,11 @@ export class PlayerService {
 
   }
 
+  // Restituisce tutti i giocatori
+  getAll() {
+    return this.http.get(this.baseUrl + 'api/Player/GetAll');
+  }
+
   // Restituisce tutti i giocatori dato l'id di una squadra
   getByTeamId(id: any) {
     return this.http.get(this.baseUrl + 'api/Player/GetByTeamId', {

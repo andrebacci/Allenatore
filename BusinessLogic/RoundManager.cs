@@ -34,5 +34,14 @@ namespace BusinessLogic
                 return await ctx.Rounds.Where(x => x.Date >= DateTime.Now).OrderBy(x => x.Date).FirstOrDefaultAsync();
             }
         }
+
+        // Ritorna la giornata dato il suo number
+        public async Task<Rounds> GetByNumber(int number)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Rounds.Where(x => x.Id == number).FirstOrDefaultAsync();
+            }
+        }
     }
 }

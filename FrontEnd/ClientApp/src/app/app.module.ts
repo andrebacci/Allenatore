@@ -13,6 +13,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { GameComponent } from './game/game.component';
 import { PlayerComponent } from './player/player.component';
+import { PlayersComponent } from './players/players.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TeamComponent } from './team/team.component';
 import { TeamsComponent } from './teams/teams.component';
@@ -35,6 +36,7 @@ import { TeamService } from '../services/team.service';
     FetchDataComponent,
     GameComponent,
     PlayerComponent,
+    PlayersComponent,
     SidebarComponent,
     TeamComponent,
     TeamsComponent
@@ -50,6 +52,7 @@ import { TeamService } from '../services/team.service';
       { path: 'game/:mode/:id', component: GameComponent },
       { path: 'player/:mode', component: PlayerComponent },
       { path: 'player/:mode/:id', component: PlayerComponent },
+      { path: 'players', component: PlayersComponent },
       { path: 'team/:mode', component: TeamComponent },
       { path: 'team/:mode/:id', component: TeamComponent },
       { path: 'teams', component: TeamsComponent }
