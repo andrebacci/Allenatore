@@ -31,6 +31,10 @@ export class TeamComponent {
 
   isReadOnly: boolean = false;
 
+  errorModalIsOpen: boolean = false;
+
+  errorMessage: string = "";
+
   constructor(private teamService: TeamService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {
 
   }
@@ -120,7 +124,10 @@ export class TeamComponent {
             this.cleanForm();
           } else {
             Utility.redirect('/team/detail/' + team.id, this.router);
-          }          
+          }
+        } else {
+          this.errorModalIsOpen = true;
+          this.errorMessage = resultData.message;
         }
       })
     } else {
