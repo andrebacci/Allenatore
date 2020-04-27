@@ -6,6 +6,8 @@ import { Team } from '../../models/team';
 import { Player } from '../../models/player';
 import { TeamService } from '../../services/team.service';
 import { PlayerService } from '../../services/player.service';
+import Utility from '../../utility/utility';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-transfer',
@@ -19,12 +21,16 @@ export class TransferComponent {
 
   players: Player[] = [];
 
-  constructor(private transferService: TransferService, private teamService: TeamService, private playerService: PlayerService) {
+  selectedTeamOld;
+  selectedTeamNew;
+  selectedPlayer;
+
+  constructor(private transferService: TransferService, private teamService: TeamService, private playerService: PlayerService, private router: Router) {
 
   }
 
   ngOnInit(): void {
-    
+    this.getTeams();
   }
 
   // Inizializza la lista delle squadre
@@ -52,6 +58,18 @@ export class TransferComponent {
   }
 
   save(): void {
+    var transfer = new Transfer();
+    transfer.idPlayer = this.selectedPlayer;
+    transfer.idTeamNew = this.selectedTeamNew;
+    transfer.idTeamOld = this.selectedTeamOld;
 
+    this.transferService.insert(transfer).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        Utility.redirect('/transfer', this.router);
+      } else {
+        // Errore
+      }
+    })
   }
 }

@@ -1,0 +1,101 @@
+<div class="app-main__outer">
+  <div class="app-main__inner">
+    <div class="app-page-title">
+      <div class="page-title-wrapper">
+        <div class="page-title-heading">
+          <div class="page-title-icon">
+            <i class="lnr-picture text-danger">
+            </i>
+          </div>
+          <div>
+            NUOVO TRASFERIMENTO
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">INFORMAZIONI TRASFERIMENTO</h5>
+
+        <!-- form -->
+        <form class="needs-validation" novalidate>
+          <fieldset>            
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Squadra Attuale</label>
+                <select name="select-team-old" id="select-role" class="form-control" [(ngModel)]="selectedTeamOld">
+                  <option *ngFor="let t of teams" [value]="t.id">{{t.name}}</option>
+                </select>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Giocatore</label>
+                <select name="select-player" id="select-role" class="form-control" [(ngModel)]="selectedPlayer">
+                  <option *ngFor="let p of players" [value]="p.id">{{p.lastname}}</option>
+                </select>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="validationCustom03">Squadra Attuale</label>
+                <select name="select-team-new" id="select-role" class="form-control" [(ngModel)]="selectedTeamNew">
+                  <option *ngFor="let t of teams" [value]="t.id">{{t.name}}</option>
+                </select>
+              </div>
+            </div>            
+          </fieldset>
+
+          <!-- button -->
+          <button class="btn btn-primary mr-2" type="submit" (click)="save()">Salva</button>
+          <button class="btn btn-danger mr-2" type="submit" (click)="undo()">Annulla</button>          
+        </form>
+      </div>
+    </div>
+
+    <!-- altre informazioni -->
+    <div class="main-card mb-3 card" *ngIf="isReadOnly">
+      <div class="card-body">
+        <!-- header del tab -->
+        <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav mb-3">
+          <li class="nav-item">
+            <a role="tab" class="nav-link active show" id="tab-1" data-toggle="tab" href="#tab-content-1">
+              <span>Statistiche</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-2">
+              <span>Partite</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a role="tab" class="nav-link" id="tab-3" data-toggle="tab" href="#tab-content-3">
+              <span>Disciplinare</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- contenuto del tab -->
+        <div class="tab-content">
+
+          <!-- tab 1 -->
+          <div class="tab-pane tabs-animation fade" id="tab-content-1" role="tabpanel">
+            <div class="row" style="background-color:red">
+              <p>TAB 1</p>
+            </div>
+          </div>
+
+          <!-- tab 2 -->
+          <div class="tab-pane tabs-animation fade" id="tab-content-2" role="tabpanel">
+            <div class="row" style="background-color:blue">
+              <p>TAB 1</p>
+            </div>
+          </div>
+
+          <!-- tab 3 -->
+          <div class="tab-pane tabs-animation fade" id="tab-content-3" role="tabpanel">
+            <div class="row" style="background-color:green">
+              <p>TAB 3</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
