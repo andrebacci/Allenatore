@@ -1,3 +1,4 @@
+using AllenatoreAPI.Models;
 using AllenatoreAPI.Result;
 using AllenatoreAPI.Utils;
 using BusinessLogic;
@@ -65,15 +66,15 @@ namespace AllenatoreAPI.Controllers
                         if (g.IdTeamHome == t.Id)
                         {
                             ranking.Games++;
-                            ranking.GoalMade = g.GolTeamHome;
-                            ranking.GoalConceded = g.GolTeamAway;
+                            ranking.GoalMade = g.GolTeamHome.GetValueOrDefault();
+                            ranking.GoalConceded = g.GolTeamAway.GetValueOrDefault();
 
                             if (g.GolTeamHome > g.GolTeamAway)
                             {
                                 ranking.Points += 3;
                                 ranking.Wins++;
                             }
-                            else if (p.GolTeamHome == g.GolTeamAway)
+                            else if (g.GolTeamHome == g.GolTeamAway)
                             {
                                 ranking.Points++;
                                 ranking.Draws++;
@@ -87,8 +88,8 @@ namespace AllenatoreAPI.Controllers
                         else if (g.IdTeamAway == t.Id)
                         {
                             ranking.Games++;
-                            ranking.GoalMade = g.GolTeamAway;
-                            ranking.GoalConceded = g.GolTeamHome;
+                            ranking.GoalMade = g.GolTeamAway.GetValueOrDefault();
+                            ranking.GoalConceded = g.GolTeamHome.GetValueOrDefault();
 
                             if (g.GolTeamAway > g.GolTeamHome)
                             {
@@ -138,50 +139,50 @@ namespace AllenatoreAPI.Controllers
             {
                 List<RankingAPI> rankings = new List<RankingAPI>();
 
-                // Recupero tutte le squadre
-                TeamManager teamManager = new TeamManager(_connectionString);
-                List<Teams> teams = await teamManager.GetAll();
+                //// Recupero tutte le squadre
+                //TeamManager teamManager = new TeamManager(_connectionString);
+                //List<Teams> teams = await teamManager.GetAll();
 
-                // Recupero tutte le partite
-                GameManager gameManager = new GameManager(_connectionString);
-                List<Games> games = await gameManager.GetRangeHome(null, null);                
+                //// Recupero tutte le partite
+                //GameManager gameManager = new GameManager(_connectionString);
+                //List<Games> games = await gameManager.GetRangeHome(null, null);                
 
-                foreach (Teams t in teams)
-                {
-                    games = games.Where(x => x.IdTeamHome == t.Id).ToList();
+                //foreach (Teams t in teams)
+                //{
+                //    games = games.Where(x => x.IdTeamHome == t.Id).ToList();
 
-                    RankingAPI ranking = new RankingAPI();
-                    ranking.Team = t.Name;
+                //    RankingAPI ranking = new RankingAPI();
+                //    ranking.Team = t.Name;
 
-                    foreach (Games g in games)
-                    {
-                        if (g.IdTeamHome != t.Id)
-                            continue;
+                //    foreach (Games g in games)
+                //    {
+                //        if (g.IdTeamHome != t.Id)
+                //            continue;
 
-                        ranking.Games++;
-                        ranking.GoalMade = g.GolTeamHome;
-                        ranking.GoalConceded = g.GolTeamAway;
+                //        ranking.Games++;
+                //        ranking.GoalMade = g.GolTeamHome;
+                //        ranking.GoalConceded = g.GolTeamAway;
 
-                        if (g.GolTeamHome > g.GolTeamAway)
-                        {
-                            ranking.Points += 3;
-                            ranking.Wins++;
-                        }
-                        else if (p.GolTeamHome == g.GolTeamAway)
-                        {
-                            ranking.Points++;
-                            ranking.Draws++;
-                        }
-                        else 
-                        {
-                            ranking.Loses++;
-                        }
-                    }
+                //        if (g.GolTeamHome > g.GolTeamAway)
+                //        {
+                //            ranking.Points += 3;
+                //            ranking.Wins++;
+                //        }
+                //        else if (p.GolTeamHome == g.GolTeamAway)
+                //        {
+                //            ranking.Points++;
+                //            ranking.Draws++;
+                //        }
+                //        else 
+                //        {
+                //            ranking.Loses++;
+                //        }
+                //    }
 
-                    rankings.Add(ranking);
-                }
+                //    rankings.Add(ranking);
+                //}
 
-                rankings.OrderByDescending(x => x.Points);
+                //rankings.OrderByDescending(x => x.Points);
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
@@ -205,50 +206,50 @@ namespace AllenatoreAPI.Controllers
             {
                 List<RankingAPI> rankings = new List<RankingAPI>();
 
-                // Recupero tutte le squadre
-                TeamManager teamManager = new TeamManager(_connectionString);
-                List<Teams> teams = await teamManager.GetAll();
+                //// Recupero tutte le squadre
+                //TeamManager teamManager = new TeamManager(_connectionString);
+                //List<Teams> teams = await teamManager.GetAll();
 
-                // Recupero tutte le partite
-                GameManager gameManager = new GameManager(_connectionString);
-                List<Games> games = await gameManager.GetRangeHome(null, null);
+                //// Recupero tutte le partite
+                //GameManager gameManager = new GameManager(_connectionString);
+                //List<Games> games = await gameManager.GetRangeHome(null, null);
 
-                foreach (Teams t in teams)
-                {
-                    games = games.Where(x => x.IdTeamAway == t.Id).ToList();
+                //foreach (Teams t in teams)
+                //{
+                //    games = games.Where(x => x.IdTeamAway == t.Id).ToList();
 
-                    RankingAPI ranking = new RankingAPI();
-                    ranking.Team = t.Name;
+                //    RankingAPI ranking = new RankingAPI();
+                //    ranking.Team = t.Name;
 
-                    foreach (Games g in games)
-                    {
-                        if (g.IdTeamHome != t.Id)
-                            continue;
+                //    foreach (Games g in games)
+                //    {
+                //        if (g.IdTeamHome != t.Id)
+                //            continue;
 
-                        ranking.Games++;
-                        ranking.GoalMade = g.GolTeamAway;
-                        ranking.GoalConceded = g.GolTeamHome;
+                //        ranking.Games++;
+                //        ranking.GoalMade = g.GolTeamAway;
+                //        ranking.GoalConceded = g.GolTeamHome;
 
-                        if (g.GolTeamAway > g.GolTeamHome)
-                        {
-                            ranking.Points += 3;
-                            ranking.Wins++;
-                        }
-                        else if (g.GolTeamAway == g.GolTeamHome)
-                        {
-                            ranking.Points++;
-                            ranking.Draws++;
-                        }
-                        else
-                        {
-                            ranking.Loses++;
-                        }
-                    }
+                //        if (g.GolTeamAway > g.GolTeamHome)
+                //        {
+                //            ranking.Points += 3;
+                //            ranking.Wins++;
+                //        }
+                //        else if (g.GolTeamAway == g.GolTeamHome)
+                //        {
+                //            ranking.Points++;
+                //            ranking.Draws++;
+                //        }
+                //        else
+                //        {
+                //            ranking.Loses++;
+                //        }
+                //    }
 
-                    rankings.Add(ranking);
-                }
+                //    rankings.Add(ranking);
+                //}
 
-                rankings.OrderByDescending(x => x.Points);
+                //rankings.OrderByDescending(x => x.Points);
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }

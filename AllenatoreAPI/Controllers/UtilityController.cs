@@ -22,7 +22,7 @@ namespace AllenatoreAPI.Controllers
 
         private readonly string _connectionString;
 
-        public FeetController()
+        public UtilityController()
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -45,7 +45,7 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                
+                return Ok();
             }
             catch (Exception exc)
             {
@@ -65,7 +65,7 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                
+                return Ok();
             }
             catch (Exception exc)
             {

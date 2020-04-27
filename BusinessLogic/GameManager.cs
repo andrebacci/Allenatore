@@ -47,6 +47,8 @@ namespace BusinessLogic
                     return await ctx.Games.Where(x => x.Round >= start && x.Round <= end).ToListAsync();
                 }
             }
+
+            return null;
         }
 
         // Ritorna tutte le partite per una determinata giornata
