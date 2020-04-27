@@ -9,6 +9,8 @@ import { PlayerService } from '../../services/player.service';
 
 import Utility from '../../utility/utility';
 import { GameService } from 'src/services/game.service';
+import { Transfer } from 'src/models/transfer';
+import { TransferService } from 'src/services/transferService';
 
 @Component({
   selector: 'app-team',
@@ -20,6 +22,9 @@ export class TeamComponent {
   team: Team = null;
   players: Player[] = [];
   games: Game[] = [];
+  transfers: Transfer[] = [];
+  transfersIn: Transfer[] = [];
+  transfersOut: Transfer[] = [];
 
   idTeam: number = -1;
 
@@ -38,7 +43,7 @@ export class TeamComponent {
 
   errorMessage: string = "";
 
-  constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, 
+  constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService,
     private route: ActivatedRoute, private router: Router) {
 
   }
@@ -67,7 +72,7 @@ export class TeamComponent {
     });
   }
 
-  // Inizializza il team dato il suo id
+  // Recupero il team dato il suo id
   getTeamById(id: number): void {
     this.teamService.getById(id).subscribe(res => {
       var resultData = res as ResultData;
@@ -85,12 +90,26 @@ export class TeamComponent {
     });
   }
 
-  // Inizializza le partite
+  // Recupero le partite
   getGames(id: number): void {
     this.gameService.getByIdTeam(id).subscribe(res => {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.games = resultData.data as Game[];
+      } else {
+        // Errore
+      }
+    })
+  }
+
+  // Recupero i trasferimenti della squadra
+  getTransfers(id: number): void {
+    this.transferService.getByIdTeam(id).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.transfers = resultData.data as Transfer[];
+
+        // Popolare i due array (transfersIn e transfersOut)
       } else {
         // Errore
       }

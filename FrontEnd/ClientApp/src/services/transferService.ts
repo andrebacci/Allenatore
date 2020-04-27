@@ -11,9 +11,18 @@ export class TransferService {
 
   }
 
-  // Restituisce tutti gli elementi
+  // Restituisce tutti i trasferimenti
   getAll() {
     return this.http.get(this.baseUrl + 'api/Transfer/GetAll');
+  }
+
+  // Restituisce tutti i trasferimenti di una squadra
+  getByIdTeam(id: any) {
+    return this.http.get(this.baseUrl + 'api/Transfer/GetByIdTeam', {
+      params: {
+        id: id
+      }
+    })
   }
 
   // Inserisce un nuovo element

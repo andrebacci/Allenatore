@@ -64,6 +64,36 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Ritorna i trasferimenti di una squadra
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetByIdTeam")]
+        [HttpGet]
+        public async Task<IActionResult> GetByIdTeam([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                TransferManager manager = new TransferManager(_connectionString);
+                List<Transfers> transfers = await manager.GetByIdTeam(id);
+
+                List<TransferAPI> ta = new List<TransferAPI>();
+
+                foreach (Transfers t in transfers)
+                {
+                    ta.Add(new TransferAPI(t));
+                }
+
+                return StatusCode(200, new ResultData { Data = ta, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Aggiunge un nuovo trasferimento
         /// </summary>
         /// <param name="body"></param>

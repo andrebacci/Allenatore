@@ -26,6 +26,15 @@ namespace BusinessLogic
             }
         }
 
+        // Ritorna i trasferimenti di una squadra
+        public async Task<List<Transfers>> GetByIdTeam(int id)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Transfers.Where(x => x.IdTeamOld == id || x.IdTeamNew == id).OrderByDescending(x => x.Date).ToListAsync();
+            }
+        }
+
         // Ritorna un trasferimento dato il suo id
         public async Task<Transfers> GetById(int id)
         {
