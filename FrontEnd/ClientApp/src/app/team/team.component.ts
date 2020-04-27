@@ -165,4 +165,9 @@ export class TeamComponent {
   detailPlayer(id: number): void {
     Utility.redirect('/player/detail/' + id, this.router);
   }
+
+  // Chiude la modale
+  closeModal(): void {
+    this.errorModalIsOpen = false;
+  }
 }
