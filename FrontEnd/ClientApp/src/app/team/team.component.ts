@@ -109,7 +109,14 @@ export class TeamComponent {
       if (resultData.status) {
         this.transfers = resultData.data as Transfer[];
 
-        // Popolare i due array (transfersIn e transfersOut)
+        // Popolare i due array (transfersIn e transfersOut) --> SI PUO' FARE MEGLIO?
+        for (var i = 0; i < this.transfers.length; i++) {
+          if (this.transfers[i].idTeamNew == id) {
+            this.transfersIn.push(this.transfers[i]);
+          } else {
+            this.transfersOut.push(this.transfers[i]);
+          }
+        }
       } else {
         // Errore
       }
