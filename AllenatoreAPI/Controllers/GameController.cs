@@ -86,6 +86,36 @@ namespace AllenatoreAPI.Controllers
             {
                 return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
-        }        
+        }
+
+        /// <summary>
+        /// Ritorna tutte le partite dato l'id di una squadra
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetByIdTeam")]
+        [HttpGet]
+        public async Task<IActionResult> GetByIdTeam([FromQuery] int id)
+        {
+            tring functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                GameManager manager = new GameManager(_connectionString);
+                List<Games> games = await manager.GetByIdTeam(id);
+                
+                List<GamesAPI> ga = new List<GamesAPI>();
+
+                foreach (Games g in games)
+                {
+                    ga.Add(new GameAPI(g));
+                }
+
+                return StatusCode(200, new ResultData { Data = ga, Status = true, FunctionName = functionName, Message = $"Ok" });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
     }
 }

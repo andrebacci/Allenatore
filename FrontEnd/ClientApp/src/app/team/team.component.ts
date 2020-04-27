@@ -4,9 +4,11 @@ import { Team } from '../../models/team';
 import { ResultData } from '../../models/resultData';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from '../../models/player';
+import { Game } from '../../models/game';
 import { PlayerService } from '../../services/player.service';
 
 import Utility from '../../utility/utility';
+import { GameService } from 'src/services/game.service';
 
 @Component({
   selector: 'app-team',
@@ -17,6 +19,7 @@ export class TeamComponent {
 
   team: Team = null;
   players: Player[] = [];
+  games: Game[] = [];
 
   idTeam: number = -1;
 
@@ -35,7 +38,8 @@ export class TeamComponent {
 
   errorMessage: string = "";
 
-  constructor(private teamService: TeamService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {
+  constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, 
+    private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -55,7 +59,10 @@ export class TeamComponent {
         }
 
         // Recupero le informazioni della squadra
-        this.getTeamById(this.idTeam);        
+        this.getTeamById(this.idTeam);
+
+        // Recupero le partite della squadra
+        this.getGames(this.idTeam);
       }
     });
   }
@@ -76,6 +83,18 @@ export class TeamComponent {
         // Errore
       }
     });
+  }
+
+  // Inizializza le partite
+  getGames(id: number): void {
+    this.gameService.getByIdTeam(id).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.games = resultData.data as Game[];
+      } else {
+        // Errore
+      }
+    })
   }
 
   // Inizializza i campi della form

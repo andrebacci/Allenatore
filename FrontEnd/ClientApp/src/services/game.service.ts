@@ -27,4 +27,13 @@ export class GameService {
       }
     });
   }
+
+  // Restituisce tutte le partite dato l'id di una squadra
+  getByIdTeam(id: any) {
+    return this.http.get(this.baseUrl + 'api/Game/GetByIdTeam', {
+      params: {
+        id: id
+      }
+    })
+  }
 }
