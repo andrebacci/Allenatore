@@ -47,6 +47,7 @@ import { TeamService } from '../services/team.service';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'game/:mode', component: GameComponent },
       { path: 'game/:mode/:id', component: GameComponent },
+      { path: 'player/:mode', component: PlayerComponent },
       { path: 'player/:mode/:id', component: PlayerComponent },
       { path: 'team/:mode', component: TeamComponent },
       { path: 'team/:mode/:id', component: TeamComponent },

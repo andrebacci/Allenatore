@@ -76,6 +76,11 @@ export class PlayerComponent {
       if (this.mode != "detail") {
         this.getNameTeams();
       }
+
+      // Inizializzo la form in caso di nuovo giocatore
+      if (this.mode == "create") {
+        this.initFormCreate();
+      }
     });
   }
 
@@ -147,6 +152,13 @@ export class PlayerComponent {
     this.selectedPenalty = this.player.penaltyString;
 
     this.playerFullName = this.lastname.toUpperCase() + " " + this.firstname;
+  }
+
+  // Inizializzo i campi della form se sono in modalità create
+  initFormCreate(): void {
+    this.selectedFeet = 'Destro';
+    this.selectedRole = 'Portiere';
+    this.selectedPenalty = 'No';
   }
 
   // Redirect della pagina (DA SPOSTARE IN UNA UTILITY SE POSSIBILE)
