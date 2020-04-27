@@ -116,7 +116,7 @@ namespace AllenatoreAPI.Controllers
             {
                 TeamManager manager = new TeamManager(_connectionString);
                 Teams team = await manager.Get(name);
-                
+
                 return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
             }
             catch (Exception exc)
@@ -185,8 +185,8 @@ namespace AllenatoreAPI.Controllers
                 Teams team = await manager.Insert(body);
                 if (team != null)
                     return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra inserita correttamente." });
-                else
-                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento della squadra {body.Name}." });
+
+                return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento della squadra {body.Name}." });
             }
             catch (Exception exc)
             {
@@ -212,11 +212,11 @@ namespace AllenatoreAPI.Controllers
                 if (team != null)
                     return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra aggiornata correttamente." });
                 else
-                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'aggiornamento della squadra {body.Name}." });            
+                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'aggiornamento della squadra {body.Name}." });
             }
             catch (Exception exc)
             {
-                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });                
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
         }
 

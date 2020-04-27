@@ -33,6 +33,10 @@ namespace AllenatoreAPI.Controllers
             _connectionString = _configuration.GetValue<string>("ConnectionString");
         }
 
+        /// <summary>
+        /// Ritorna tutti i trasferimenti
+        /// </summary>
+        /// <returns></returns>
         [Route("GetAll")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -52,6 +56,32 @@ namespace AllenatoreAPI.Controllers
                 }
 
                 return StatusCode(200, new ResultData { Data = ta, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Aggiunge un nuovo trasferimento
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        [Route("Insert")]
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] Transfers body)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                TransferManager manager = new TransferManager(_connectionString);
+                Transfers transfer = await manager.Insert(body);
+                if (transfer != null)
+                    return StatusCode(200, new ResultData { Data = transfer, Status = true, FunctionName = functionName, Message = $"Ok." });
+                
+                return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento del trasferimento." });
             }
             catch (Exception exc)
             {

@@ -25,5 +25,26 @@ namespace BusinessLogic
                 return await ctx.Transfers.OrderByDescending(x => x.Date).ToListAsync();
             }
         }
+
+        // Ritorna un trasferimento dato il suo id
+        public async Task<Transfers> GetById(int id)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Transfers.Where(x => x.Id == id).FirstOrDefaultAsync();
+            }
+        }
+
+        // Inserisce un nuovo trasferimento
+        public async Task<Transfers> Insert(Transfers transfer)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                await ctx.Transfers.AddAsync(transfer);
+                await ctx.SaveChangesAsync();
+            }
+
+            return await GetById(transfer.Id);
+        }
     }
 }
