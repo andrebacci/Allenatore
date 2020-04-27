@@ -18,8 +18,7 @@ namespace AllenatoreAPI.Models
 
             GolTeamHome = g.GolTeamHome;
             GolTeamAway = g.GolTeamAway;
-
-            Date = g.Date;
+            
             Round = g.Round;
 
             ModuleHome = g.ModuleHome;

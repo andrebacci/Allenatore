@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RankingService } from 'src/services/ranking.service';
 import { ResultData } from 'src/models/resultData';
 import { Ranking } from 'src/models/ranking';
+import { RoundService } from '../../services/round.service';
+import { Round } from '../../models/round';
 
 @Component({
   selector: 'app-home',
@@ -11,12 +13,16 @@ export class HomeComponent {
 
   ranking: Ranking[] = [];
 
-  constructor(private rankingService: RankingService) {
+  lastRound: Round = null;
+  nextRound: Round = null;
+
+  constructor(private rankingService: RankingService, private roundService: RoundService) {
 
   }
   
   ngOnInit(): void {
     this.getRanking();
+    this.getLastRound(); 
   }
 
   getRanking(): void {
@@ -28,5 +34,20 @@ export class HomeComponent {
         // Errore
       }
     });
+  }
+
+  getLastRound(): void {
+    this.roundService.getLast().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.lastRound = resultData.data as Round;
+      } else {
+        // Errore
+      }
+    })
+  }
+
+  getNextRound(): void {
+
   }
 }

@@ -20,6 +20,7 @@ namespace DataAccess.Models
         public virtual DbSet<Games> Games { get; set; }
         public virtual DbSet<Players> Players { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Rounds> Rounds { get; set; }
         public virtual DbSet<SubstitutionSessions> SubstitutionSessions { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
 
@@ -50,8 +51,6 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<Games>(entity =>
             {
-                entity.Property(e => e.Date).HasColumnType("datetime");
-
                 entity.Property(e => e.ModuleAway).HasMaxLength(16);
 
                 entity.Property(e => e.ModuleHome).HasMaxLength(16);
@@ -67,6 +66,11 @@ namespace DataAccess.Models
                     .HasForeignKey(d => d.IdTeamHome)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Games_Teams");
+
+                entity.HasOne(d => d.RoundNavigation)
+                    .WithMany(p => p.Games)
+                    .HasForeignKey(d => d.Round)
+                    .HasConstraintName("FK_Games_Rounds");
             });
 
             modelBuilder.Entity<Players>(entity =>
@@ -103,6 +107,11 @@ namespace DataAccess.Models
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(25);
+            });
+
+            modelBuilder.Entity<Rounds>(entity =>
+            {
+                entity.Property(e => e.Date).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<SubstitutionSessions>(entity =>

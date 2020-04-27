@@ -23,6 +23,7 @@ import { GameService } from '../services/game.service';
 import { PlayerService } from '../services/player.service';
 import { RankingService } from '../services/ranking.service';
 import { RoleService } from '../services/role.service';
+import { RoundService } from '../services/round.service';
 import { TeamService } from '../services/team.service';
 
 @NgModule({
@@ -60,6 +61,7 @@ import { TeamService } from '../services/team.service';
     PlayerService,
     RankingService,
     RoleService,
+    RoundService,
     TeamService
   ],
   bootstrap: [AppComponent]

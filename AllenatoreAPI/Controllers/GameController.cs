@@ -86,6 +86,6 @@ namespace AllenatoreAPI.Controllers
             {
                 return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
-        }
+        }        
     }
 }
