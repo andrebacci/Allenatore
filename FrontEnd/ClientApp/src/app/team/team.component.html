@@ -54,23 +54,24 @@
               </div>
             </div>
             <!--<div class="col-md-3 mb-3">
-              <label for="validationCustom04">State</label>
-              <input type="text" class="form-control" id="validationCustom04" placeholder="State" required>
-              <div class="invalid-feedback">
-                Please provide a valid state.
-              </div>
-            </div>-->
+      <label for="validationCustom04">State</label>
+      <input type="text" class="form-control" id="validationCustom04" placeholder="State" required>
+      <div class="invalid-feedback">
+        Please provide a valid state.
+      </div>
+    </div>-->
             <!--<div class="col-md-3 mb-3">
-              <label for="validationCustom05">Zip</label>
-              <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required>
-              <div class="invalid-feedback">
-                Please provide a valid zip.
-              </div>
-            </div>-->
+      <label for="validationCustom05">Zip</label>
+      <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required>
+      <div class="invalid-feedback">
+        Please provide a valid zip.
+      </div>
+    </div>-->
           </div>
 
           <!-- button -->
-          <button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly">Salva</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="save(false)" *ngIf="!isReadOnly">Salva</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="save(true)" *ngIf="!isReadOnly && mode == 'create'">Salva + Crea</button>
           <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly">Annulla</button>
 
           <button class="btn btn-primary mr-5" type="submit" (click)="update()" *ngIf="isReadOnly">Modifica</button>

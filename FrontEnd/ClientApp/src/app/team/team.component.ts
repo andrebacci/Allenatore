@@ -91,7 +91,7 @@ export class TeamComponent {
   }
 
   // Salva le modifiche
-  save(): void {
+  save(createAfter: boolean): void {
     if (this.team == null)
       this.team = new Team();
 
@@ -115,7 +115,12 @@ export class TeamComponent {
         var resultData = res as ResultData;
         if (resultData.status) {
           let team = resultData.data as Team;
-          Utility.redirect('/team/detail/' + team.id, this.router);
+
+          if (createAfter) {
+            this.cleanForm();
+          } else {
+            Utility.redirect('/team/detail/' + team.id, this.router);
+          }          
         }
       })
     } else {
