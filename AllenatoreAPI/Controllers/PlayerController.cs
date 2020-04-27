@@ -126,6 +126,30 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Ritorna cognome e nome di un giocatore dato il suo id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("GetNameById")]
+        [HttpGet]
+        public async Task<IActionResult> GetNameById([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                PlayerManager manager = new PlayerManager(_connectionString);
+                string name = await manager.GetNameById(id);                
+
+                return StatusCode(200, new ResultData { Data = name, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Aggiunge un nuovo giocatore
         /// </summary>
         /// <param name="body"></param>

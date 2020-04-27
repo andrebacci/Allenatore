@@ -5,6 +5,11 @@ namespace DataAccess.Models
 {
     public partial class Players
     {
+        public Players()
+        {
+            Transfers = new HashSet<Transfers>();
+        }
+
         public int Id { get; set; }
         public int? IdTeam { get; set; }
         public string Lastname { get; set; }
@@ -21,5 +26,6 @@ namespace DataAccess.Models
         public virtual Teams IdTeamNavigation { get; set; }
         public virtual Teams LastTeamNavigation { get; set; }
         public virtual Roles RoleNavigation { get; set; }
+        public virtual ICollection<Transfers> Transfers { get; set; }
     }
 }

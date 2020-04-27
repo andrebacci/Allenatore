@@ -23,6 +23,7 @@ namespace DataAccess.Models
         public virtual DbSet<Rounds> Rounds { get; set; }
         public virtual DbSet<SubstitutionSessions> SubstitutionSessions { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
+        public virtual DbSet<Transfers> Transfers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -136,6 +137,27 @@ namespace DataAccess.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(128);
+            });
+
+            modelBuilder.Entity<Transfers>(entity =>
+            {
+                entity.Property(e => e.Date).HasColumnType("date");
+
+                entity.HasOne(d => d.IdPlayerNavigation)
+                    .WithMany(p => p.Transfers)
+                    .HasForeignKey(d => d.IdPlayer)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Transfers_Players");
+
+                entity.HasOne(d => d.IdTeamNewNavigation)
+                    .WithMany(p => p.TransfersIdTeamNewNavigation)
+                    .HasForeignKey(d => d.IdTeamNew)
+                    .HasConstraintName("FK_Transfers_Teams");
+
+                entity.HasOne(d => d.IdTeamOldNavigation)
+                    .WithMany(p => p.TransfersIdTeamOldNavigation)
+                    .HasForeignKey(d => d.IdTeamOld)
+                    .HasConstraintName("FK_Transfers_Teams1");
             });
 
             OnModelCreatingPartial(modelBuilder);

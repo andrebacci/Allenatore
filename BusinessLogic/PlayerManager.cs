@@ -35,6 +35,16 @@ namespace BusinessLogic
             }
         }
 
+        // Ritorna nome e cognome di un giocatore dato il suo id
+        public async Task<string> GetNameById(int id)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                Players p = await ctx.Players.Where(x => x.Id == id).FirstOrDefaultAsync();
+                return $"{p.Lastname} {p.Firstname}";
+            }
+        }
+
         // Aggiunge un nuovo giocatore
         public async Task<Players> Insert(Players player)
         {

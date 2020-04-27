@@ -17,6 +17,7 @@ import { PlayersComponent } from './players/players.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TeamComponent } from './team/team.component';
 import { TeamsComponent } from './teams/teams.component';
+import { TransfersComponent } from './transfers/transfers.component';
 
 // Servizi
 import { FeetService } from '../services/feet.service';
@@ -26,6 +27,7 @@ import { RankingService } from '../services/ranking.service';
 import { RoleService } from '../services/role.service';
 import { RoundService } from '../services/round.service';
 import { TeamService } from '../services/team.service';
+import { TransferService } from '../services/transferService';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { TeamService } from '../services/team.service';
     PlayersComponent,
     SidebarComponent,
     TeamComponent,
-    TeamsComponent
+    TeamsComponent,
+    TransfersComponent
   ],
   imports: [
     AngularFontAwesomeModule,
@@ -55,7 +58,8 @@ import { TeamService } from '../services/team.service';
       { path: 'players', component: PlayersComponent },
       { path: 'team/:mode', component: TeamComponent },
       { path: 'team/:mode/:id', component: TeamComponent },
-      { path: 'teams', component: TeamsComponent }
+      { path: 'teams', component: TeamsComponent },
+      { path: 'transfers', component: TransfersComponent }
     ])
   ],
   providers: [
@@ -65,7 +69,8 @@ import { TeamService } from '../services/team.service';
     RankingService,
     RoleService,
     RoundService,
-    TeamService
+    TeamService,
+    TransferService
   ],
   bootstrap: [AppComponent]
 })
