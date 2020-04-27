@@ -149,7 +149,21 @@
           <!-- tab 3 -->
           <div class="tab-pane tabs-animation fade" id="tab-content-3" role="tabpanel">
             <div class="row" style="background-color:green">
-              <p>TAB 3</p>
+              <table class="mb-0 table table-sm">
+                <tbody>
+                  <tr *ngFor="let g of games">
+                    <td>{{g.round}} Giornata</td>
+                    <td class="text-right">{{g.teamHome}}</td>
+                    <td class="text-center">{{g.golHome}} - {{g.golAway}}</td>
+                    <td class="text-left">{{g.teamAway}}</td>
+                    <td>
+                      <button type="button" id="btn-detail-team" class="btn btn-primary btn-sm" data-toggle="Dettaglio" (click)="detailGame(g.idGame)">
+                        <i class="pe-7s-pen"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 

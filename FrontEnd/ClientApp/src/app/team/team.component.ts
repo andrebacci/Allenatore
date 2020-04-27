@@ -185,6 +185,11 @@ export class TeamComponent {
     Utility.redirect('/player/detail/' + id, this.router);
   }
 
+  // Apre la pagina di dettaglio della partita
+  detailGame(id: number): void {
+    Utility.redirect('/game/detail/' + id, this.router);
+  }
+
   // Chiude la modale
   closeModal(): void {
     this.errorModalIsOpen = false;
