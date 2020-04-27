@@ -1,4 +1,6 @@
 export class RoundItem {
+  idGame: number = 0;
+
   teamHome: string = "";
   teamAway: string = "";
 

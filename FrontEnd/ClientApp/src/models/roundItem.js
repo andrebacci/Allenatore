@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var RoundItem = /** @class */ (function () {
     function RoundItem() {
+        this.idGame = 0;
         this.teamHome = "";
         this.teamAway = "";
         this.golHome = 0;

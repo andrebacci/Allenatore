@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from '../../models/player';
 import { PlayerService } from '../../services/player.service';
 
+import Utility from '../../utility/utility';
+
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
@@ -103,7 +105,7 @@ export class TeamComponent {
         var resultData = res as ResultData;
         if (resultData.status) {
           let team = resultData.data as Team;
-          this.redirect('/team/detail/' + team.id);
+          Utility.redirect('/team/detail/' + team.id, this.router);
         } else {
           // Errore
         }
@@ -113,7 +115,7 @@ export class TeamComponent {
         var resultData = res as ResultData;
         if (resultData.status) {
           let team = resultData.data as Team;
-          this.redirect('/team/detail/' + team.id);
+          Utility.redirect('/team/detail/' + team.id, this.router);
         }
       })
     } else {
@@ -132,12 +134,7 @@ export class TeamComponent {
 
   // Passa dalla modalità "detail" alla modalità "update"
   update(): void {
-    this.redirect('/team/update/' + this.team.id);
-  }
-
-  // Redirect della pagina
-  redirect(url: string): void {
-    this.router.navigate([]).then(res => { window.open(url, '_self') });
+    Utility.redirect('/team/update/' + this.team.id, this.router);
   }
 
   // Recupero la rosa della squadra
@@ -154,6 +151,6 @@ export class TeamComponent {
 
   // Apre la pagina di dettaglio del giocatore
   detailPlayer(id: number): void {
-    this.redirect('/player/detail/' + id);
+    Utility.redirect('/player/detail/' + id, this.router);
   }
 }

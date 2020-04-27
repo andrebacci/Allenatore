@@ -5,6 +5,9 @@ import { Ranking } from 'src/models/ranking';
 import { RoundService } from '../../services/round.service';
 import { Round } from '../../models/round';
 
+import Utility from '../../utility/utility';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,15 +19,17 @@ export class HomeComponent {
   lastRound: Round = null;
   nextRound: Round = null;
 
-  constructor(private rankingService: RankingService, private roundService: RoundService) {
+  constructor(private rankingService: RankingService, private roundService: RoundService, private router: Router) {
 
   }
   
   ngOnInit(): void {
     this.getRanking();
-    this.getLastRound(); 
+    this.getLastRound();
+    this.getNextRound();
   }
 
+  // Recupera la classifica
   getRanking(): void {
     this.rankingService.get(0, 0).subscribe(res => {
       var resultData = res as ResultData;
@@ -36,6 +41,7 @@ export class HomeComponent {
     });
   }
 
+  // Recupera l'ultima giornata giocata
   getLastRound(): void {
     this.roundService.getLast().subscribe(res => {
       var resultData = res as ResultData;
@@ -47,7 +53,13 @@ export class HomeComponent {
     })
   }
 
+  // Recupera la prossima giornata
   getNextRound(): void {
 
+  }
+
+  // Apre la pagina di dettaglio della partita
+  detailGame(idGame: number): void {
+    Utility.redirect('/game/detail/' + idGame, this.router);
   }
 }

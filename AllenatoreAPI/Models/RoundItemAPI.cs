@@ -16,12 +16,16 @@ namespace AllenatoreAPI.Models
 
         public RoundItemAPI(Games game)
         {
+            IdGame = game.Id;
+
             TeamHome = TeamUtility.GetTeamName(game.IdTeamHome);
             TeamAway = TeamUtility.GetTeamName(game.IdTeamAway);
 
             GolHome = game.GolTeamHome.GetValueOrDefault();
             GolAway = game.GolTeamAway.GetValueOrDefault();
         }
+
+        public int IdGame { get; set; }
 
         public string TeamHome { get; set; }
 
