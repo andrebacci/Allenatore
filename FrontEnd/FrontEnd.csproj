@@ -30,6 +30,7 @@
     <None Remove="ClientApp\src\app\sidebar\sidebar.component.ts" />
     <None Remove="ClientApp\src\app\team\team.component.ts" />
     <None Remove="ClientApp\src\app\transfers\transfers.component.ts" />
+    <None Remove="ClientApp\src\app\transfer\transfer.component.ts" />
     <None Remove="ClientApp\src\models\feet.ts" />
     <None Remove="ClientApp\src\models\game.ts" />
     <None Remove="ClientApp\src\models\penalty.ts" />
@@ -57,6 +58,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\sidebar\sidebar.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\team\team.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\transfers\transfers.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\transfer\transfer.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\feet.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\game.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\penalty.ts" />

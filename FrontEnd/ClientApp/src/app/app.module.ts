@@ -17,6 +17,7 @@ import { PlayersComponent } from './players/players.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TeamComponent } from './team/team.component';
 import { TeamsComponent } from './teams/teams.component';
+import { TransferComponent } from './transfer/transfer.component';
 import { TransfersComponent } from './transfers/transfers.component';
 
 // Servizi
@@ -42,6 +43,7 @@ import { TransferService } from '../services/transferService';
     SidebarComponent,
     TeamComponent,
     TeamsComponent,
+    TransferComponent,
     TransfersComponent
   ],
   imports: [
@@ -59,6 +61,7 @@ import { TransferService } from '../services/transferService';
       { path: 'team/:mode', component: TeamComponent },
       { path: 'team/:mode/:id', component: TeamComponent },
       { path: 'teams', component: TeamsComponent },
+      { path: 'transfer/create', component: TransferComponent },
       { path: 'transfers', component: TransfersComponent }
     ])
   ],
