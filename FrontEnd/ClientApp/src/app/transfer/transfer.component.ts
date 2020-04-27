@@ -16,9 +16,7 @@ import { Router } from '@angular/router';
 export class TransferComponent {
 
   transfers: Transfer[] = [];
-
   teams: Team[] = [];
-
   players: Player[] = [];
 
   selectedTeamOld;
@@ -71,5 +69,17 @@ export class TransferComponent {
         // Errore
       }
     })
+  }
+
+  // Evento quando si cambia la dropdown del team vecchio
+  onChangeTeam(event: any): void {
+    this.playerService.getByTeamId(this.selectedTeamOld).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.players = resultData.data as Player[];
+      } else {
+        // Errore
+      }
+    });
   }
 }
