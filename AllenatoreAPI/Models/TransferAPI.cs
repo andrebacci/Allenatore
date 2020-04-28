@@ -23,7 +23,7 @@ namespace AllenatoreAPI.Models
             TeamNew = TeamUtility.GetTeamName(IdTeamNew.GetValueOrDefault());
             TeamOld = TeamUtility.GetTeamName(IdTeamOld.GetValueOrDefault());
 
-            Player = PlayerUtility.GetPlayerName(IdPlayer);
+            Player = PlayerUtility.GetPlayerFullname(IdPlayer);
         }
 
         public string Player { get; set; }

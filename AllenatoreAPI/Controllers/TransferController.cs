@@ -109,9 +109,21 @@ namespace AllenatoreAPI.Controllers
                 TransferManager manager = new TransferManager(_connectionString);
                 Transfers transfer = await manager.Insert(body);
                 if (transfer != null)
+                {
+                    // Aggiorno il giocatore
+                    Players player = PlayerUtility.GetPlyaer(body.IdPlayer);
+                    player.LastTeam = body.IdTeamOld;
+                    player.IdTeam = body.IdTeamNew;
+
+                    PlayerManager plyerManager = new PlayerManager(_connectionString);
+                    Players p = await plyerManager.Update(player);
+                    if (p == null)
+                        return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento del trasferimento." });
+
                     return StatusCode(200, new ResultData { Data = transfer, Status = true, FunctionName = functionName, Message = $"Ok." });
-                
-                return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento del trasferimento." });
+                }
+
+                return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento del trasferimento." });                
             }
             catch (Exception exc)
             {

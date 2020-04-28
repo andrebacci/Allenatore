@@ -132,7 +132,7 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("GetNameById")]
         [HttpGet]
-        public async Task<IActionResult> GetNameById([FromQuery] int id)
+        public async Task<IActionResult> GetFullNameById([FromQuery] int id)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 

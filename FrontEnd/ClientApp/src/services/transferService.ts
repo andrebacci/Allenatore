@@ -32,6 +32,12 @@ export class TransferService {
       headers: headers
     };
 
+    if (transfer.idTeamNew == 0)
+      transfer.idTeamNew = null;
+
+    if (transfer.idTeamOld == 0)
+      transfer.idTeamOld = null;
+
     let body = JSON.stringify({
       id: transfer.id,
       idTeamNew: transfer.idTeamNew,
