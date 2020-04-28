@@ -96,14 +96,14 @@ namespace AllenatoreAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetByIdTeam([FromQuery] int id)
         {
-            tring functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
                 GameManager manager = new GameManager(_connectionString);
                 List<Games> games = await manager.GetByIdTeam(id);
                 
-                List<GamesAPI> ga = new List<GamesAPI>();
+                List<GameAPI> ga = new List<GameAPI>();
 
                 foreach (Games g in games)
                 {
