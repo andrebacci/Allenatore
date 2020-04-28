@@ -4,6 +4,7 @@ using BusinessLogic;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,7 +46,41 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                return Ok();
+                string filepath = _configuration.GetValue<string>("TeamFile");
+
+                // Controllo l'esistenza del file
+                if (!System.IO.File.Exists(filepath))
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei team non trovato." });
+
+                FileInfo fi = new FileInfo(filepath);
+
+                using (ExcelPackage excelPackage = new ExcelPackage(fi))
+                {
+                    TeamController controller = new TeamController();
+
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.First();
+
+                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                    {
+                        ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
+
+                        Teams team = new Teams
+                        {
+                            Name = rowValues["A" + row].Value.ToString(),
+                            City = rowValues["B" + row].Value.ToString(),
+                            Mister = rowValues["C" + row].Value.ToString(),
+                            Category = rowValues["D" + row].Value.ToString(),
+                            //Logo = rowValues["E" + row].Value.ToString()
+                        };
+
+                        ObjectResult objectResult = await controller.Insert(team) as ObjectResult;
+                        ResultData resultData = objectResult.Value as ResultData;
+                        if (resultData.Data == null)
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della squadra {team.Name}." });
+                    }
+                }
+
+                return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
             {
@@ -59,7 +94,27 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("ImportPlayers")]
         [HttpGet]
-        public async Task<IActionResult> ImportPlayers([FromQuery] string team)
+        public async Task<IActionResult> ImportPlayers()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                return Ok();
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Importa il calendario creando le giornate e le partite
+        /// </summary>
+        /// <returns></returns>
+        [Route("ImportRounds")]
+        [HttpGet]
+        public async Task<IActionResult> ImportRounds()
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
