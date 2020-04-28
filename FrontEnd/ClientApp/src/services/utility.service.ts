@@ -24,7 +24,7 @@ export class UtilityService {
       })
   }
 
-  // Importa il calendario
+  // Importa il calendario delle partite
   importRounds() {
       this.http.get(this.baseUrl + '/api/Utility/Rounds');
   }
