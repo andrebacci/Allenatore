@@ -8,9 +8,9 @@ import { Game } from '../../models/game';
 import { PlayerService } from '../../services/player.service';
 
 import Utility from '../../utility/utility';
-import { GameService } from 'src/services/game.service';
-import { Transfer } from 'src/models/transfer';
-import { TransferService } from 'src/services/transferService';
+import { GameService } from '../../services/game.service';
+import { Transfer } from '../../models/transfer';
+import { TransferService } from '../../services/transferService';
 
 @Component({
   selector: 'app-team',
@@ -68,6 +68,9 @@ export class TeamComponent {
 
         // Recupero le partite della squadra
         this.getGames(this.idTeam);
+
+        // Recupero i trasferimenti
+        this.getTransfers(this.idTeam);
       }
     });
   }
