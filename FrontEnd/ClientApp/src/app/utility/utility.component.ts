@@ -9,47 +9,49 @@ import { ResultData } from "src/models/resultData";
 
 export class PlayerComponent {
 
-    constructor(private utilityService: UtilityService) {
+  selectedTeam;
 
-    }
+  constructor(private utilityService: UtilityService) {
 
-    ngOnInit(): void {
+  }
 
-    }
-    
-    // Importa le squadre
-    importTeams(): void {
-      this.utilityService.importTeams().subscribe(res => {
-        var resultData = res as ResultData;
-        if (resultData.status) {
-          
-        } else {
-          // Errore
-        }
-      })
-    }
+  ngOnInit(): void {
 
-    // Importa i giocatori di una squadra
-    importPlayers(idTeam: number): void {
-      this.utilityService.importPlayers(idTeam).subscribe(res => {
-        var resultData = res as ResultData;
-        if (resultData.status) {
+  }
+  
+  // Importa le squadre
+  importTeams(): void {
+    this.utilityService.importTeams().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        
+      } else {
+        // Errore
+      }
+    })
+  }
 
-        } else {
+  // Importa i giocatori di una squadra
+  importPlayers(): void {
+    this.utilityService.importPlayers(this.selectedTeam).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
 
-        }
-      })
-    }
+      } else {
 
-    // Importa le giornate
-    importRounds(): void {
-      this.utilityService.importRounds().subscribe(res => {
-        var resultData = res as ResultData;
-        if (resultData.status) {
+      }
+    })
+  }
 
-        } else {
-          // Errore
-        }
-      })
-    }
+  // Importa le giornate
+  importRounds(): void {
+    this.utilityService.importRounds().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+
+      } else {
+        // Errore
+      }
+    })
+  }
 }
