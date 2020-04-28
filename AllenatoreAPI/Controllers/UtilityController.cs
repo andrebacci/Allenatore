@@ -120,7 +120,57 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                return Ok();
+                string filepath = _configuration.GetValue<string>("TeamFile");
+
+                // Controllo l'esistenza del file
+                if (!System.IO.File.Exists(filepath))
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei team non trovato." });
+
+                FileInfo fi = new FileInfo(filepath);
+
+                using (ExcelPackage excelPackage = new ExcelPackage(fi))
+                {
+                    RoundController roundController = new RoundController();
+                    GameController gameController = new GameController();
+
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.First();
+
+                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                    {
+                        ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
+
+                        // Inserisco la giornata
+                        Rounds r = new Rounds 
+                        {
+                            Number = onvert.ToInt32(rowValues["A" + row].Value),
+                            Date = new DateTime(rowValues["D" + row].Value.ToString())
+                        };
+
+                        ObjectResult objectResult = await roundController.Insert(r) as ObjectResult;
+                        ResultData resultData = objectResult.Value as ResultData;
+                        if (resultData.Data == null)
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della giornata." });
+
+                        Rounds round = resultData.Data as Rounds;
+
+                        // Inserisco la partita
+                        Games g = new Games
+                        {
+                            IdTeamHome = Convert.ToInt32(rowValues["B" + row].Value),
+                            IdTeamAway = Convert.ToInt32(rowValues["C" + row].Value),
+                            Rounds = round.Id
+                        };
+
+                        objectResult = await gameController.Insert(g) as ObjectResult;
+                        resultData = objectResult.Value as ResultData;
+                        if (resultData.Data == null)
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della partita." });
+                        
+                        return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+                    }
+                }
+
+                return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
             {

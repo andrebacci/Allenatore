@@ -77,5 +77,17 @@ namespace BusinessLogic
                 return await ctx.Games.Where(x => x.IdTeamHome == id || x.IdTeamAway == id).OrderBy(x => x.Round).ToListAsync();
             }
         }
+
+        // Inserisce uan nuova partita
+        public async Task<Games> Insert(Games game)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                await ctx.Games.AddAsync(game);
+                await ctx.SaveChangesAsync();
+            }
+
+            return await GetById(game.Id);
+        }
     }
 }

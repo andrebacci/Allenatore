@@ -117,5 +117,30 @@ namespace AllenatoreAPI.Controllers
                 return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
         }
+
+        /// <summary>
+        /// Inserisce una nuova partita
+        /// </summary>
+        /// <returns></returns>
+        [Route("Insert")]
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] Games body)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                GameManager manager = new GameManager(_connectionString);
+                Games game = await manager.Insert(body);
+                if (game == null)
+                    return StatusCode(200, new ResultData { Data = game, Status = true, FunctionName = functionName, Message = $"Ok" });
+
+                return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della partita." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
     }
 }

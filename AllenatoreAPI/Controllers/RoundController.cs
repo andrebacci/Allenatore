@@ -101,6 +101,10 @@ namespace AllenatoreAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Ritorna la giornata dato il suo numero
+        /// </summary>
+        /// <returns></returns>
         [Route("GetByNumber")]
         [HttpGet]
         public async Task<IActionResult> GetByNumber([FromQuery] int number)
@@ -124,6 +128,31 @@ namespace AllenatoreAPI.Controllers
                 }
 
                 return StatusCode(200, new ResultData { Data = roundAPI, Status = true, FunctionName = functionName, Message = $"Ok" });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Inserisce una nuova giornata
+        /// </summary>
+        /// <returns></returns>
+        [Route("Insert")]
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] Rounds body)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                RoundManager manager = new RoundManager(_connectionString);
+                Rounds round = await manager.Insert(body);
+                if (round == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento di una giornata" });
+                    
+                return StatusCode(200, new ResultData { Data = round, Status = true, FunctionName = functionName, Message = $"Ok" });
             }
             catch (Exception exc)
             {
