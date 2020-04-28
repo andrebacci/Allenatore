@@ -19,6 +19,8 @@ export class TransferComponent {
   teams: Team[] = [];
   players: Player[] = [];
 
+  teamNull: Team = new Team("Svincolato");
+
   selectedTeamOld;
   selectedTeamNew;
   selectedPlayer;
@@ -37,6 +39,9 @@ export class TransferComponent {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.teams = resultData.data as Team[];
+
+        // Aggiungo la squadra "svincolato"
+        this.teams.push(this.teamNull);
       } else {
         // Errore
       }

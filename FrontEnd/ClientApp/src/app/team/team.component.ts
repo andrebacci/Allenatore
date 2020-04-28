@@ -145,9 +145,8 @@ export class TeamComponent {
   // Salva le modifiche
   save(createAfter: boolean): void {
     if (this.team == null)
-      this.team = new Team();
+      this.team = new Team(this.teamName);
 
-    this.team.name = this.teamName;
     this.team.city = this.teamCity;
     this.team.category = this.teamCategory;
     this.team.mister = this.teamMister;

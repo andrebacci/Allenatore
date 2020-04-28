@@ -23,14 +23,14 @@
             <div class="form-row">
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Squadra Attuale</label>
-                <select name="select-team-old" id="select-role" class="form-control" [(ngModel)]="selectedTeamOld" (onchange)="onChangeTeam($event)">
+                <select name="select-team-old" id="select-role" class="form-control" [(ngModel)]="selectedTeamOld" (change)="onChangeTeam($event)">
                   <option *ngFor="let t of teams" [value]="t.id">{{t.name}}</option>
                 </select>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Giocatore</label>
                 <select name="select-player" id="select-role" class="form-control" [(ngModel)]="selectedPlayer">
-                  <option *ngFor="let p of players" [value]="p.id">{{p.lastname}}</option>
+                  <option *ngFor="let p of players" [value]="p.id">{{p.fullname}}</option>
                 </select>
               </div>
               <div class="col-md-4 mb-3">

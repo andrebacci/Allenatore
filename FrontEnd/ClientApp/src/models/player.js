@@ -6,6 +6,7 @@ var Player = /** @class */ (function () {
         this.idTeam = 0;
         this.lastname = "";
         this.firstname = "";
+        this.fullname = "";
         this.age = 0;
         this.role = 0;
         this.roleString = "";

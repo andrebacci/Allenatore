@@ -3,6 +3,7 @@ export class Player {
   idTeam: number = 0;
   lastname: string = "";
   firstname: string = "";
+  fullname: string = "";
   age: number = 0;
   role: number = 0;
   roleString: string = "";

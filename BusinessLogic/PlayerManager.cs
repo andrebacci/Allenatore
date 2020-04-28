@@ -22,6 +22,9 @@ namespace BusinessLogic
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
+                if (id == 0)
+                    return await ctx.Players.Where(x => x.IdTeam == null).OrderBy(x => x.Lastname).ToListAsync();
+
                 return await ctx.Players.Where(x => x.IdTeam == id).OrderBy(x => x.Lastname).ToListAsync();
             }
         }
