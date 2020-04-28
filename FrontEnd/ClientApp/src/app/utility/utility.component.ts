@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { UtilityService } from "src/services/utility.service";
+import { ResultData } from "src/models/resultData";
 
 @Component({
   selector: 'app-utility',
@@ -7,11 +9,47 @@ import { Component } from "@angular/core";
 
 export class PlayerComponent {
 
-    constructor() {
+    constructor(private utilityService: UtilityService) {
 
     }
 
     ngOnInit(): void {
 
-    }    
+    }
+    
+    // Importa le squadre
+    importTeams(): void {
+      this.utilityService.importTeams().subscribe(res => {
+        var resultData = res as ResultData;
+        if (resultData.status) {
+          
+        } else {
+          // Errore
+        }
+      })
+    }
+
+    // Importa i giocatori di una squadra
+    importPlayers(idTeam: number): void {
+      this.utilityService.importPlayers(idTeam).subscribe(res => {
+        var resultData = res as ResultData;
+        if (resultData.status) {
+
+        } else {
+
+        }
+      })
+    }
+
+    // Importa le giornate
+    importRounds(): void {
+      this.utilityService.importRounds().subscribe(res => {
+        var resultData = res as ResultData;
+        if (resultData.status) {
+
+        } else {
+          // Errore
+        }
+      })
+    }
 }
