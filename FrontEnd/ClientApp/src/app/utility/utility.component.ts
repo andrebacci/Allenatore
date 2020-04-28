@@ -38,7 +38,7 @@ export class PlayerComponent {
       if (resultData.status) {
 
       } else {
-
+        // Errore
       }
     })
   }
