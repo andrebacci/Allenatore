@@ -45,15 +45,15 @@ export class GameService {
       headers: headers
     };
 
-    //let body = JSON.stringify({
-    //  id: team.id,
-    //  name: team.name,
-    //  city: team.city,
-    //  category: team.category,
-    //  mister: team.mister
-    //});
-
-    let body = game;
+    let body = JSON.stringify({
+      idTeamHome: game.idTeamHome,
+      idTeamAway: game.idTeamAway,
+      golTeamHome: game.golTeamHome,
+      golTeamAway: game.golTeamAway,
+      round: game.round,
+      moduleHome: game.moduleHome,
+      moduleAway: game.moduleAway
+    });
 
     return this.http.post(this.baseUrl + 'api/Game/Insert', body, options);
   }
@@ -65,15 +65,15 @@ export class GameService {
       headers: headers
     };
 
-    //let body = JSON.stringify({
-    //  id: team.id,
-    //  name: team.name,
-    //  city: team.city,
-    //  category: team.category,
-    //  mister: team.mister
-    //});
-
-    let body = game;
+    let body = JSON.stringify({
+      idTeamHome: game.idTeamHome,
+      idTeamAway: game.idTeamAway,
+      golTeamHome: game.golTeamHome,
+      golTeamAway: game.golTeamAway,
+      round: game.round,
+      moduleHome: game.moduleHome,
+      moduleAway: game.moduleAway
+    });
 
     return this.http.put(this.baseUrl + 'api/Game/Update', body, options);
   }

@@ -213,11 +213,6 @@ export class PlayerComponent {
 
   }
 
-  // Evento quando cambio il valore della select "feet"
-  //onChangeFeet() {
-  //  this.player.feetString = this.selectedFeet;
-  //}
-
   convertFeetToNumber(feet: string): number {
     if (feet == 'Sinistro')
       return 1;

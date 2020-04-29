@@ -24,22 +24,45 @@ export class GameInfoComponent {
 
   idGame: number = 0;
 
-  isReadOnly: boolean = false;
-
-  teamHome: string = "";
-  teamAway: string = "";
-  golHome: number = 0;
-  golAway: number = 0;
-  round: number = 0;
-  date: Date = null;
-  moduleHome: string = "";
-  moduleAway: string = "";
-
-  constructor(private gameService: GameService, private route: ActivatedRoute, private playerService: PlayerService, private router: Router) {
+  constructor(private gameService: GameService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {
 
   }
 
   ngOnInit(): void {
+    this.sub = this.route.params.subscribe(params => {
+      this.mode = params["mode"];
+      this.idGame = params["id"];
 
+      // Recupero la partita
+      this.getTeamById();
+
+      // Recupero i giocatori delle due squadre
+      this.playersHome = this.getPlayersByIdTeam(this.game.idTeamHome);
+      this.playersAway = this.getPlayersByIdTeam(this.game.idTeamAway);
+    });
+  }
+
+  // Recupera la partita dato il suo id
+  getTeamById(): void {
+    this.gameService.getById(this.idGame).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.game = resultData.data as Game;
+      } else {
+        // Errore
+      }
+    });
+  }
+
+  // Recupero i giocatori dato l'id della squadra
+  getPlayersByIdTeam(idTeam: number): any {
+    this.playerService.getByTeamId(idTeam).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        return resultData.data as Player[];
+      } else {
+        // Errore
+      }
+    })
   }
 }

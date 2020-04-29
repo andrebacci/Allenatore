@@ -60,7 +60,7 @@ import { UtilityService } from '../services/utility.service';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'game/:mode', component: GameComponent },
       { path: 'game/:mode/:id', component: GameComponent },
-      { path: 'game-info/mode/:id', component: GameInfoComponent },
+      { path: 'game-info/:mode/:id', component: GameInfoComponent },
       { path: 'player/:mode', component: PlayerComponent },
       { path: 'player/:mode/:id', component: PlayerComponent },
       { path: 'players', component: PlayersComponent },

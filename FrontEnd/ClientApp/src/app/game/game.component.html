@@ -26,14 +26,20 @@
             <div class="form-row">
               <div class="col-md-4 mb-3">
                 <label for="validationCustom01">Squadra Casa</label>
-                <input type="text" class="form-control" id="validationCustom01" placeholder="Squadra Casa" [(ngModel)]="teamHome" name="teamHome" #ctrl="ngModel" required>
+                <!--<input type="text" class="form-control" id="validationCustom01" placeholder="Squadra Casa" [(ngModel)]="teamHome" name="teamHome" #ctrl="ngModel" required>-->
+                <select name="select-team-home" id="select-team-home" class="form-control" [(ngModel)]="selectedTeamHome">
+                  <option *ngFor="let t of teams" [value]="t.name">{{t.name}}</option>
+                </select>
                 <div class="valid-feedback">
                   Looks good!
                 </div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom02">Squadra Trasferta</label>
-                <input type="text" class="form-control" id="validationCustom02" placeholder="Squadra Trasferta" [(ngModel)]="teamAway" name="teamAway" #ctrl="ngModel" required>
+                <!--<input type="text" class="form-control" id="validationCustom02" placeholder="Squadra Trasferta" [(ngModel)]="teamAway" name="teamAway" #ctrl="ngModel" required>-->
+                <select name="select-team-awat" id="select-team-away" class="form-control" [(ngModel)]="selectedTeamAway">
+                  <option *ngFor="let t of teams" [value]="t.name">{{t.name}}</option>
+                </select>
                 <div class="valid-feedback">
                   Looks good!
                 </div>
@@ -86,8 +92,8 @@
           </fieldset>
 
           <!-- button -->
-          <button class="btn btn-primary mr-2" type="submit" (click)="save(false)" *ngIf="!isReadOnly">Salva</button>
-          <button class="btn btn-primary mr-2" type="submit" (click)="save(true)" *ngIf="!isReadOnly">Salva + Vai Info</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly">Salva</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="info()" *ngIf="!isReadOnly">Info</button>
           <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly">Annulla</button>
 
           <button class="btn btn-primary mr-5" type="submit" (click)="update()" *ngIf="isReadOnly">Modifica</button>

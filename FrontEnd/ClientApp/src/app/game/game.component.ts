@@ -5,6 +5,9 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { ResultData } from "../../models/resultData";
 import { Player } from "../../models/player";
 import { PlayerService } from "../../services/player.service";
+import { TeamService } from "../../services/team.service";
+import { Team } from "../../models/team";
+import Utility from "../../utility/utility";
 
 @Component({
   selector: 'app-game',
@@ -19,15 +22,18 @@ export class GameComponent {
 
   game: Game = null;
 
+  teams: Team[] = [];
+
   playersHome: Player[] = [];
   playersAway: Player[] = [];
+
+  selectedTeamHome;
+  selectedTeamAway;
 
   idGame: number = 0;
 
   isReadOnly: boolean = false;
 
-  teamHome: string = "";
-  teamAway: string = "";
   golHome: number = 0;
   golAway: number = 0;
   round: number = 0;
@@ -35,7 +41,7 @@ export class GameComponent {
   moduleHome: string = "";
   moduleAway: string = "";
 
-  constructor(private gameService: GameService, private route: ActivatedRoute, private playerService: PlayerService, private router: Router) {
+  constructor(private gameService: GameService, private playerService: PlayerService, private teamService: TeamService, private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -45,19 +51,35 @@ export class GameComponent {
 
       if (this.mode == "create") {
         this.isReadOnly = false;
+        this.getTeams();
       } else {
         this.idGame = params['id'];
 
         if (this.mode == "update") {
-          this.isReadOnly = false;
+          this.isReadOnly = false;          
         } else if (this.mode == "detail") {
           this.isReadOnly = true;
         }
 
-        // Recupero le informazioni del giocatore
+        // Recupero le squadre
+        this.getTeams();
+
+        // Recupero le informazioni della partita
         this.getGameById(this.idGame);
       }
     });
+  }
+
+  // Restituisce tutte le squadre
+  getTeams(): void {
+    this.teamService.getAll().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.teams = resultData.data as Team[];
+      } else {
+        // Errore
+      }
+    })
   }
 
   // Restituisce la partita dato il suo id
@@ -74,26 +96,10 @@ export class GameComponent {
     })
   }
 
-  // Restituisce i giocatori di una squadra (in ordine alfabetico)
-  getPlayersByIdTeam(id: number): void {
-    this.playerService.getByTeamId(id).subscribe(res => {
-      var resultData = res as ResultData;
-      if (resultData.status) {
-        if (this.game.idTeamHome == id) {
-          this.playersHome = resultData.data as Player[];
-        } else {
-          this.playersAway = resultData.data as Player[];
-        }
-      } else {
-        // Errore
-      }
-    });
-  }
-
   // Inizializza i campi della form
   initForm(): void {
-    this.teamHome = this.game.teamHome;
-    this.teamAway = this.game.teamAway;
+    this.selectedTeamHome = this.game.teamHome;
+    this.selectedTeamAway = this.game.teamAway;
 
     this.golHome = this.game.golTeamHome;
     this.golAway = this.game.golTeamAway;
@@ -106,12 +112,12 @@ export class GameComponent {
   }
 
   // Salva le informazioni base della partita
-  save(goInfo: boolean): void {
+  save(): void {
     if (this.game == null) {
       this.game = new Game();
     }
 
-    // Popolare i dati della partita
+    // TODO: popolare i dati della partita
 
     if (this.mode == "update") {
       this.gameService.update(this.game).subscribe(res => {
@@ -132,5 +138,10 @@ export class GameComponent {
         }
       });
     }
+  }
+
+  // Apre la pagina game-info in modalità update o edit
+  info(): void {
+    Utility.redirect('game-info/' + this.mode + '/' + this.idGame, this.router);
   }
 }
