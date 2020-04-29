@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Game } from "../models/game";
 
 @Injectable()
 export class GameService {
@@ -35,5 +36,45 @@ export class GameService {
         id: id
       }
     })
+  }
+
+  // Inserisce una nuova partita
+  insert(game: Game) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let options = {
+      headers: headers
+    };
+
+    //let body = JSON.stringify({
+    //  id: team.id,
+    //  name: team.name,
+    //  city: team.city,
+    //  category: team.category,
+    //  mister: team.mister
+    //});
+
+    let body = game;
+
+    return this.http.post(this.baseUrl + 'api/Game/Insert', body, options);
+  }
+
+  // Aggiorna una partita
+  update(game: Game) {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let options = {
+      headers: headers
+    };
+
+    //let body = JSON.stringify({
+    //  id: team.id,
+    //  name: team.name,
+    //  city: team.city,
+    //  category: team.category,
+    //  mister: team.mister
+    //});
+
+    let body = game;
+
+    return this.http.put(this.baseUrl + 'api/Game/Update', body, options);
   }
 }
