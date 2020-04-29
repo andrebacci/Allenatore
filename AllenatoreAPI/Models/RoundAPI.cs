@@ -13,7 +13,7 @@ namespace AllenatoreAPI.Models
 
         public RoundAPI(Rounds round)
         {
-            Number = round.Id;
+            Number = round.Number.GetValueOrDefault();
             Date = round.Date;
 
             Games = new List<RoundItemAPI>();

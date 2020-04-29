@@ -49,7 +49,7 @@ namespace BusinessLogic
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
-                return await ctx.Rounds.Where(x => x.Id == number).FirstOrDefaultAsync();
+                return await ctx.Rounds.Where(x => x.Number.GetValueOrDefault() == number).FirstOrDefaultAsync();
             }
         }
 
