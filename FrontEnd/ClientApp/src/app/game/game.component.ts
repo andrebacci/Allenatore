@@ -41,7 +41,7 @@ export class GameComponent {
   moduleHome: string = "";
   moduleAway: string = "";
 
-  constructor(private gameService: GameService, private playerService: PlayerService, private teamService: TeamService, private route: ActivatedRoute, private router: Router) {
+  constructor(private gameService: GameService, private teamService: TeamService, private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -140,8 +140,19 @@ export class GameComponent {
     }
   }
 
+  // Annulla le modifiche fatte e torna in modalità readonly
+  undo(): void {
+    this.initForm();
+    this.isReadOnly = true;
+  }
+
+  // Passa alla modalità di modifica
+  update(): void {
+    this.isReadOnly = false;
+  }
+
   // Apre la pagina game-info in modalità update o edit
-  info(): void {
-    Utility.redirect('game-info/' + this.mode + '/' + this.idGame, this.router);
+  updateInfo(): void {
+    Utility.redirect('game-info/update/' + this.idGame, this.router);
   }
 }

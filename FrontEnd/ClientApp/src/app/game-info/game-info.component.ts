@@ -22,6 +22,8 @@ export class GameInfoComponent {
   playersHome: Player[] = [];
   playersAway: Player[] = [];
 
+  selectedPlayer;
+
   idGame: number = 0;
 
   constructor(private gameService: GameService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {
@@ -34,20 +36,20 @@ export class GameInfoComponent {
       this.idGame = params["id"];
 
       // Recupero la partita
-      this.getTeamById();
-
-      // Recupero i giocatori delle due squadre
-      this.playersHome = this.getPlayersByIdTeam(this.game.idTeamHome);
-      this.playersAway = this.getPlayersByIdTeam(this.game.idTeamAway);
+      this.getGameById();      
     });
   }
 
   // Recupera la partita dato il suo id
-  getTeamById(): void {
+  getGameById(): void {
     this.gameService.getById(this.idGame).subscribe(res => {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.game = resultData.data as Game;
+
+        // Recupero i giocatori delle due squadre
+        this.getPlayersByIdTeam(this.game.idTeamHome);
+        this.getPlayersByIdTeam(this.game.idTeamAway);
       } else {
         // Errore
       }
@@ -59,7 +61,11 @@ export class GameInfoComponent {
     this.playerService.getByTeamId(idTeam).subscribe(res => {
       var resultData = res as ResultData;
       if (resultData.status) {
-        return resultData.data as Player[];
+        if (this.game.idTeamHome == idTeam) {
+          this.playersHome = resultData.data as Player[];
+        } else {
+          this.playersAway = resultData.data as Player[];
+        }
       } else {
         // Errore
       }
