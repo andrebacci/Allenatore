@@ -22,9 +22,11 @@ export class GameInfoComponent {
   playersHome: Player[] = [];
   playersAway: Player[] = [];
 
-  selectedPlayer;
+  selectedPlayer: number;
 
   idGame: number = 0;
+
+  listPlayerHome: number[] = [20];
 
   constructor(private gameService: GameService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {
 
@@ -70,5 +72,9 @@ export class GameInfoComponent {
         // Errore
       }
     })
+  }
+
+  onChange(event: any): void {
+    var andre = this.selectedPlayer;
   }
 }
