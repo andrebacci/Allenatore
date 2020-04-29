@@ -1,10 +1,12 @@
+using System.Collections.Generic;
+
 namespace AllenatoreAPI.Models
 {
     public class TeamStatisticsAPI
     {
         public TeamStatisticsAPI()
         {
-            
+            HistoryRanking = new List<int>();
         }
 
         public int Points { get; set; } 
@@ -25,11 +27,11 @@ namespace AllenatoreAPI.Models
 
         public int WinsAway { get; set; }
 
-        public int Nulls { get; set; }
+        public int Draws { get; set; }
 
-        public int NullsHome { get; set; } 
+        public int DrawsHome { get; set; } 
 
-        public int NullsAway { get; set; }
+        public int DrwasAway { get; set; }
 
         public int Losts { get; set; }
 
@@ -49,6 +51,10 @@ namespace AllenatoreAPI.Models
 
         public int ConcededGolsAway { get; set; }
 
-        public PlayerStatisticsAPI BestScorer { get; set; }        
+        public PlayerStatisticsAPI BestScorer { get; set; }
+
+        public int ActualPosition { get; set; }
+
+        public List<int> HistoryRanking { get; set; }
     }
 }

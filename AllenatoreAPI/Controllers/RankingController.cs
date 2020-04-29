@@ -81,7 +81,7 @@ namespace AllenatoreAPI.Controllers
                             }
                             else 
                             {
-                                ranking.Loses++;
+                                ranking.Losts++;
                             }
                         }
                         // Squadra in trasferta
@@ -103,7 +103,7 @@ namespace AllenatoreAPI.Controllers
                             }
                             else
                             {
-                                ranking.Loses++;
+                                ranking.Losts++;
                             }
                         }
                         else
@@ -175,7 +175,7 @@ namespace AllenatoreAPI.Controllers
                 //        }
                 //        else 
                 //        {
-                //            ranking.Loses++;
+                //            ranking.Losts++;
                 //        }
                 //    }
 
@@ -242,7 +242,7 @@ namespace AllenatoreAPI.Controllers
                 //        }
                 //        else
                 //        {
-                //            ranking.Loses++;
+                //            ranking.Losts++;
                 //        }
                 //    }
 

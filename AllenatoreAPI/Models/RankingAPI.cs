@@ -23,7 +23,7 @@ namespace AllenatoreAPI.Models
 
         public int Draws { get; set; }
 
-        public int Loses { get; set; }
+        public int Losts { get; set; }
 
         public int GoalMade { get; set; }
 
