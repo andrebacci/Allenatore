@@ -17,6 +17,15 @@ namespace BusinessLogic
             _connectionString = connectionString;
         }
 
+        // Ritorna la giornata dato il suo id
+        public async Task<Rounds> GetById(int id)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Rounds.Where(x => x.Id == id).FirstOrDefaultAsync();
+            }
+        }
+
         // Ritorna l'ultima giornata giocata
         public async Task<Rounds> GetLast()
         {
@@ -42,6 +51,18 @@ namespace BusinessLogic
             {
                 return await ctx.Rounds.Where(x => x.Id == number).FirstOrDefaultAsync();
             }
+        }
+
+        // Inserisce una nuova giornata
+        public async Task<Rounds> Insert(Rounds round)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                await ctx.Rounds.AddAsync(round);
+                await ctx.SaveChangesAsync();
+            }
+
+            return await GetById(round.Id);
         }
     }
 }

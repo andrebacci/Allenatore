@@ -11,8 +11,8 @@ namespace DataAccess.Models
         }
 
         public int Id { get; set; }
-        public int Number { get; set; }
         public DateTime Date { get; set; }
+        public int? Number { get; set; }
 
         public virtual ICollection<Games> Games { get; set; }
     }

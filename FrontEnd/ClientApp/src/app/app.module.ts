@@ -66,7 +66,7 @@ import { UtilityService } from '../services/utility.service';
       { path: 'teams', component: TeamsComponent },
       { path: 'transfer/create', component: TransferComponent },
       { path: 'transfers', component: TransfersComponent },
-      { path: 'utility', common: UtilityComponent }
+      { path: 'utility', component: UtilityComponent }
     ])
   ],
   providers: [

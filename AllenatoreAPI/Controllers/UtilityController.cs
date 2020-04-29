@@ -142,8 +142,8 @@ namespace AllenatoreAPI.Controllers
                         // Inserisco la giornata
                         Rounds r = new Rounds 
                         {
-                            Number = onvert.ToInt32(rowValues["A" + row].Value),
-                            Date = new DateTime(rowValues["D" + row].Value.ToString())
+                            Number = Convert.ToInt32(rowValues["A" + row].Value),
+                            Date = DateTime.Parse(rowValues["D" + row].Value.ToString())
                         };
 
                         ObjectResult objectResult = await roundController.Insert(r) as ObjectResult;
@@ -158,7 +158,7 @@ namespace AllenatoreAPI.Controllers
                         {
                             IdTeamHome = Convert.ToInt32(rowValues["B" + row].Value),
                             IdTeamAway = Convert.ToInt32(rowValues["C" + row].Value),
-                            Rounds = round.Id
+                            Round = round.Id
                         };
 
                         objectResult = await gameController.Insert(g) as ObjectResult;
