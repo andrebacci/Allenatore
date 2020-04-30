@@ -162,6 +162,12 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
+                if (body.IdTeam == 0)
+                    body.IdTeam = null;
+
+                if (body.LastTeam == 0)
+                    body.LastTeam = null;
+
                 PlayerManager manager = new PlayerManager(_connectionString);
                 Players player = await manager.Insert(body);
                 if (player == null)

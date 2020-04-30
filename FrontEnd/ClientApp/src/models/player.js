@@ -6,18 +6,19 @@ var Player = /** @class */ (function () {
         this.idTeam = 0;
         this.lastname = "";
         this.firstname = "";
-        this.fullname = "";
         this.age = 0;
-        this.role = 0;
-        this.roleString = "";
+        this.lastTeam = 0;
+        this.penalty = false;
         this.feet = 0;
+        this.role = 0;
+        this.details = "";
+        this.image = "";
+        this.fullname = "";
+        this.roleString = "";
         this.feetString = "";
         this.team = "";
         this.lastTeamString = "";
-        this.penalty = false;
         this.penaltyString = "";
-        this.details = "";
-        this.image = "";
     }
     return Player;
 }());
