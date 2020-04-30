@@ -43,6 +43,8 @@ export class TeamComponent {
 
   messageError: string = "";
   messageNoPlayer: string = "";
+  messageNoGames: string = "";
+  messageNoTransfers: string = "";
 
   constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService,
     private route: ActivatedRoute, private router: Router) {
@@ -100,6 +102,10 @@ export class TeamComponent {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.games = resultData.data as Game[];
+
+        if (this.games.length == 0) {
+          this.messageNoGames = "Non ci sono partite";
+        }
       } else {
         // Errore
       }
@@ -113,12 +119,16 @@ export class TeamComponent {
       if (resultData.status) {
         this.transfers = resultData.data as Transfer[];
 
-        // Popolare i due array (transfersIn e transfersOut) --> SI PUO' FARE MEGLIO?
-        for (var i = 0; i < this.transfers.length; i++) {
-          if (this.transfers[i].idTeamNew == id) {
-            this.transfersIn.push(this.transfers[i]);
-          } else {
-            this.transfersOut.push(this.transfers[i]);
+        if (this.transfers.length == 0) {
+          this.messageNoTransfers = "Non ci sono trasferimenti.";
+        } else {
+          // Popolare i due array (transfersIn e transfersOut) --> SI PUO' FARE MEGLIO?
+          for (var i = 0; i < this.transfers.length; i++) {
+            if (this.transfers[i].idTeamNew == id) {
+              this.transfersIn.push(this.transfers[i]);
+            } else {
+              this.transfersOut.push(this.transfers[i]);
+            }
           }
         }
       } else {
