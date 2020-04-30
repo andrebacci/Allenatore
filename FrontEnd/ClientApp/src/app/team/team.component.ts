@@ -54,7 +54,10 @@ export class TeamComponent implements AfterViewInit {
   messageNoGames: string = "";
   messageNoTransfers: string = "";
 
-  canvas: any;
+  canvasGames: any;
+  canvasGamesHome: any;
+  canvasGamesAway: any;
+
   ctx: any;
 
   constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService,
@@ -96,12 +99,12 @@ export class TeamComponent implements AfterViewInit {
     
   }
 
-  // Inizializza il chart
-  initChart(): void {
-    this.canvas = document.getElementById("chart-statistics");
-    this.ctx = this.canvas.getContext("2d");
+  // Inizializza il chart delle partite 
+  initChartGames(): void {
+    this.canvasGames = document.getElementById("chart-games");
+    this.ctx = this.canvasGames.getContext("2d");
 
-    let myChart = new Chart(this.ctx, {
+    let chart = new Chart(this.ctx, {
       type: 'pie',
       data: {
         labels: ["Vinte", "Pareggiate", "Perse"],
@@ -117,9 +120,50 @@ export class TeamComponent implements AfterViewInit {
         }]
       }
     });
+  }
 
-    this.canvas.width = "100";
-    this.canvas.height = "100";
+  // Inizializza il chart delle partite in casa
+  initChartGamesHome(): void {
+    this.canvasGamesHome = document.getElementById("chart-games-home");
+    this.ctx = this.canvasGamesHome.getContext("2d");
+
+    let chart = new Chart(this.ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Vinte", "Pareggiate", "Perse"],
+        datasets: [{
+          data: [this.statistics.wins, this.statistics.draws, this.statistics.losts],
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
+  }
+
+  // Inizializza il chart delle partite in trasferta
+  initChartGamesAway(): void {
+    this.canvasGamesAway = document.getElementById("chart-games-away");
+    this.ctx = this.canvasGamesAway.getContext("2d");
+
+    let chart = new Chart(this.ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Vinte", "Pareggiate", "Perse"],
+        datasets: [{
+          data: [this.statistics.wins, this.statistics.draws, this.statistics.losts],
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
   }
 
   // Recupero il team dato il suo id
@@ -188,8 +232,10 @@ export class TeamComponent implements AfterViewInit {
       if (resultData.status) {
         this.statistics = resultData.data as TeamStatistics;
 
-        // Inizializzo il chart
-        this.initChart();
+        // Inizializzo i chart
+        this.initChartGames();
+        this.initChartGamesHome();
+        this.initChartGamesAway();
       } else {
         // Errore
       }
