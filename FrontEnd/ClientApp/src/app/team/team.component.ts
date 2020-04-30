@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { TeamService } from '../../services/team.service';
 import { Team } from '../../models/team';
 import { ResultData } from '../../models/resultData';
@@ -12,12 +12,14 @@ import { GameService } from '../../services/game.service';
 import { Transfer } from '../../models/transfer';
 import { TransferService } from '../../services/transferService';
 
+import * as Chart from 'chart.js';
+
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
 })
 
-export class TeamComponent {
+export class TeamComponent implements AfterViewInit {
 
   team: Team = null;
   players: Player[] = [];
@@ -45,6 +47,9 @@ export class TeamComponent {
   messageNoPlayer: string = "";
   messageNoGames: string = "";
   messageNoTransfers: string = "";
+
+  canvas: any;
+  ctx: any;
 
   constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService,
     private route: ActivatedRoute, private router: Router) {
@@ -76,6 +81,38 @@ export class TeamComponent {
         this.getTransfers(this.idTeam);
       }
     });
+  }
+
+  ngAfterViewInit() {
+
+    // Inizializzo il chart
+    this.initChart();
+  }
+
+  // Inizializza il chart
+  initChart(): void {
+    this.canvas = document.getElementById("chart-statistics");
+    this.ctx = this.canvas.getContext("2d");
+
+    let myChart = new Chart(this.ctx, {
+      type: 'pie',
+      data: {
+        labels: ["New", "In Progress", "On Hold"],
+        datasets: [{
+          label: '# of Votes',
+          data: [1, 2, 3],
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
+
+    this.canvas.width = "100";
+    this.canvas.height = "100";
   }
 
   // Recupero il team dato il suo id
