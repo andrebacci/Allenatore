@@ -70,10 +70,10 @@ export class PlayerService {
       idTeam: player.idTeam,
       lastname: player.lastname,
       firstname: player.firstname,
-      age: player.age,
+      age: +player.age,
       role: player.role,
       feet: player.feet,
-      lastteam: player.lastname,
+      lastteam: player.lastTeam,
       penalty: player.penalty,
       details: player.details,
       image: player.image

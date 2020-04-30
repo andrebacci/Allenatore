@@ -41,7 +41,8 @@ export class TeamComponent {
 
   errorModalIsOpen: boolean = false;
 
-  errorMessage: string = "";
+  messageError: string = "";
+  messageNoPlayer: string = "";
 
   constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService,
     private route: ActivatedRoute, private router: Router) {
@@ -174,7 +175,7 @@ export class TeamComponent {
           }
         } else {
           this.errorModalIsOpen = true;
-          this.errorMessage = resultData.message;
+          this.messageError = resultData.message;
         }
       })
     } else {
@@ -202,6 +203,10 @@ export class TeamComponent {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.players = resultData.data as Player[];
+
+        if (this.players == null || this.players.length == 0) {
+          this.messageNoPlayer = "Nessun giocatore per questa squadra.";
+        }
       } else {
         // Errore
       }
