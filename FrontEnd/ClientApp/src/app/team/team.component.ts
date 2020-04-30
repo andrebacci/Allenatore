@@ -13,6 +13,7 @@ import { Transfer } from '../../models/transfer';
 import { TransferService } from '../../services/transferService';
 
 import * as Chart from 'chart.js';
+import { TeamStatistics } from '../../models/teamStatistics';
 
 @Component({
   selector: 'app-team',
@@ -22,11 +23,16 @@ import * as Chart from 'chart.js';
 export class TeamComponent implements AfterViewInit {
 
   team: Team = null;
+
   players: Player[] = [];
+
   games: Game[] = [];
+
   transfers: Transfer[] = [];
   transfersIn: Transfer[] = [];
   transfersOut: Transfer[] = [];
+
+  statistics: TeamStatistics = null;
 
   idTeam: number = -1;
 
@@ -79,14 +85,15 @@ export class TeamComponent implements AfterViewInit {
 
         // Recupero i trasferimenti
         this.getTransfers(this.idTeam);
+
+        // Recupero le statistiche
+        this.getStatistics(this.idTeam);
       }
     });
   }
 
   ngAfterViewInit() {
-
-    // Inizializzo il chart
-    this.initChart();
+    
   }
 
   // Inizializza il chart
@@ -97,10 +104,10 @@ export class TeamComponent implements AfterViewInit {
     let myChart = new Chart(this.ctx, {
       type: 'pie',
       data: {
-        labels: ["New", "In Progress", "On Hold"],
+        labels: ["Vinte", "Pareggiate", "Perse"],
         datasets: [{
-          label: '# of Votes',
-          data: [1, 2, 3],
+          //label: '# of Votes',
+          data: [this.statistics.wins, this.statistics.draws, this.statistics.losts],
           backgroundColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
@@ -172,6 +179,21 @@ export class TeamComponent implements AfterViewInit {
         // Errore
       }
     })
+  }
+
+  // Recupero le statistiche
+  getStatistics(id: number): void {
+    this.teamService.getStatistics(id).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.statistics = resultData.data as TeamStatistics;
+
+        // Inizializzo il chart
+        this.initChart();
+      } else {
+        // Errore
+      }
+    });
   }
 
   // Inizializza i campi della form

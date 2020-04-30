@@ -57,8 +57,11 @@ namespace AllenatoreAPI.Controllers
 
                 foreach (Teams t in teams)
                 {
-                    RankingAPI ranking = new RankingAPI();
-                    ranking.Team = t.Name;
+                    RankingAPI ranking = new RankingAPI
+                    {
+                        IdTeam = t.Id,
+                        Team = t.Name
+                    };
 
                     foreach (Games g in games)
                     {
@@ -252,6 +255,28 @@ namespace AllenatoreAPI.Controllers
                 //rankings.OrderByDescending(x => x.Points);
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        [Route("GetByIdTeam")]
+        [HttpGet]
+        public async Task<IActionResult> GetByIdTeam([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                ObjectResult objectResult = await Get(0, 0) as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+                List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
+
+                RankingAPI ranking = listRank.Where(x => x.IdTeam == id).FirstOrDefault();
+
+                return StatusCode(200, new ResultData { Data = ranking, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
             {

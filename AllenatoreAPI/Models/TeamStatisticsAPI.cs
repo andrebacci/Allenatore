@@ -6,7 +6,7 @@ namespace AllenatoreAPI.Models
     {
         public TeamStatisticsAPI()
         {
-            HistoryRanking = new List<int>();
+            //HistoryRanking = new List<int>();
         }
 
         public int Points { get; set; } 
@@ -51,10 +51,10 @@ namespace AllenatoreAPI.Models
 
         public int ConcededGolsAway { get; set; }
 
-        public PlayerStatisticsAPI BestScorer { get; set; }
+        //public PlayerStatisticsAPI BestScorer { get; set; }
 
-        public int ActualPosition { get; set; }
+        //public int ActualPosition { get; set; }
 
-        public List<int> HistoryRanking { get; set; }
+        //public List<int> HistoryRanking { get; set; }
     }
 }

@@ -41,6 +41,7 @@
     <None Remove="ClientApp\src\models\round.ts" />
     <None Remove="ClientApp\src\models\roundItem.ts" />
     <None Remove="ClientApp\src\models\team.ts" />
+    <None Remove="ClientApp\src\models\teamStatistics.ts" />
     <None Remove="ClientApp\src\models\transfer.ts" />
     <None Remove="ClientApp\src\services\feet.service.ts" />
     <None Remove="ClientApp\src\services\game.service.ts" />
@@ -69,6 +70,7 @@
     <TypeScriptCompile Include="ClientApp\src\models\role.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\round.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\roundItem.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\teamStatistics.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\team.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\transfer.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\feet.service.ts" />

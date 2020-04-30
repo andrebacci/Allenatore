@@ -222,7 +222,7 @@ namespace AllenatoreAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Route("Statistics")]
+        [Route("GetStatistics")]
         [HttpGet]
         public async Task<IActionResult> GetStatistics([FromQuery] int id)
         {
@@ -231,7 +231,20 @@ namespace AllenatoreAPI.Controllers
             try
             {
                 TeamStatisticsAPI statistics = new TeamStatisticsAPI();
-                return StatusCode(500, new ResultData { Data = statistics, Status = true, FunctionName = functionName, Message = $"Statistiche trovate con successo." });
+
+                RankingController rankingController = new RankingController();
+                ObjectResult objectResult = await rankingController.GetByIdTeam(id) as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+
+                RankingAPI ranking = resultData.Data as RankingAPI;
+
+                statistics.Wins = ranking.Wins;
+                statistics.Draws = ranking.Draws;
+                statistics.Losts = ranking.Losts;
+                statistics.ScoredGols = ranking.GoalMade;
+                statistics.ConcededGols = ranking.GoalConceded;
+
+                return StatusCode(200, new ResultData { Data = statistics, Status = true, FunctionName = functionName, Message = $"Statistiche trovate con successo." });
             }
             catch (Exception exc)
             {

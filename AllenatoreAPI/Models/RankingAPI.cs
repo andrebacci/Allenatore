@@ -13,6 +13,8 @@ namespace AllenatoreAPI.Models
             
         }
 
+        public int IdTeam { get; set; }
+
         public string Team { get; set; }
         
         public int Points { get; set; }

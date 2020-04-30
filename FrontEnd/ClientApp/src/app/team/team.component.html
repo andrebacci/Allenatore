@@ -175,8 +175,13 @@
           <!-- tab 4 -->
           <div class="tab-pane tabs-animation fade" id="tab-content-4" role="tabpanel">
             <div class="row">
-              <!--<p>TAB 4</p>-->
-              <div style="height: 100px; width: 100px">
+              <div class="col-md-4">
+                <canvas id="chart-statistics" width="200" height="100"></canvas>
+              </div>
+              <div class="col-md-4">
+                <canvas id="chart-statistics" width="200" height="100"></canvas>
+              </div>
+              <div class="col-md-4">
                 <canvas id="chart-statistics" width="200" height="100"></canvas>
               </div>
             </div>
@@ -256,8 +261,7 @@
                                 </td>
                                 <td class="text-center">{{tOut.teamOld}}</td>
                                 <!--<td class="text-center">{{tOut.teamNew}}</td>-->
-                                <td class="text-center">{{tOut.date}}</td>
-                                ex
+                                <td class="text-center">{{tOut.date}}</td>                                
                                 <td class="text-center">
                                   <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" (click)="detailPlayer(tOut.idPlayer)">Details</button>
                                 </td>
