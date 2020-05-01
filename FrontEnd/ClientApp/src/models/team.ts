@@ -5,4 +5,8 @@ export class Team {
   mister: string = "";
   category: string = "";
   logo: string = "";
+
+  constructor(name: string) {
+    this.name = name;
+  }
 }

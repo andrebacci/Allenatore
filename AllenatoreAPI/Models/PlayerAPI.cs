@@ -32,7 +32,11 @@ namespace AllenatoreAPI.Models
             Team = TeamUtility.GetTeamName(p.IdTeam.GetValueOrDefault());
 
             PenaltyString = p.Penalty.GetValueOrDefault() ? "Sì" : "No";
+
+            Fullname = Lastname + " " + Firstname;
         }
+
+        public string Fullname { get; set; }
 
         public string FeetString { get; set; }
 

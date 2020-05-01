@@ -65,4 +65,13 @@ export class TeamService {
 
     return this.http.put(this.baseUrl + 'api/Team/Update', body, options);
   }
+
+  // Recupera le statistiche
+  getStatistics(id: any) {
+    return this.http.get(this.baseUrl + 'api/Team/GetStatistics', {
+      params: {
+        id: id
+      }
+    })
+  }
 }

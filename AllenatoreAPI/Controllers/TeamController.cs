@@ -85,15 +85,10 @@ namespace AllenatoreAPI.Controllers
                 TeamManager manager = new TeamManager(_connectionString);
                 Teams team = await manager.Get(id);
                 if (team == null)
-                {
-                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Nessuna squadra trovata." });
-                }
-                else
-                {
-                    TeamAPI teamAPI = new TeamAPI(team);
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Nessuna squadra trovata." });
 
-                    return StatusCode(200, new ResultData { Data = teamAPI, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
-                }
+                TeamAPI teamAPI = new TeamAPI(team);
+                return StatusCode(200, new ResultData { Data = teamAPI, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
             }
             catch (Exception exc)
             {
@@ -116,7 +111,9 @@ namespace AllenatoreAPI.Controllers
             {
                 TeamManager manager = new TeamManager(_connectionString);
                 Teams team = await manager.Get(name);
-                
+                if (team == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Nessuna squadra trovata." });
+
                 return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra trovata con successo." });
             }
             catch (Exception exc)
@@ -185,8 +182,8 @@ namespace AllenatoreAPI.Controllers
                 Teams team = await manager.Insert(body);
                 if (team != null)
                     return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra inserita correttamente." });
-                else
-                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento della squadra {body.Name}." });
+
+                return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della squadra {body.Name}." });
             }
             catch (Exception exc)
             {
@@ -211,12 +208,12 @@ namespace AllenatoreAPI.Controllers
                 Teams team = await manager.Update(body);
                 if (team != null)
                     return StatusCode(200, new ResultData { Data = team, Status = true, FunctionName = functionName, Message = $"Squadra aggiornata correttamente." });
-                else
-                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'aggiornamento della squadra {body.Name}." });            
+                
+                return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante l'aggiornamento della squadra {body.Name}." });
             }
             catch (Exception exc)
             {
-                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });                
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
         }
 
@@ -225,7 +222,7 @@ namespace AllenatoreAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Route("Statistics")]
+        [Route("GetStatistics")]
         [HttpGet]
         public async Task<IActionResult> GetStatistics([FromQuery] int id)
         {
@@ -234,7 +231,20 @@ namespace AllenatoreAPI.Controllers
             try
             {
                 TeamStatisticsAPI statistics = new TeamStatisticsAPI();
-                return StatusCode(500, new ResultData { Data = statistics, Status = true, FunctionName = functionName, Message = $"Statistiche trovate con successo." });
+
+                RankingController rankingController = new RankingController();
+                ObjectResult objectResult = await rankingController.GetByIdTeam(id) as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+
+                RankingAPI ranking = resultData.Data as RankingAPI;
+
+                statistics.Wins = ranking.Wins;
+                statistics.Draws = ranking.Draws;
+                statistics.Losts = ranking.Losts;
+                statistics.ScoredGols = ranking.GoalMade;
+                statistics.ConcededGols = ranking.GoalConceded;
+
+                return StatusCode(200, new ResultData { Data = statistics, Status = true, FunctionName = functionName, Message = $"Statistiche trovate con successo." });
             }
             catch (Exception exc)
             {

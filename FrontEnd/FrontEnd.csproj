@@ -24,41 +24,63 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\game-info\game-info.component.ts" />
     <None Remove="ClientApp\src\app\game\game.component.ts" />
+    <None Remove="ClientApp\src\app\players\players.component.ts" />
     <None Remove="ClientApp\src\app\player\player.component.ts" />
     <None Remove="ClientApp\src\app\sidebar\sidebar.component.ts" />
     <None Remove="ClientApp\src\app\team\team.component.ts" />
+    <None Remove="ClientApp\src\app\transfers\transfers.component.ts" />
+    <None Remove="ClientApp\src\app\transfer\transfer.component.ts" />
     <None Remove="ClientApp\src\models\feet.ts" />
+    <None Remove="ClientApp\src\models\game.ts" />
     <None Remove="ClientApp\src\models\penalty.ts" />
     <None Remove="ClientApp\src\models\player.ts" />
     <None Remove="ClientApp\src\models\resultData.ts" />
     <None Remove="ClientApp\src\models\role.ts" />
+    <None Remove="ClientApp\src\models\round.ts" />
+    <None Remove="ClientApp\src\models\roundItem.ts" />
     <None Remove="ClientApp\src\models\team.ts" />
+    <None Remove="ClientApp\src\models\teamStatistics.ts" />
+    <None Remove="ClientApp\src\models\transfer.ts" />
     <None Remove="ClientApp\src\services\feet.service.ts" />
+    <None Remove="ClientApp\src\services\game.service.ts" />
     <None Remove="ClientApp\src\services\player.service.ts" />
     <None Remove="ClientApp\src\services\role.service.ts" />
+    <None Remove="ClientApp\src\services\round.service.ts" />
     <None Remove="ClientApp\src\services\team.service.ts" />
+    <None Remove="ClientApp\src\services\transferService.ts" />
+    <None Remove="ClientApp\src\utility\utility.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\game-info\game-info.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\game\game.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\players\players.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\player\player.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\sidebar\sidebar.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\team\team.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\transfers\transfers.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\transfer\transfer.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\feet.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\game.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\penalty.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\player.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\resultData.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\role.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\round.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\roundItem.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\teamStatistics.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\team.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\transfer.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\feet.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\services\game.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\player.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\role.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\services\round.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\team.service.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\app\players\" />
+    <TypeScriptCompile Include="ClientApp\src\services\transferService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\utility\utility.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

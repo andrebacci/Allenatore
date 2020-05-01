@@ -1,0 +1,53 @@
+<div class="app-main__outer">
+  <div class="app-main__inner">
+
+    <!-- TABELLA TRASFERIMENTI -->
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <div class="main-card mb-3 card">
+          <div class="card-header">
+            TRASFERIMENTI
+          </div>
+
+          <!-- tabella -->
+          <div class="table-responsive">
+            <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+              <thead>
+                <tr>
+                  <th class="text-center">Giocatore</th>
+                  <th class="text-center">Da</th>
+                  <th class="text-center">A</th>
+                  <th class="text-center">Data</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let t of transfers">
+                  <td>
+                    <div class="widget-content p-0">
+                      <div class="widget-content-wrapper">
+                        <div class="widget-content-left mr-3">
+                          <div class="widget-content-left">
+                            <img width="50" class="rounded-circle" src="assets/avatars/4.jpg" alt="">
+                          </div>
+                        </div>
+                        <div class="widget-heading font-weight-bold">{{t.player}}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">{{t.teamOld}}</td>
+                  <td class="text-center">{{t.teamNew}}</td>
+                  <td class="text-center">{{t.date}}</td>
+                  <!--<td class="text-center">
+                    <button type="button" id="btn-detail-team" class="btn btn-primary btn-sm" data-toggle="Dettaglio" (click)="detailTeam(team.id)">
+                      <i class="pe-7s-pen"></i>
+                    </button>
+                  </td>-->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

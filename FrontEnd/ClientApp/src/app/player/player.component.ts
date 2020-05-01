@@ -9,6 +9,7 @@ import { FeetService } from "../../services/feet.service";
 import { RoleService } from "../../services/role.service";
 import { Role } from "../../models/role";
 import { Penalty } from "../../models/penalty";
+import Utility from "../../utility/utility";
 
 @Component({
   selector: 'app-player',
@@ -75,6 +76,11 @@ export class PlayerComponent {
       // Recupero la lista dei nomi di tutte le squadre
       if (this.mode != "detail") {
         this.getNameTeams();
+      }
+
+      // Inizializzo la form in caso di nuovo giocatore
+      if (this.mode == "create") {
+        this.initFormCreate();
       }
     });
   }
@@ -149,14 +155,16 @@ export class PlayerComponent {
     this.playerFullName = this.lastname.toUpperCase() + " " + this.firstname;
   }
 
-  // Redirect della pagina (DA SPOSTARE IN UNA UTILITY SE POSSIBILE)
-  redirect(url: string): void {
-    this.router.navigate([]).then(res => { window.open(url, '_self') });
+  // Inizializzo i campi della form se sono in modalità create
+  initFormCreate(): void {
+    this.selectedFeet = 'Destro';
+    this.selectedRole = 'Portiere';
+    this.selectedPenalty = 'No';
   }
 
   // Passa dalla modalità "detail" alla modalità "update"
   update(): void {
-    this.redirect('/player/update/' + this.player.id);
+    Utility.redirect('/player/update/' + this.player.id, this.router);
   }
 
   // Salva le modifiche
@@ -182,7 +190,7 @@ export class PlayerComponent {
         var resultData = res as ResultData;
         if (resultData.status) {
           let player = resultData.data as Player;
-          this.redirect('/player/detail/' + player.id);
+          Utility.redirect('/player/detail/' + player.id, this.router);
         } else {
           // Errore
         }
@@ -192,7 +200,7 @@ export class PlayerComponent {
         var resultData = res as ResultData;
         if (resultData.status) {
           let player = resultData.data as Player;
-          this.redirect('/player/detail/' + player.id);
+          Utility.redirect('/player/detail/' + player.id, this.router);
         } else {
           // Errore
         }
@@ -204,11 +212,6 @@ export class PlayerComponent {
   checkTeam(): void {
 
   }
-
-  // Evento quando cambio il valore della select "feet"
-  //onChangeFeet() {
-  //  this.player.feetString = this.selectedFeet;
-  //}
 
   convertFeetToNumber(feet: string): number {
     if (feet == 'Sinistro')

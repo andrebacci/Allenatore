@@ -1,20 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { TeamService } from '../../services/team.service';
 import { Team } from '../../models/team';
 import { ResultData } from '../../models/resultData';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from '../../models/player';
+import { Game } from '../../models/game';
 import { PlayerService } from '../../services/player.service';
+
+import Utility from '../../utility/utility';
+import { GameService } from '../../services/game.service';
+import { Transfer } from '../../models/transfer';
+import { TransferService } from '../../services/transferService';
+
+import * as Chart from 'chart.js';
+import { TeamStatistics } from '../../models/teamStatistics';
 
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
 })
 
-export class TeamComponent {
+export class TeamComponent implements AfterViewInit {
 
   team: Team = null;
+
   players: Player[] = [];
+
+  games: Game[] = [];
+
+  transfers: Transfer[] = [];
+  transfersIn: Transfer[] = [];
+  transfersOut: Transfer[] = [];
+
+  statistics: TeamStatistics = null;
 
   idTeam: number = -1;
 
@@ -29,7 +47,21 @@ export class TeamComponent {
 
   isReadOnly: boolean = false;
 
-  constructor(private teamService: TeamService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {
+  errorModalIsOpen: boolean = false;
+
+  messageError: string = "";
+  messageNoPlayer: string = "";
+  messageNoGames: string = "";
+  messageNoTransfers: string = "";
+
+  canvasGames: any;
+  canvasGamesHome: any;
+  canvasGamesAway: any;
+
+  ctx: any;
+
+  constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService,
+    private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -49,12 +81,92 @@ export class TeamComponent {
         }
 
         // Recupero le informazioni della squadra
-        this.getTeamById(this.idTeam);        
+        this.getTeamById(this.idTeam);
+
+        // Recupero le partite della squadra
+        this.getGames(this.idTeam);
+
+        // Recupero i trasferimenti
+        this.getTransfers(this.idTeam);
+
+        // Recupero le statistiche
+        this.getStatistics(this.idTeam);
       }
     });
   }
 
-  // Inizializza il team dato il suo id
+  ngAfterViewInit() {
+    
+  }
+
+  // Inizializza il chart delle partite 
+  initChartGames(): void {
+    this.canvasGames = document.getElementById("chart-games");
+    this.ctx = this.canvasGames.getContext("2d");
+
+    let chart = new Chart(this.ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Vinte", "Pareggiate", "Perse"],
+        datasets: [{
+          //label: '# of Votes',
+          data: [this.statistics.wins, this.statistics.draws, this.statistics.losts],
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
+  }
+
+  // Inizializza il chart delle partite in casa
+  initChartGamesHome(): void {
+    this.canvasGamesHome = document.getElementById("chart-games-home");
+    this.ctx = this.canvasGamesHome.getContext("2d");
+
+    let chart = new Chart(this.ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Vinte", "Pareggiate", "Perse"],
+        datasets: [{
+          data: [this.statistics.wins, this.statistics.draws, this.statistics.losts],
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
+  }
+
+  // Inizializza il chart delle partite in trasferta
+  initChartGamesAway(): void {
+    this.canvasGamesAway = document.getElementById("chart-games-away");
+    this.ctx = this.canvasGamesAway.getContext("2d");
+
+    let chart = new Chart(this.ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Vinte", "Pareggiate", "Perse"],
+        datasets: [{
+          data: [this.statistics.wins, this.statistics.draws, this.statistics.losts],
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
+  }
+
+  // Recupero il team dato il suo id
   getTeamById(id: number): void {
     this.teamService.getById(id).subscribe(res => {
       var resultData = res as ResultData;
@@ -66,6 +178,64 @@ export class TeamComponent {
 
         // Recupero la rosa della squadra
         this.getPlayers();
+      } else {
+        // Errore
+      }
+    });
+  }
+
+  // Recupero le partite
+  getGames(id: number): void {
+    this.gameService.getByIdTeam(id).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.games = resultData.data as Game[];
+
+        if (this.games.length == 0) {
+          this.messageNoGames = "Non ci sono partite";
+        }
+      } else {
+        // Errore
+      }
+    })
+  }
+
+  // Recupero i trasferimenti della squadra
+  getTransfers(id: number): void {
+    this.transferService.getByIdTeam(id).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.transfers = resultData.data as Transfer[];
+
+        if (this.transfers.length == 0) {
+          this.messageNoTransfers = "Non ci sono trasferimenti.";
+        } else {
+          // Popolare i due array (transfersIn e transfersOut) --> SI PUO' FARE MEGLIO?
+          for (var i = 0; i < this.transfers.length; i++) {
+            if (this.transfers[i].idTeamNew == id) {
+              this.transfersIn.push(this.transfers[i]);
+            } else {
+              this.transfersOut.push(this.transfers[i]);
+            }
+          }
+        }
+      } else {
+        // Errore
+      }
+    })
+  }
+
+  // Recupero le statistiche
+  getStatistics(id: number): void {
+    this.teamService.getStatistics(id).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.statistics = resultData.data as TeamStatistics;
+
+        // Inizializzo i chart
+        this.initChartGames();
+        this.initChartGamesHome();
+        this.initChartGamesAway();
       } else {
         // Errore
       }
@@ -89,11 +259,10 @@ export class TeamComponent {
   }
 
   // Salva le modifiche
-  save(): void {
+  save(createAfter: boolean): void {
     if (this.team == null)
-      this.team = new Team();
+      this.team = new Team(this.teamName);
 
-    this.team.name = this.teamName;
     this.team.city = this.teamCity;
     this.team.category = this.teamCategory;
     this.team.mister = this.teamMister;
@@ -103,7 +272,7 @@ export class TeamComponent {
         var resultData = res as ResultData;
         if (resultData.status) {
           let team = resultData.data as Team;
-          this.redirect('/team/detail/' + team.id);
+          Utility.redirect('/team/detail/' + team.id, this.router);
         } else {
           // Errore
         }
@@ -113,7 +282,15 @@ export class TeamComponent {
         var resultData = res as ResultData;
         if (resultData.status) {
           let team = resultData.data as Team;
-          this.redirect('/team/detail/' + team.id);
+
+          if (createAfter) {
+            this.cleanForm();
+          } else {
+            Utility.redirect('/team/detail/' + team.id, this.router);
+          }
+        } else {
+          this.errorModalIsOpen = true;
+          this.messageError = resultData.message;
         }
       })
     } else {
@@ -132,12 +309,7 @@ export class TeamComponent {
 
   // Passa dalla modalità "detail" alla modalità "update"
   update(): void {
-    this.redirect('/team/update/' + this.team.id);
-  }
-
-  // Redirect della pagina
-  redirect(url: string): void {
-    this.router.navigate([]).then(res => { window.open(url, '_self') });
+    Utility.redirect('/team/update/' + this.team.id, this.router);
   }
 
   // Recupero la rosa della squadra
@@ -146,6 +318,10 @@ export class TeamComponent {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.players = resultData.data as Player[];
+
+        if (this.players == null || this.players.length == 0) {
+          this.messageNoPlayer = "Nessun giocatore per questa squadra.";
+        }
       } else {
         // Errore
       }
@@ -154,6 +330,16 @@ export class TeamComponent {
 
   // Apre la pagina di dettaglio del giocatore
   detailPlayer(id: number): void {
-    this.redirect('/player/detail/' + id);
+    Utility.redirect('/player/detail/' + id, this.router);
+  }
+
+  // Apre la pagina di dettaglio della partita
+  detailGame(id: number): void {
+    Utility.redirect('/game/detail/' + id, this.router);
+  }
+
+  // Chiude la modale
+  closeModal(): void {
+    this.errorModalIsOpen = false;
   }
 }

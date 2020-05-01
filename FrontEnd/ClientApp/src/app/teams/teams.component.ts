@@ -3,6 +3,7 @@ import { TeamService } from '../../services/team.service';
 import { Team } from '../../models/team';
 import { ResultData } from '../../models/resultData';
 import { Router } from '@angular/router';
+import Utility from '../../utility/utility';
 
 @Component({
   selector: 'app-teams',
@@ -35,11 +36,11 @@ export class TeamsComponent {
 
   // Apre la pagina del singolo team
   detailTeam(id: number): void {
-    this.router.navigate([]).then(res => { window.open('/team/detail/' + id, '_self') });
+    Utility.redirect('/team/detail/' + id, this.router);    
   }
 
   // Apre la pagina di modifica del team
   updateTeam(id: number): void {
-    this.router.navigate([]).then(res => { window.open('/team/update/' + id, '_self') });
+    Utility.redirect('/team/update/' + id, this.router);
   }
 }

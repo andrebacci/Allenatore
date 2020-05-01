@@ -53,24 +53,13 @@
                 Please provide a valid city.
               </div>
             </div>
-            <!--<div class="col-md-3 mb-3">
-              <label for="validationCustom04">State</label>
-              <input type="text" class="form-control" id="validationCustom04" placeholder="State" required>
-              <div class="invalid-feedback">
-                Please provide a valid state.
-              </div>
-            </div>-->
-            <!--<div class="col-md-3 mb-3">
-              <label for="validationCustom05">Zip</label>
-              <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required>
-              <div class="invalid-feedback">
-                Please provide a valid zip.
-              </div>
-            </div>-->
           </div>
-
+          <!--<div class="form-row" *ngIf="isError">
+            <label>{{errorMessage}}</label>
+          </div>-->
           <!-- button -->
-          <button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly">Salva</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="save(false)" *ngIf="!isReadOnly">Salva</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="save(true)" *ngIf="!isReadOnly && mode == 'create'">Salva + Crea</button>
           <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly">Annulla</button>
 
           <button class="btn btn-primary mr-5" type="submit" (click)="update()" *ngIf="isReadOnly">Modifica</button>
@@ -90,11 +79,6 @@
           </li>
           <li class="nav-item">
             <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-2">
-              <span>Classifica</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a role="tab" class="nav-link" id="tab-3" data-toggle="tab" href="#tab-content-3">
               <span>Partite</span>
             </a>
           </li>
@@ -115,7 +99,7 @@
 
           <!-- tab 1 -->
           <div class="tab-pane tabs-animation fade show active" id="tab-content-1" role="tabpanel">
-            <div class="row">
+            <div class="row" *ngIf="players.lenght > 0">
               <div class="table-responsive">
                 <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                   <thead>
@@ -126,7 +110,7 @@
                       <th>Piede</th>
                       <th>Provenienza</th>
                       <th>Partite</th>
-                      <th>Gol Fatti</th>                      
+                      <th>Gol Fatti</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -148,7 +132,7 @@
                       <td>{{player.feetString}}</td>
                       <td>{{player.lastTeamString}}</td>
                       <td>1</td>
-                      <td>0</td>                      
+                      <td>0</td>
                       <td>
                         <button type="button" id="btn-detail-team" class="btn btn-primary btn-sm" data-toggle="Dettaglio" (click)="detailPlayer(player.id)">
                           <i class="pe-7s-pen"></i>
@@ -159,58 +143,186 @@
                 </table>
               </div>
             </div>
+            <div class="row" *ngIf="players.length == 0">
+              {{messageNoPlayer}}
+            </div>
           </div>
 
           <!-- tab 2 -->
           <div class="tab-pane tabs-animation fade" id="tab-content-2" role="tabpanel">
-            <div class="row" style="background-color:blue">
-              <p>TAB 1</p>
+            <div class="row" *ngIf="games.length > 0">
+              <table class="mb-0 table table-sm">
+                <tbody>
+                  <tr *ngFor="let g of games">
+                    <td class="text-center">{{g.round}}° Giornata</td>
+                    <td class="text-right">{{g.teamHome}}</td>
+                    <td class="text-center">{{g.golTeamHome}} - {{g.golTeamAway}}</td>
+                    <td class="text-left">{{g.teamAway}}</td>
+                    <td>
+                      <button type="button" id="btn-detail-team" class="btn btn-primary btn-sm" data-toggle="Dettaglio" (click)="detailGame(g.idGame)">
+                        <i class="pe-7s-pen"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
-
-          <!-- tab 3 -->
-          <div class="tab-pane tabs-animation fade" id="tab-content-3" role="tabpanel">
-            <div class="row" style="background-color:green">
-              <p>TAB 3</p>
+            <div class="row" *ngIf="games.length == 0">
+              {{messageNoGame}}
             </div>
           </div>
 
           <!-- tab 4 -->
           <div class="tab-pane tabs-animation fade" id="tab-content-4" role="tabpanel">
-            <div class="row" style="background-color:yellow">
-              <p>TAB 4</p>
+            <div class="row">
+              <div class="col-md-4">
+                <canvas id="chart-games" width="200" height="100"></canvas>
+              </div>
+              <div class="col-md-4">
+                <canvas id="chart-games-home" width="200" height="100"></canvas>
+              </div>
+              <div class="col-md-4">
+                <canvas id="chart-games-away" width="200" height="100"></canvas>
+              </div>
             </div>
           </div>
 
           <!-- tab 5 -->
           <div class="tab-pane tabs-animation fade" id="tab-content-5" role="tabpanel">
-            <div class="row" style="background-color:pink">
-              <p>TAB 5</p>
+            <div class="row" *ngIf="transfers.length > 0">
+              <div class="col-md-12">
+                <div class="mb-3 card">
+                  <div class="card-header-tab card-header">
+                    <!--<div class="card-header-title">
+                      <i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+                      Header Alternate Tabs
+                    </div>-->
+                    <ul class="nav">
+                      <li class="nav-item"><a data-toggle="tab" href="#tab-entrata" class="active nav-link">Entrata</a></li>
+                      <li class="nav-item"><a data-toggle="tab" href="#tab-uscita" class="nav-link">Uscita</a></li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="tab-entrata" role="tabpanel">
+                        <div class="table-responsive">
+                          <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                            <thead>
+                              <tr>
+                                <th>Giocatore</th>
+                                <th class="text-center">Da</th>
+                                <th class="text-center">Data</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let tIn of transfersIn">
+                                <td>
+                                  <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                      <div class="widget-content-left flex2">
+                                        <div class="widget-heading">{{tIn.player}}</div>
+                                        <!--<div class="widget-subheading opacity-7">{{tIn.role}}</div>-->
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td class="text-center">{{tIn.teamOld}}</td>
+                                <!--<td class="text-center">{{tIn.teamNew}}</td>-->
+                                <td class="text-center">{{tIn.date}}</td>
+                                <td class="text-center">
+                                  <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" (click)="detailPlayer(tIn.idPlayer)">Details</button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="tab-pane" id="tab-uscita" role="tabpanel">
+                        <div class="table-responsive">
+                          <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                            <thead>
+                              <tr>
+                                <th>Giocatore</th>
+                                <th class="text-center">A</th>
+                                <th class="text-center">Data</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let tOut of transfersOut">
+                                <td>
+                                  <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                      <div class="widget-content-left flex2">
+                                        <div class="widget-heading">{{tOut.player}}</div>
+                                        <!--<div class="widget-subheading opacity-7">{{tOut.role}}</div>-->
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td class="text-center">{{tOut.teamOld}}</td>
+                                <!--<td class="text-center">{{tOut.teamNew}}</td>-->
+                                <td class="text-center">{{tOut.date}}</td>                                
+                                <td class="text-center">
+                                  <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm" (click)="detailPlayer(tOut.idPlayer)">Details</button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="transfers.length == 0">
+              {{messageNoTransfers}}
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- <script>
-  // Example starter JavaScript for disabling form submissions if there are invalid fields
-          (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-              // Fetch all the forms we want to apply custom Bootstrap validation styles to
-              var forms = document.getElementsByClassName('needs-validation');
-              // Loop over them and prevent submission
-              var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                  if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                  }
-                  form.classList.add('was-validated');
-                }, false);
-              });
-            }, false);
-          })();
-        </script> -->
+  <!-- MODALE DI ERRORE -->
+  <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" [ngStyle]="{'display': errorModalIsOpen ? 'block' : 'none', 'opacity': 1}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="errorModalTitle">Errore</h5>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body">
+          <p class="mb-0">
+            {{messageError}}
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+              'use strict';
+              window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                  form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                  }, false);
+                });
+              }, false);
+            })();
+          </script> -->

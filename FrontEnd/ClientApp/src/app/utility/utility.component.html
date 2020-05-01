@@ -1,0 +1,64 @@
+<div class="app-main__outer">
+  <div class="app-main__inner">
+
+    <div class="row mt-5">
+      <!-- Import Teams -->
+      <div class="col-md-4">
+        <div class="mb-3 card">
+          <div class="card-header-tab card-header-tab-animation card-header">
+            <div class="card-header-title">
+              <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
+              IMPORTA SQUADRE
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Importa da file Excel le squadre</p>
+            <button class="btn btn-primary" (click)="importTeams()">Importa</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Import Players -->
+      <div class="col-md-4">
+        <div class="mb-3 card">
+          <div class="card-header-tab card-header-tab-animation card-header">
+            <div class="card-header-title">
+              <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
+              IMPORTA GIOCATORI
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- AGGIUNGERE DROPDOWN -->
+            <p>Seleziona la squadra e importa i giocatori</p>
+            <div class="row">
+              <div class="col-md-8">
+                <select name="select-team-old" id="select-role" class="form-control" [(ngModel)]="selectedTeam">
+                  <option *ngFor="let t of teams" [value]="t.id">{{t.name}}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-primary" (click)="importPlayers()">Importa</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Import Rounds -->
+      <div class="col-md-4">
+        <div class="mb-3 card">
+          <div class="card-header-tab card-header-tab-animation card-header">
+            <div class="card-header-title">
+              <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
+              IMPORTA CALENDARIO
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Importa le giornate del campionato</p>
+            <button class="btn btn-primary" (click)="importRounds()">Importa</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

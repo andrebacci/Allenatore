@@ -49,14 +49,14 @@
             <div class="form-row">
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Squadra Attuale</label>
-                <input type="text" class="form-control" id="validationCustom04" placeholder="Squadra" [(ngModel)]="team" name="team" #ctrl="ngModel" required>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Squadra" [(ngModel)]="team" name="team" #ctrl="ngModel" [disabled]="true" required>
                 <div class="invalid-feedback">
                   Please provide a valid city.
                 </div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Provenienza</label>
-                <input type="text" class="form-control" id="validationCustom04" placeholder="Provenienza" [(ngModel)]="lastteam" name="lastteam" #ctrl="ngModel" required>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="Provenienza" [(ngModel)]="lastteam" name="lastteam" #ctrl="ngModel" [disabled]="true" required>
                 <div class="invalid-feedback">
                   Please provide a valid city.
                 </div>
@@ -85,7 +85,7 @@
             <div class="form-row">
               <div class="col-md-12 mb-3">
                 <label for="validationCustom">Dettagli</label>
-                <textarea name="text" id="details" class="form-control" [(ngModel)]="details"></textarea>
+                <textarea name="text" id="details" class="form-control" placeholder="Dettagli" [(ngModel)]="details"></textarea>
               </div>
             </div>
           </fieldset>

@@ -1,4 +1,14 @@
 import { Component } from "@angular/core";
+import { GameService } from "../../services/game.service";
+import { Game } from "../../models/game";
+import { Router, ActivatedRoute } from "@angular/router";
+import { ResultData } from "../../models/resultData";
+import { Player } from "../../models/player";
+import { PlayerService } from "../../services/player.service";
+import { TeamService } from "../../services/team.service";
+import { Team } from "../../models/team";
+import Utility from "../../utility/utility";
+import { PlayerGame } from "src/models/playerGame";
 
 @Component({
   selector: 'app-game',
@@ -7,11 +17,154 @@ import { Component } from "@angular/core";
 
 export class GameComponent {
 
-  game: any = null;
+  sub: any;
+
+  mode: string = "";
+
+  game: Game = null;
+
+  teams: Team[] = [];
+
+  // playersHome: PlayerGame[] = [];
+  // playersAway: PlayerGame[] = [];
+
+  selectedTeamHome;
+  selectedTeamAway;
+
+  idGame: number = 0;
 
   isReadOnly: boolean = false;
 
-  constructor() {
-    this.isReadOnly = true;
+  golHome: number = 0;
+  golAway: number = 0;
+  round: number = 0;
+  date: Date = null;
+  moduleHome: string = "";
+  moduleAway: string = "";
+
+  constructor(private gameService: GameService, private teamService: TeamService, private route: ActivatedRoute, private router: Router) {
+
+  }
+
+  ngOnInit(): void {
+    this.sub = this.route.params.subscribe(params => {
+      this.mode = params["mode"];
+
+      if (this.mode == "create") {
+        this.isReadOnly = false;
+        this.getTeams();
+      } else {
+        this.idGame = params['id'];
+
+        if (this.mode == "update") {
+          this.isReadOnly = false;
+        } else if (this.mode == "detail") {
+          this.isReadOnly = true;
+        }
+
+        // Recupero le squadre
+        this.getTeams();
+
+        // Recupero le informazioni della partita
+        this.getGameById(this.idGame);
+      }
+    });
+  }
+
+  // Restituisce tutte le squadre
+  getTeams(): void {
+    this.teamService.getAll().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.teams = resultData.data as Team[];
+      } else {
+        // Errore
+      }
+    })
+  }
+
+  // Restituisce la partita dato il suo id
+  getGameById(id: number): void {
+    this.gameService.getById(id).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.game = resultData.data as Game;
+
+        this.initForm();
+      } else {
+        // Errore
+      }
+    })
+  }
+
+  // Inizializza i campi della form
+  initForm(): void {
+    this.selectedTeamHome = this.game.teamHome;
+    this.selectedTeamAway = this.game.teamAway;
+
+    this.golHome = this.game.golTeamHome;
+    this.golAway = this.game.golTeamAway;
+
+    this.round = this.game.round;
+    this.date = this.game.date;
+
+    this.moduleHome = this.game.moduleHome;
+    this.moduleAway = this.game.moduleAway;
+  }
+
+  // Salva le informazioni base della partita
+  save(): void {
+    if (this.game == null) {
+      this.game = new Game();
+    }
+
+    // TODO: popolare i dati della partita
+
+    if (this.mode == "update") {
+      this.gameService.update(this.game).subscribe(res => {
+        var resultData = res as ResultData;
+        if (resultData.status) {
+          var game = resultData.data as Game;
+          Utility.redirect('/game/detail/' + game.id, this.router);
+        } else {
+          // Errore
+        }
+      });
+    } else if (this.mode == "create") {
+      this.gameService.insert(this.game).subscribe(res => {
+        var resultData = res as ResultData;
+        if (resultData.status) {
+          var game = resultData.data as Game;
+          Utility.redirect('/game/detail/' + game.id, this.router);
+        } else {
+          // Errore
+        }
+      });
+    }
+  }
+
+  // Annulla le modifiche fatte e torna in modalità readonly
+  undo(): void {
+    if (this.mode == "create") {
+
+    } else if (this.mode == "update") {
+      this.initForm();
+      this.isReadOnly = true;
+    }
+  }
+
+  // Passa alla modalità di modifica
+  update(): void {
+    this.isReadOnly = false;
+  }
+
+  // Apre la pagina game-info in modalità update o edit
+  updateInfo(): void {
+    Utility.redirect('game-info/update/' + this.idGame, this.router);
+  }
+
+  // Esporta la partita in PDF
+  exportPdf(): void {
+    
   }
 }

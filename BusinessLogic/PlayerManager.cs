@@ -22,6 +22,9 @@ namespace BusinessLogic
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
+                if (id == 0)
+                    return await ctx.Players.Where(x => x.IdTeam == null).OrderBy(x => x.Lastname).ToListAsync();
+
                 return await ctx.Players.Where(x => x.IdTeam == id).OrderBy(x => x.Lastname).ToListAsync();
             }
         }
@@ -32,6 +35,16 @@ namespace BusinessLogic
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
                 return await ctx.Players.Where(x => x.Id == id).FirstOrDefaultAsync();
+            }
+        }
+
+        // Ritorna nome e cognome di un giocatore dato il suo id
+        public async Task<string> GetNameById(int id)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                Players p = await ctx.Players.Where(x => x.Id == id).FirstOrDefaultAsync();
+                return $"{p.Lastname} {p.Firstname}";
             }
         }
 

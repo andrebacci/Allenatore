@@ -11,6 +11,11 @@ export class PlayerService {
 
   }
 
+  // Restituisce tutti i giocatori
+  getAll() {
+    return this.http.get(this.baseUrl + 'api/Player/GetAll');
+  }
+
   // Restituisce tutti i giocatori dato l'id di una squadra
   getByTeamId(id: any) {
     return this.http.get(this.baseUrl + 'api/Player/GetByTeamId', {
@@ -41,10 +46,10 @@ export class PlayerService {
       idTeam: player.idTeam,
       lastname: player.lastname,
       firstname: player.firstname,
-      age: player.age,
+      age: +player.age,
       role: player.role,
       feet: player.feet,
-      lastteam: player.lastname,
+      lastteam: player.lastTeam,
       penalty: player.penalty,
       details: player.details,
       image: player.image
@@ -65,10 +70,10 @@ export class PlayerService {
       idTeam: player.idTeam,
       lastname: player.lastname,
       firstname: player.firstname,
-      age: player.age,
+      age: +player.age,
       role: player.role,
       feet: player.feet,
-      lastteam: player.lastname,
+      lastteam: player.lastTeam,
       penalty: player.penalty,
       details: player.details,
       image: player.image

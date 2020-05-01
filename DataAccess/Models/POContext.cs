@@ -17,10 +17,13 @@ namespace DataAccess.Models
 
         public virtual DbSet<CardTypes> CardTypes { get; set; }
         public virtual DbSet<Feets> Feets { get; set; }
+        public virtual DbSet<Games> Games { get; set; }
         public virtual DbSet<Players> Players { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Rounds> Rounds { get; set; }
         public virtual DbSet<SubstitutionSessions> SubstitutionSessions { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
+        public virtual DbSet<Transfers> Transfers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -45,6 +48,30 @@ namespace DataAccess.Models
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(25);
+            });
+
+            modelBuilder.Entity<Games>(entity =>
+            {
+                entity.Property(e => e.ModuleAway).HasMaxLength(16);
+
+                entity.Property(e => e.ModuleHome).HasMaxLength(16);
+
+                entity.HasOne(d => d.IdTeamAwayNavigation)
+                    .WithMany(p => p.GamesIdTeamAwayNavigation)
+                    .HasForeignKey(d => d.IdTeamAway)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Games_Teams1");
+
+                entity.HasOne(d => d.IdTeamHomeNavigation)
+                    .WithMany(p => p.GamesIdTeamHomeNavigation)
+                    .HasForeignKey(d => d.IdTeamHome)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Games_Teams");
+
+                entity.HasOne(d => d.RoundNavigation)
+                    .WithMany(p => p.Games)
+                    .HasForeignKey(d => d.Round)
+                    .HasConstraintName("FK_Games_Rounds");
             });
 
             modelBuilder.Entity<Players>(entity =>
@@ -83,6 +110,11 @@ namespace DataAccess.Models
                     .HasMaxLength(25);
             });
 
+            modelBuilder.Entity<Rounds>(entity =>
+            {
+                entity.Property(e => e.Date).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<SubstitutionSessions>(entity =>
             {
                 entity.Property(e => e.Description)
@@ -105,6 +137,27 @@ namespace DataAccess.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(128);
+            });
+
+            modelBuilder.Entity<Transfers>(entity =>
+            {
+                entity.Property(e => e.Date).HasColumnType("date");
+
+                entity.HasOne(d => d.IdPlayerNavigation)
+                    .WithMany(p => p.Transfers)
+                    .HasForeignKey(d => d.IdPlayer)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Transfers_Players");
+
+                entity.HasOne(d => d.IdTeamNewNavigation)
+                    .WithMany(p => p.TransfersIdTeamNewNavigation)
+                    .HasForeignKey(d => d.IdTeamNew)
+                    .HasConstraintName("FK_Transfers_Teams");
+
+                entity.HasOne(d => d.IdTeamOldNavigation)
+                    .WithMany(p => p.TransfersIdTeamOldNavigation)
+                    .HasForeignKey(d => d.IdTeamOld)
+                    .HasConstraintName("FK_Transfers_Teams1");
             });
 
             OnModelCreatingPartial(modelBuilder);
