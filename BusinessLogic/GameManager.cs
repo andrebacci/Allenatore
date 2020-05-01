@@ -31,6 +31,9 @@ namespace BusinessLogic
         {
             using (POContext ctx = new POContext(_connectionString))
             {
+                if (start == end && start > 0 && end > 0)
+                    return await ctx.Games.Where(x => x.Round == start).ToListAsync();
+                      
                 if (start == 0)
                 {
                     if (end == 0)

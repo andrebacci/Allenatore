@@ -251,5 +251,34 @@ namespace AllenatoreAPI.Controllers
                 return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
         }
+
+        [Route("GetRankingHistory")]
+        [HttpGet]
+        public async Task<IActionResult> GetRankingHistory([FromQuery] int idTeam)
+        {
+            try
+            {
+                List<int> rankingHistory = new List<int>();
+
+                RankingController rankingController = new RankingController();
+
+                RoundController roundController = new RoundController();
+                List<Rounds> rounds = await roundController.GetAll();
+
+                foreach (Rounds r in rounds)
+                {
+                    List<RankingAPI> ranks = await rankingController.GetAll(r.Number, r.Number);
+                    RankingAPI rank = ranks.Where(x => x.IdTeam == idTeam).FirstOrDefault();
+                    int index = ranks.IndexOf(rank);
+                    rankingHistory.Add(index);
+                }
+
+                return StatusCode(200, new ResultData { Data = rankingHistory, Status = true, FunctionName = functionName, Message = $"Statistiche trovate con successo." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
     }
 }
