@@ -295,7 +295,7 @@ export class TeamComponent implements AfterViewInit {
     })
   }
 
-  // Recupero le statistiche
+  // Recupera le statistiche
   getStatistics(id: number): void {
     this.teamService.getStatistics(id).subscribe(res => {
       var resultData = res as ResultData;
