@@ -58,6 +58,10 @@ export class TeamComponent implements AfterViewInit {
   canvasGamesHome: any;
   canvasGamesAway: any;
 
+  canvasGols: any;
+  canvasGolsHome: any;
+  canvasGolsAway: any;
+
   ctx: any;
 
   constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService,
@@ -166,6 +170,72 @@ export class TeamComponent implements AfterViewInit {
     });
   }
 
+  // Inizializza il chart dei gol 
+  initChartGols(): void {
+    this.canvasGames = document.getElementById("chart-gols");
+    this.ctx = this.canvasGames.getContext("2d");
+
+    let chart = new Chart(this.ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Gol Fatti", "Gol Subiti"],
+        datasets: [{
+          //label: '# of Votes',
+          data: [this.statistics.scoredGols, this.statistics.concededGols],
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
+  }
+
+  // Inizializza il chart dei gol in casa
+  initChartGolsHome(): void {
+    this.canvasGames = document.getElementById("chart-gols-home");
+    this.ctx = this.canvasGames.getContext("2d");
+
+    let chart = new Chart(this.ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Gol Fatti", "Gol Subiti"],
+        datasets: [{
+          //label: '# of Votes',
+          data: [this.statistics.scoredGolsHome, this.statistics.concededGolsAway],
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
+  }
+
+  // Inizializza il chart dei gol in trasferta
+  initChartGolsAway(): void {
+    this.canvasGames = document.getElementById("chart-gols-away");
+    this.ctx = this.canvasGames.getContext("2d");
+
+    let chart = new Chart(this.ctx, {
+      type: 'pie',
+      data: {
+        labels: ["Gol Fatti", "Gol Subiti"],
+        datasets: [{
+          //label: '# of Votes',
+          data: [this.statistics.scoredGolsAway, this.statistics.concededGolsAway],
+          backgroundColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+          ],
+          borderWidth: 1
+        }]
+      }
+    });
+  }
+
   // Recupero il team dato il suo id
   getTeamById(id: number): void {
     this.teamService.getById(id).subscribe(res => {
@@ -233,13 +303,22 @@ export class TeamComponent implements AfterViewInit {
         this.statistics = resultData.data as TeamStatistics;
 
         // Inizializzo i chart
-        this.initChartGames();
-        this.initChartGamesHome();
-        this.initChartGamesAway();
+        this.initCharts();
       } else {
         // Errore
       }
     });
+  }
+
+  // Inizializza tutti i charts
+  initCharts(): void {
+    this.initChartGames();
+    this.initChartGamesHome();
+    this.initChartGamesAway();
+
+    this.initChartGols();
+    this.initChartGolsHome();
+    this.initChartGolsAway();
   }
 
   // Inizializza i campi della form
