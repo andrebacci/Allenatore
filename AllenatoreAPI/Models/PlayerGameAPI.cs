@@ -10,11 +10,16 @@ namespace AllenatoreAPI.Models
 {
     public class PlayerGameAPI
     {
-        public PlayerGameAPI(Presences presence)
-        {
-            Id = presence.IdPlayer;
+        // public PlayerGameAPI(Presences presence)
+        // {
+        //     Id = presence.IdPlayer;
 
-            Fullname = Utils.PlayerUtility.GetFullname(presence.IdPlayer);
+        //     Fullname = Utils.PlayerUtility.GetFullname(presence.IdPlayer);
+        // }
+
+        public PlayerGameAPI()
+        {
+            
         }
 
         public int Id { get; set; }

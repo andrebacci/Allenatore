@@ -35,8 +35,8 @@ namespace AllenatoreAPI.Models
 
         public string TeamAway { get; set; }
 
-        public List<PlayerGame> PlayersHome { get; set; }
+        public List<PlayerGameAPI> PlayersHome { get; set; }
 
-        public List<PlayerGame> PlayersAway { get; set; }
+        public List<PlayerGameAPI> PlayersAway { get; set; }
     }
 }
