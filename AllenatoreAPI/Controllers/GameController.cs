@@ -76,9 +76,26 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                GameManager manager = new GameManager(_connectionString);
-                Games game = await manager.GetById(id);
+                GameManager gameManager = new GameManager(_connectionString);
+                Games game = await gameManager.GetById(id);
                 GameAPI ga = new GameAPI(game);
+
+                // Recupero la formazione della squadra di casa
+                PresenceManager presenceManager = new PresenceManager(_connectionString);
+                List<Presences> presences = await presencesManager.GetByIdRound(id, game.IdTeamHome);
+
+                foreach (Presences p in presences)
+                {
+                    ga.PlayersHome.Add(new PlayerGameAPI(p));
+                }
+
+                // Recupero la formazione della squadra in trasferta
+                List<Presences> presences = await presencesManager.GetByIdRound(id, game.IdTeamAway);
+
+                foreach (Presences p in presences)
+                {
+                    ga.PlayersAway.Add(new PlayerGameAPI(p));
+                }
 
                 return StatusCode(200, new ResultData { Data = ga, Status = true, FunctionName = functionName, Message = $"Ok" });
             }

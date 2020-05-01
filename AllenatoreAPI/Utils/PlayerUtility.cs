@@ -44,5 +44,22 @@ namespace AllenatoreAPI.Utils
                 throw (exc);
             }
         }
+
+        // Ritorna il fullname di un giocatore dato il suo id
+        public static string GetFullname(int id)
+        {
+            try
+            {
+                Players p = GetPlyaer(id);
+                if (p == null)
+                    return string.Empty;
+                
+                return p.Lastname + " " + p.Firstname;
+            }
+            catch (Exception exc)
+            {
+                throw (exc);
+            }
+        }
     }
 }
