@@ -76,6 +76,6 @@ export class GameInfoComponent {
   }
 
   onChange(event: any): void {
-    var andre = this.selectedPlayer;
+    //var andre = this.selectedPlayer;
   }
 }
