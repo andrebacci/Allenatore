@@ -161,4 +161,9 @@ export class GameComponent {
   updateInfo(): void {
     Utility.redirect('game-info/update/' + this.idGame, this.router);
   }
+
+  // Esporta la partita in PDF
+  exportPdf(): void {
+    
+  }
 }

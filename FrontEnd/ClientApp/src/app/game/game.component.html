@@ -100,5 +100,47 @@
         </form>
       </div>
     </div>
+
+    <!-- parte sotto -->
+    <div class="main-card mb-3 card">
+      <div class="card-body">
+        <h5 class="card-title">DETTAGLI PARTITA</h5>
+
+        <div class="row">
+          <button class="btn btn-primary" type="button" (click)="exportPdf()" *ngIf="isReadOnly">Esporta</button>
+        </div>
+
+        <div class="row">
+          <table class="table table-borderless table-striped table-hover">
+            <tr>
+              <td>ESP</td>
+              <td>AMM</td>
+              <td>SOS</td>
+              <td>GOL</td>
+              <td>GIOCATORE</td>
+              <td>#</td>
+              <td>GIOCATORE</td>
+              <td>GOL</td>
+              <td>SOS</td>
+              <td>AMM</td>
+              <td>ESP</td>
+            </tr>
+            <tr>
+              <td>ESP</td>
+              <td>AMM</td>
+              <td>SOS</td>
+              <td>GOL</td>
+              <td>GIOCATORE</td>
+              <td>#</td>
+              <td>GIOCATORE</td>
+              <td>GOL</td>
+              <td>SOS</td>
+              <td>AMM</td>
+              <td>ESP</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
