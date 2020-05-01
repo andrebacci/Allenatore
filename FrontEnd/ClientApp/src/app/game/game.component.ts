@@ -56,7 +56,7 @@ export class GameComponent {
         this.idGame = params['id'];
 
         if (this.mode == "update") {
-          this.isReadOnly = false;          
+          this.isReadOnly = false;
         } else if (this.mode == "detail") {
           this.isReadOnly = true;
         }
@@ -123,7 +123,8 @@ export class GameComponent {
       this.gameService.update(this.game).subscribe(res => {
         var resultData = res as ResultData;
         if (resultData.status) {
-
+          var game = resultData.data as Game;
+          Utility.redirect('/game/detail/' + game.id, this.router);
         } else {
           // Errore
         }
@@ -132,7 +133,8 @@ export class GameComponent {
       this.gameService.insert(this.game).subscribe(res => {
         var resultData = res as ResultData;
         if (resultData.status) {
-
+          var game = resultData.data as Game;
+          Utility.redirect('/game/detail/' + game.id, this.router);
         } else {
           // Errore
         }
@@ -142,8 +144,12 @@ export class GameComponent {
 
   // Annulla le modifiche fatte e torna in modalità readonly
   undo(): void {
-    this.initForm();
-    this.isReadOnly = true;
+    if (this.mode == "create") {
+
+    } else if (this.mode == "update") {
+      this.initForm();
+      this.isReadOnly = true;
+    }
   }
 
   // Passa alla modalità di modifica
