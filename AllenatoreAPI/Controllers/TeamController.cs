@@ -252,6 +252,11 @@ namespace AllenatoreAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Restituisce la storia delle posizioni in classifica della squadra
+        /// </summary>
+        /// <param name="idTeam"></param>
+        /// <returns></returns>
         [Route("GetRankingHistory")]
         [HttpGet]
         public async Task<IActionResult> GetRankingHistory([FromQuery] int idTeam)
