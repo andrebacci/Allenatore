@@ -65,6 +65,10 @@ namespace AllenatoreAPI.Controllers
 
                     foreach (Games g in games)
                     {
+                        // Controllo se la partita si è giocata
+                        if (g.GolTeamHome == null || g.GolTeamAway == null)
+                            continue;
+
                         // Squadra in casa
                         if (g.IdTeamHome == t.Id)
                         {
@@ -142,50 +146,54 @@ namespace AllenatoreAPI.Controllers
             {
                 List<RankingAPI> rankings = new List<RankingAPI>();
 
-                //// Recupero tutte le squadre
-                //TeamManager teamManager = new TeamManager(_connectionString);
-                //List<Teams> teams = await teamManager.GetAll();
+                // Recupero tutte le squadre
+                TeamManager teamManager = new TeamManager(_connectionString);
+                List<Teams> teams = await teamManager.GetAll();
 
-                //// Recupero tutte le partite
-                //GameManager gameManager = new GameManager(_connectionString);
-                //List<Games> games = await gameManager.GetRangeHome(null, null);                
+                // Recupero tutte le partite
+                GameManager gameManager = new GameManager(_connectionString);
+                List<Games> games = await gameManager.GetRangeHome(start, end);                
 
-                //foreach (Teams t in teams)
-                //{
-                //    games = games.Where(x => x.IdTeamHome == t.Id).ToList();
+                foreach (Teams t in teams)
+                {
+                   games = games.Where(x => x.IdTeamHome == t.Id).ToList();
 
-                //    RankingAPI ranking = new RankingAPI();
-                //    ranking.Team = t.Name;
+                   RankingAPI ranking = new RankingAPI();
+                   ranking.Team = t.Name;
 
-                //    foreach (Games g in games)
-                //    {
-                //        if (g.IdTeamHome != t.Id)
-                //            continue;
+                   foreach (Games g in games)
+                   {
+                       // Controllo se la partita si è giocata
+                        if (g.GolTeamHome == null || g.GolTeamAway == null)
+                            continue;
 
-                //        ranking.Games++;
-                //        ranking.GoalMade = g.GolTeamHome;
-                //        ranking.GoalConceded = g.GolTeamAway;
+                        if (g.IdTeamHome != t.Id)
+                           continue;
 
-                //        if (g.GolTeamHome > g.GolTeamAway)
-                //        {
-                //            ranking.Points += 3;
-                //            ranking.Wins++;
-                //        }
-                //        else if (p.GolTeamHome == g.GolTeamAway)
-                //        {
-                //            ranking.Points++;
-                //            ranking.Draws++;
-                //        }
-                //        else 
-                //        {
-                //            ranking.Losts++;
-                //        }
-                //    }
+                       ranking.Games++;
+                       ranking.GoalMade = g.GolTeamHome;
+                       ranking.GoalConceded = g.GolTeamAway;
 
-                //    rankings.Add(ranking);
-                //}
+                       if (g.GolTeamHome > g.GolTeamAway)
+                       {
+                           ranking.Points += 3;
+                           ranking.Wins++;
+                       }
+                       else if (p.GolTeamHome == g.GolTeamAway)
+                       {
+                           ranking.Points++;
+                           ranking.Draws++;
+                       }
+                       else 
+                       {
+                           ranking.Losts++;
+                       }
+                   }
 
-                //rankings.OrderByDescending(x => x.Points);
+                   rankings.Add(ranking);
+                }
+
+                rankings.OrderByDescending(x => x.Points);
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
@@ -209,50 +217,54 @@ namespace AllenatoreAPI.Controllers
             {
                 List<RankingAPI> rankings = new List<RankingAPI>();
 
-                //// Recupero tutte le squadre
-                //TeamManager teamManager = new TeamManager(_connectionString);
-                //List<Teams> teams = await teamManager.GetAll();
+                // Recupero tutte le squadre
+                TeamManager teamManager = new TeamManager(_connectionString);
+                List<Teams> teams = await teamManager.GetAll();
 
-                //// Recupero tutte le partite
-                //GameManager gameManager = new GameManager(_connectionString);
-                //List<Games> games = await gameManager.GetRangeHome(null, null);
+                // Recupero tutte le partite
+                GameManager gameManager = new GameManager(_connectionString);
+                List<Games> games = await gameManager.GetRangeHome(start, end);
 
-                //foreach (Teams t in teams)
-                //{
-                //    games = games.Where(x => x.IdTeamAway == t.Id).ToList();
+                foreach (Teams t in teams)
+                {
+                   games = games.Where(x => x.IdTeamAway == t.Id).ToList();
 
-                //    RankingAPI ranking = new RankingAPI();
-                //    ranking.Team = t.Name;
+                   RankingAPI ranking = new RankingAPI();
+                   ranking.Team = t.Name;
 
-                //    foreach (Games g in games)
-                //    {
-                //        if (g.IdTeamHome != t.Id)
-                //            continue;
+                   foreach (Games g in games)
+                   {
+                       // Controllo se la partita si è giocata
+                        if (g.GolTeamHome == null || g.GolTeamAway == null)
+                            continue;
 
-                //        ranking.Games++;
-                //        ranking.GoalMade = g.GolTeamAway;
-                //        ranking.GoalConceded = g.GolTeamHome;
+                       if (g.IdTeamHome != t.Id)
+                           continue;
 
-                //        if (g.GolTeamAway > g.GolTeamHome)
-                //        {
-                //            ranking.Points += 3;
-                //            ranking.Wins++;
-                //        }
-                //        else if (g.GolTeamAway == g.GolTeamHome)
-                //        {
-                //            ranking.Points++;
-                //            ranking.Draws++;
-                //        }
-                //        else
-                //        {
-                //            ranking.Losts++;
-                //        }
-                //    }
+                       ranking.Games++;
+                       ranking.GoalMade = g.GolTeamAway;
+                       ranking.GoalConceded = g.GolTeamHome;
 
-                //    rankings.Add(ranking);
-                //}
+                       if (g.GolTeamAway > g.GolTeamHome)
+                       {
+                           ranking.Points += 3;
+                           ranking.Wins++;
+                       }
+                       else if (g.GolTeamAway == g.GolTeamHome)
+                       {
+                           ranking.Points++;
+                           ranking.Draws++;
+                       }
+                       else
+                       {
+                           ranking.Losts++;
+                       }
+                   }
 
-                //rankings.OrderByDescending(x => x.Points);
+                   rankings.Add(ranking);
+                }
+
+                rankings.OrderByDescending(x => x.Points);
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
@@ -262,6 +274,10 @@ namespace AllenatoreAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Ritorna la classifica per una squadra
+        /// </summary>
+        /// <returns></returns>
         [Route("GetByIdTeam")]
         [HttpGet]
         public async Task<IActionResult> GetByIdTeam([FromQuery] int id)
@@ -277,6 +293,162 @@ namespace AllenatoreAPI.Controllers
                 RankingAPI ranking = listRank.Where(x => x.IdTeam == id).FirstOrDefault();
 
                 return StatusCode(200, new ResultData { Data = ranking, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la classifica in base ai gol fatti
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetScoredGoals")]
+        [HttpGet]
+        public async Task<IActionResult> GetScoredGoals()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                ObjectResult objectResult = await Get(0, 0) as objectResult;
+                ResultData resultData = objectResult.Value as resultData;
+                List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
+
+                listRank = listRank.OrderByDescending(x => x.GoalMade).ToList();
+
+                return StatusCode(200, new ResultData { Data = listRank, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la classifica in base ai gol subiti
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetConcededGoals")]
+        [HttpGet]
+        public async Task<IActionResult> GetConcededGoals()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                ObjectResult objectResult = await Get(0, 0) as objectResult;
+                ResultData resultData = objectResult.Value as resultData;
+                List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
+
+                listRank = listRank.OrderByDescending(x => x.GoalConceded).ToList();
+
+                return StatusCode(200, new ResultData { Data = listRank, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la classifica in base ai gol fatti in casa
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetScoredGoalsHome")]
+        [HttpGet]
+        public async Task<IActionResult> GetScoredGoalsHome()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                ObjectResult objectResult = await GetHome(0, 0) as objectResult;
+                ResultData resultData = objectResult.Value as resultData;
+                List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
+
+                listRank = listRank.OrderByDescending(x => x.GoalMade).ToList();
+
+                return StatusCode(200, new ResultData { Data = listRank, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la classifica in base ai gol subiti in casa
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetConcededGoals")]
+        [HttpGet]
+        public async Task<IActionResult> GetConcededGoalsHome()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                ObjectResult objectResult = await GetHome(0, 0) as objectResult;
+                ResultData resultData = objectResult.Value as resultData;
+                List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
+
+                listRank = listRank.OrderByDescending(x => x.GoalConceded).ToList();
+
+                return StatusCode(200, new ResultData { Data = listRank, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la classifica in base ai gol fatti in trasferta
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetScoredGoalsAway")]
+        [HttpGet]
+        public async Task<IActionResult> GetScoredGoalsAway()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                ObjectResult objectResult = await GetAway(0, 0) as objectResult;
+                ResultData resultData = objectResult.Value as resultData;
+                List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
+
+                listRank = listRank.OrderByDescending(x => x.GoalMade).ToList();
+
+                return StatusCode(200, new ResultData { Data = listRank, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la classifica in base ai gol subiti in trasferta
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetConcededGoalsAway")]
+        [HttpGet]
+        public async Task<IActionResult> GetConcededGoalsAway()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                ObjectResult objectResult = await GetAway(0, 0) as objectResult;
+                ResultData resultData = objectResult.Value as resultData;
+                List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
+
+                listRank = listRank.OrderByDescending(x => x.GoalConceded).ToList();
+
+                return StatusCode(200, new ResultData { Data = listRank, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
             {
