@@ -111,34 +111,25 @@
         </div>
 
         <div class="row">
-          <table class="table table-borderless table-striped table-hover">
-            <tr>
-              <td>ESP</td>
-              <td>AMM</td>
-              <td>SOS</td>
-              <td>GOL</td>
-              <td>GIOCATORE</td>
-              <td>#</td>
-              <td>GIOCATORE</td>
-              <td>GOL</td>
-              <td>SOS</td>
-              <td>AMM</td>
-              <td>ESP</td>
-            </tr>
-            <tr>
-              <td>ESP</td>
-              <td>AMM</td>
-              <td>SOS</td>
-              <td>GOL</td>
-              <td>GIOCATORE</td>
-              <td>#</td>
-              <td>GIOCATORE</td>
-              <td>GOL</td>
-              <td>SOS</td>
-              <td>AMM</td>
-              <td>ESP</td>
-            </tr>
-          </table>
+          <div class="col-md-6">
+            <table class="table table-borderless table-striped table-hover">
+              <tr>
+                <td>#</td>
+                <td>GIOCATORE</td>
+                <td>GOL</td>
+                <td>SOS</td>
+                <td>AMM</td>
+                <td>ESP</td>
+              </tr>
+              <tr *ngFor="let p of playersHome">
+                <td>{{p.fullname}}</td>
+                <td>{{p.gols}}</td>
+                <td>{{p.changeOut}}</td>
+                <td>{{p.yellowCards}}</td>
+                <td>{{p.redCards}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>

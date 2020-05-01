@@ -8,6 +8,7 @@ import { PlayerService } from "../../services/player.service";
 import { TeamService } from "../../services/team.service";
 import { Team } from "../../models/team";
 import Utility from "../../utility/utility";
+import { PlayerGame } from "src/models/playerGame";
 
 @Component({
   selector: 'app-game',
@@ -24,8 +25,8 @@ export class GameComponent {
 
   teams: Team[] = [];
 
-  playersHome: Player[] = [];
-  playersAway: Player[] = [];
+  playersHome: PlayerGame[] = [];
+  playersAway: PlayerGame[] = [];
 
   selectedTeamHome;
   selectedTeamAway;

@@ -1,3 +1,5 @@
+import { PlayerGame } from "./playerGame";
+
 export class Game {
   id: number = 0;
   idTeamHome: number = 0;
@@ -15,4 +17,7 @@ export class Game {
 
   teamHome: string = "";
   teamAway: string = "";
+
+  playersHome: PlayerGame[] = [];
+  playersAway: PlayerGame[] = [];
 }
