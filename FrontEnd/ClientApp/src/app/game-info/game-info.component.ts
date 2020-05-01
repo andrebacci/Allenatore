@@ -22,7 +22,7 @@ export class GameInfoComponent {
   playersHome: Player[] = [];
   playersAway: Player[] = [];
 
-  selectedPlayer: number;
+  selectedPlayers: number;
 
   idGame: number = 0;
 
