@@ -25,8 +25,8 @@ export class GameComponent {
 
   teams: Team[] = [];
 
-  playersHome: PlayerGame[] = [];
-  playersAway: PlayerGame[] = [];
+  // playersHome: PlayerGame[] = [];
+  // playersAway: PlayerGame[] = [];
 
   selectedTeamHome;
   selectedTeamAway;
