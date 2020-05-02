@@ -202,7 +202,7 @@ namespace AllenatoreAPI.Controllers
                         Rounds r = new Rounds 
                         {
                             Number = Convert.ToInt32(rowValues["A" + row].Value),
-                            Date = DateTime.Parse(rowValues["D" + row].Value.ToString())
+                            Date = DateTime.Parse(rowValues["F" + row].Value.ToString())
                         };
 
                         ObjectResult objectResult = await roundController.Insert(r) as ObjectResult;
@@ -217,6 +217,8 @@ namespace AllenatoreAPI.Controllers
                         {
                             IdTeamHome = Convert.ToInt32(rowValues["B" + row].Value),
                             IdTeamAway = Convert.ToInt32(rowValues["C" + row].Value),
+                            GolTeamHome = Convert.ToInt32(rowValues["D" + row].Value),
+                            GolTeamAway = Convert.ToInt32(rowValues["E" + row].Value),
                             Round = round.Id
                         };
 
