@@ -17,6 +17,15 @@ namespace BusinessLogic
             _connectionString = connectionString;
         }
 
+        // Ritorna tutte le giornate
+        public async Task<List<Rounds>> GetAll()
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Rounds.ToListAsync();
+            }
+        }
+
         // Ritorna la giornata dato il suo id
         public async Task<Rounds> GetById(int id)
         {

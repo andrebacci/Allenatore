@@ -22,7 +22,7 @@ export class GameInfoComponent {
   playersHome: Player[] = [];
   playersAway: Player[] = [];
 
-  selectedPlayers: number;
+  selectedPlayers: any = [];
 
   idGame: number = 0;
 
@@ -66,6 +66,11 @@ export class GameInfoComponent {
       if (resultData.status) {
         if (this.game.idTeamHome == idTeam) {
           this.playersHome = resultData.data as Player[];
+
+          for (var i = 0; i < this.playersHome.length; i++) {
+            this.selectedPlayers[i] = this.playersHome[i].id;
+          }
+
         } else {
           this.playersAway = resultData.data as Player[];
         }
@@ -76,6 +81,6 @@ export class GameInfoComponent {
   }
 
   onChange(event: any): void {
-    //var andre = this.selectedPlayer;
+
   }
 }

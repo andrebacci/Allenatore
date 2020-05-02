@@ -27,7 +27,7 @@ namespace BusinessLogic
         }
 
         // Ritorna le partite in un range di giornate
-        public async Task<List<Games>> GetRange(int start, int end)
+        public async Task<List<Games>> GetRange(int? start, int? end)
         {
             using (POContext ctx = new POContext(_connectionString))
             {
@@ -87,6 +87,18 @@ namespace BusinessLogic
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
                 await ctx.Games.AddAsync(game);
+                await ctx.SaveChangesAsync();
+            }
+
+            return await GetById(game.Id);
+        }
+
+        // Aggiorna una partita
+        public async Task<Games> Update(Games game)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                ctx.Games.Update(game);
                 await ctx.SaveChangesAsync();
             }
 

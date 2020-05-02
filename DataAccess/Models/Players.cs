@@ -7,6 +7,7 @@ namespace DataAccess.Models
     {
         public Players()
         {
+            Presences = new HashSet<Presences>();
             Transfers = new HashSet<Transfers>();
         }
 
@@ -26,6 +27,7 @@ namespace DataAccess.Models
         public virtual Teams IdTeamNavigation { get; set; }
         public virtual Teams LastTeamNavigation { get; set; }
         public virtual Roles RoleNavigation { get; set; }
+        public virtual ICollection<Presences> Presences { get; set; }
         public virtual ICollection<Transfers> Transfers { get; set; }
     }
 }

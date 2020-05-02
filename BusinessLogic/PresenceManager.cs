@@ -2,6 +2,7 @@ using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,14 +18,12 @@ namespace BusinessLogic
         }
 
         // Ritorna i giocatori schierati da una squadra in una partita
-        public async Task<List<Feets>> GetByIdRound()
+        public async Task<List<Presences>> GetByIdRound(int idRound, int idTeam)
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
-                
+                return await ctx.Presences.Where(x => x.Id == idRound && x.IdTeam == idTeam).ToListAsync();
             }
-
-            return null;
         }
     }
 }

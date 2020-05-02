@@ -172,7 +172,7 @@ export class TeamComponent implements AfterViewInit {
 
   // Inizializza il chart dei gol 
   initChartGols(): void {
-    this.canvasGames = document.getElementById("chart-gols");
+    this.canvasGols = document.getElementById("chart-gols");
     this.ctx = this.canvasGames.getContext("2d");
 
     let chart = new Chart(this.ctx, {
@@ -194,7 +194,7 @@ export class TeamComponent implements AfterViewInit {
 
   // Inizializza il chart dei gol in casa
   initChartGolsHome(): void {
-    this.canvasGames = document.getElementById("chart-gols-home");
+    this.canvasGolsHome = document.getElementById("chart-gols-home");
     this.ctx = this.canvasGames.getContext("2d");
 
     let chart = new Chart(this.ctx, {
@@ -216,7 +216,7 @@ export class TeamComponent implements AfterViewInit {
 
   // Inizializza il chart dei gol in trasferta
   initChartGolsAway(): void {
-    this.canvasGames = document.getElementById("chart-gols-away");
+    this.canvasGolsAway = document.getElementById("chart-gols-away");
     this.ctx = this.canvasGames.getContext("2d");
 
     let chart = new Chart(this.ctx, {

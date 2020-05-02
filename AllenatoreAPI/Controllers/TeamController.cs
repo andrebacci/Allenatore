@@ -261,6 +261,8 @@ namespace AllenatoreAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRankingHistory([FromQuery] int idTeam)
         {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
             try
             {
                 List<int> rankingHistory = new List<int>();
@@ -268,11 +270,16 @@ namespace AllenatoreAPI.Controllers
                 RankingController rankingController = new RankingController();
 
                 RoundController roundController = new RoundController();
-                List<Rounds> rounds = await roundController.GetAll();
+                ObjectResult objectResult = await roundController.GetAll() as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+                List<Rounds> rounds = resultData.Data as List<Rounds>;
 
                 foreach (Rounds r in rounds)
                 {
-                    List<RankingAPI> ranks = await rankingController.GetAll(r.Number, r.Number);
+                    objectResult = await rankingController.Get(r.Number.GetValueOrDefault(), r.Number.GetValueOrDefault()) as ObjectResult;
+                    resultData = objectResult.Value as ResultData;
+                    List<RankingAPI> ranks = resultData.Data as List<RankingAPI>;
+
                     RankingAPI rank = ranks.Where(x => x.IdTeam == idTeam).FirstOrDefault();
                     int index = ranks.IndexOf(rank);
                     rankingHistory.Add(index);

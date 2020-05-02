@@ -19,6 +19,7 @@ namespace DataAccess.Models
         public virtual DbSet<Feets> Feets { get; set; }
         public virtual DbSet<Games> Games { get; set; }
         public virtual DbSet<Players> Players { get; set; }
+        public virtual DbSet<Presences> Presences { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Rounds> Rounds { get; set; }
         public virtual DbSet<SubstitutionSessions> SubstitutionSessions { get; set; }
@@ -101,6 +102,26 @@ namespace DataAccess.Models
                     .WithMany(p => p.Players)
                     .HasForeignKey(d => d.Role)
                     .HasConstraintName("FK_Players_Roles");
+            });
+
+            modelBuilder.Entity<Presences>(entity =>
+            {
+                entity.HasOne(d => d.IdGameNavigation)
+                    .WithMany(p => p.Presences)
+                    .HasForeignKey(d => d.IdGame)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Presences_Games");
+
+                entity.HasOne(d => d.IdPlayerNavigation)
+                    .WithMany(p => p.Presences)
+                    .HasForeignKey(d => d.IdPlayer)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Presences_Presences");
+
+                entity.HasOne(d => d.IdTeamNavigation)
+                    .WithMany(p => p.Presences)
+                    .HasForeignKey(d => d.IdTeam)
+                    .HasConstraintName("FK_Presences_Teams");
             });
 
             modelBuilder.Entity<Roles>(entity =>
