@@ -149,6 +149,9 @@ namespace AllenatoreAPI.Controllers
                         if (rowValues["F" + row].Value != null)
                             player.Penalty = Convert.ToBoolean(rowValues["F" + row]);
                         
+                        if (rowValues["G" + row].Value != null)
+                            player.Details = rowValues["G" - row].ToString();
+                        
                         objectResult = await playerController.Insert(player) as ObjectResult;
                         resultData = objectResult.Value as ResultData;
                         if (resultData.Data == null)
