@@ -52,6 +52,10 @@ namespace AllenatoreAPI.Controllers
                 if (!System.IO.File.Exists(filepath))
                     return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei team non trovato." });
 
+                // Svuoto la tabella
+                UtilityManager utilityManager = new UtilityManager(_connectionString);
+                await utilityManager.Truncate("Teams");
+
                 FileInfo fi = new FileInfo(filepath);
 
                 using (ExcelPackage excelPackage = new ExcelPackage(fi))
@@ -94,13 +98,65 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("ImportPlayers")]
         [HttpGet]
-        public async Task<IActionResult> ImportPlayers()
+        public async Task<IActionResult> ImportPlayers([FromQuery] int idTeam)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
-                return Ok();
+                // Recupero il team
+                TeamController teamController = new TeamController();
+                ObjectResult objectResult = await teamController.GetById(idTeam) as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+
+                Teams team = resultData.Data as Teams;            
+
+                string filepath = string.Concat(_configuration.GetValue<string>("TeamPlayer"), "//", team.Name);
+
+                // Controllo l'esistenza del file
+                if (!System.IO.File.Exists(filepath))
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei giocatori non trovato." }); 
+                
+                FileInfo fi = new FileInfo(filepath);
+
+                using (ExcelPackage excelPackage = new ExcelPackage(fi))
+                {
+                    PlayerController playerController = new PlayerController();
+
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.First();
+
+                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                    {
+                        ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.ExcelRange.Column];
+
+                        Players player = new Players
+                        {
+                            Lastname = rowValues["A" + row].Value.ToString()
+                        };
+
+                        if (rowValues["B" + row].Value != null)
+                            player.Firstname = rowValues["B" + row].Value;
+                        
+                        if (rowValues["C" + row].Value != null)
+                            player.Age = Convert.ToInt32(rowValues["C" + row].Value);
+                        
+                        if (rowValues["D" + row].Value != null)
+                            player.Role = Convert.ToInt32(rowValues["D" + row].Value);
+                        
+                        if (rowValues["E" + row].Value != null)
+                            player.Feet = Convert.ToInt32(rowValues["E" + row].Value);
+                        
+                        if (rowValues["F" + row].Value != null)
+                            player.Penalty = Convert.ToBoolean(rowValues["F" + row]);
+                        
+                        objectResult = await playerController.Insert(player) as ObjectResult;
+                        resultData = objectResult.Value as ResultData;
+                        if (resultData.Data == null)
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento del giocatore." });
+                        
+                        return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+                    }
+                }
             }
             catch (Exception exc)
             {
