@@ -147,7 +147,7 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                List<GameAPI> ga = new List<GameAPI>();
+                List<GamePlayerAPI> ga = new List<GamePlayerAPI>();
 
                 // Recupero le presenze
                 PresenceManager presenceManager = new PresenceManager(_connectionString);
@@ -159,7 +159,10 @@ namespace AllenatoreAPI.Controllers
                 foreach (Presences p in presences)
                 {
                     Games game = gameManager.GetById(p.IdGame);
-                    ga.Add(new GameAPI(game));
+                    GamePlayerAPI gp = new GamePlayerAPI(game);
+                    gp.Info = PlayerUtility.GetInfoMinutes(p.TimeIn, p.TimeOut);
+
+                    ga.Add(gp);
                 }
 
                 return StatusCode(200, new ResultData { Data = ga, Status = true, FunctionName = functionName, Message = $"Ok" });

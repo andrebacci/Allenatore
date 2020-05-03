@@ -1,0 +1,39 @@
+using AllenatoreAPI.Controllers;
+using AllenatoreAPI.Utils;
+using DataAccess.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace AllenatoreAPI.Models
+{
+    public class GamePlayerAPI : Games
+    {
+        public GamePlayerAPI(Games g)
+        {
+            Id = g.Id;
+
+            IdTeamHome = g.IdTeamHome;
+            IdTeamAway = g.IdTeamAway;
+
+            GolHome = g.GolHome;
+            GolAway = g.GolAway;
+
+            TeamHome = TeamUtility.GetTeamName(IdTeamHome);            
+            TeamAway = TeamUtility.GetTeamName(IdTeamAway);
+        }
+
+        public int Id { get; set; }
+
+        public string TeamHome { get; set; }
+
+        public string TeamAway { get; set; }
+
+        public int GolHome { get; set; }
+
+        public int GolAway { get; set; }
+
+        public string Info { get; set; }
+    }
+}
