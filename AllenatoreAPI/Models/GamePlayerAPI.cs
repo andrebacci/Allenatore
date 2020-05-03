@@ -34,6 +34,10 @@ namespace AllenatoreAPI.Models
 
         public int GolAway { get; set; }
 
+        public int? TimeIn { get; set; }
+
+        public int? TimeOut { get; set; }
+
         public string Info { get; set; }
     }
 }

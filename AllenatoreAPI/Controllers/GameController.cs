@@ -160,6 +160,8 @@ namespace AllenatoreAPI.Controllers
                 {
                     Games game = gameManager.GetById(p.IdGame);
                     GamePlayerAPI gp = new GamePlayerAPI(game);
+                    gp.TimeIn = p.TimeIn;
+                    gp.TimeOut = p.TimeOut;
                     gp.Info = PlayerUtility.GetInfoMinutes(p.TimeIn, p.TimeOut);
 
                     ga.Add(gp);
