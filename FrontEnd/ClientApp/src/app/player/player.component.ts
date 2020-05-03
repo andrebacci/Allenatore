@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { Player } from "../../models/player";
+import { Game } from "../../models/game";
 import { PlayerService } from "../../services/player.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ResultData } from "../../models/resultData";
@@ -19,6 +20,8 @@ import Utility from "../../utility/utility";
 export class PlayerComponent {
 
   player: Player = null;
+
+  games: Game[] = [];
 
   isReadOnly: boolean = false;
 
@@ -47,7 +50,7 @@ export class PlayerComponent {
 
   playerFullName: string = "";
 
-  constructor(private playerService: PlayerService, private teamService: TeamService, private feetService: FeetService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
+  constructor(private playerService: PlayerService, private gameService: GameService, private teamService: TeamService, private feetService: FeetService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -82,6 +85,9 @@ export class PlayerComponent {
       if (this.mode == "create") {
         this.initFormCreate();
       }
+
+      // Recupero le partite giocate dal giocatore
+      this.getGames();
     });
   }
 
@@ -137,6 +143,18 @@ export class PlayerComponent {
         // Errore
       }
     })
+  }
+
+  // Inizializza le partite giocate dal giocatore
+  getGames(): void {
+    this.gameService.getGamesByIdPlayer(this.idPlayer).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.games = resultData.data as Game[];
+      } else {
+        // Errore
+      }
+    });
   }
 
   // Inizializzo i campi della form

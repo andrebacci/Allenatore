@@ -38,6 +38,15 @@ export class GameService {
     })
   }
 
+  // Restituisce tutte le partite giocate da un giocatore
+  getGamesByIdPlayer(idPlayer: any) {
+    return this.http.get(this.baseUrl + 'api/Game/GetGamesByIdPlayer', {
+      params: {
+        id: idPlayer
+      }
+    });
+  }
+
   // Inserisce una nuova partita
   insert(game: Game) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
