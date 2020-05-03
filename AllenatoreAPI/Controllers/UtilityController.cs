@@ -127,7 +127,7 @@ namespace AllenatoreAPI.Controllers
 
                     for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
                     {
-                        ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.ExcelRange.Column];
+                        ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
 
                         Players player = new Players
                         {
@@ -135,7 +135,7 @@ namespace AllenatoreAPI.Controllers
                         };
 
                         if (rowValues["B" + row].Value != null)
-                            player.Firstname = rowValues["B" + row].Value;
+                            player.Firstname = rowValues["B" + row].Value.ToString();
                         
                         if (rowValues["C" + row].Value != null)
                             player.Age = Convert.ToInt32(rowValues["C" + row].Value);
@@ -150,16 +150,16 @@ namespace AllenatoreAPI.Controllers
                             player.Penalty = Convert.ToBoolean(rowValues["F" + row]);
                         
                         if (rowValues["G" + row].Value != null)
-                            player.Details = rowValues["G" - row].ToString();
+                            player.Details = rowValues["G" + row].ToString();
                         
                         objectResult = await playerController.Insert(player) as ObjectResult;
                         resultData = objectResult.Value as ResultData;
                         if (resultData.Data == null)
-                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento del giocatore." });
-                        
-                        return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento del giocatore." });                                               
                     }
                 }
+
+                return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
             {
