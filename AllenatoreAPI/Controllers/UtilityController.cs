@@ -1,3 +1,4 @@
+using AllenatoreAPI.Models;
 using AllenatoreAPI.Result;
 using AllenatoreAPI.Utils;
 using BusinessLogic;
@@ -53,8 +54,8 @@ namespace AllenatoreAPI.Controllers
                     return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei team non trovato." });
 
                 // Svuoto la tabella
-                UtilityManager utilityManager = new UtilityManager(_connectionString);
-                await utilityManager.Truncate("Teams");
+                //UtilityManager utilityManager = new UtilityManager(_connectionString);
+                //await utilityManager.Truncate("Teams");
 
                 FileInfo fi = new FileInfo(filepath);
 
@@ -67,6 +68,9 @@ namespace AllenatoreAPI.Controllers
                     for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
                     {
                         ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
+
+                        if (rowValues["A" + row].Value == null)
+                            return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
 
                         Teams team = new Teams
                         {
@@ -109,9 +113,9 @@ namespace AllenatoreAPI.Controllers
                 ObjectResult objectResult = await teamController.GetById(idTeam) as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
 
-                Teams team = resultData.Data as Teams;            
+                TeamAPI team = resultData.Data as TeamAPI;
 
-                string filepath = string.Concat(_configuration.GetValue<string>("TeamPlayer"), "//", team.Name);
+                string filepath = string.Concat(_configuration.GetValue<string>("TeamPlayers"), "\\Ciassetta.xlsx"); //, team.Name);
 
                 // Controllo l'esistenza del file
                 if (!System.IO.File.Exists(filepath))
@@ -129,8 +133,12 @@ namespace AllenatoreAPI.Controllers
                     {
                         ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
 
+                        if (rowValues["A" + row].Value == null)
+                            return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+
                         Players player = new Players
                         {
+                            IdTeam = idTeam,
                             Lastname = rowValues["A" + row].Value.ToString()
                         };
 
@@ -147,10 +155,10 @@ namespace AllenatoreAPI.Controllers
                             player.Feet = Convert.ToInt32(rowValues["E" + row].Value);
                         
                         if (rowValues["F" + row].Value != null)
-                            player.Penalty = Convert.ToBoolean(rowValues["F" + row]);
+                            player.Penalty = Convert.ToBoolean(rowValues["F" + row].Value);
                         
                         if (rowValues["G" + row].Value != null)
-                            player.Details = rowValues["G" + row].ToString();
+                            player.Details = rowValues["G" + row].Value.ToString();
                         
                         objectResult = await playerController.Insert(player) as ObjectResult;
                         resultData = objectResult.Value as ResultData;
@@ -197,6 +205,9 @@ namespace AllenatoreAPI.Controllers
                     for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
                     {
                         ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
+
+                        if (rowValues["A" + row].Value == null)
+                            return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
 
                         // Inserisco la giornata
                         Rounds r = new Rounds 
