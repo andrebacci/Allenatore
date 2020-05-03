@@ -114,8 +114,9 @@ namespace AllenatoreAPI.Controllers
                 ResultData resultData = objectResult.Value as ResultData;
 
                 TeamAPI team = resultData.Data as TeamAPI;
-
-                string filepath = string.Concat(_configuration.GetValue<string>("TeamPlayers"), "\\Ciassetta.xlsx"); //, team.Name);
+                
+                string filename = string.Concat(team.Name.Trim(), ".xlsx");
+                string filepath = string.Concat(_configuration.GetValue<string>("TeamPlayers"), "\\", filename);
 
                 // Controllo l'esistenza del file
                 if (!System.IO.File.Exists(filepath))
