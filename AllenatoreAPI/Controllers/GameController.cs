@@ -151,7 +151,7 @@ namespace AllenatoreAPI.Controllers
 
                 // Recupero le presenze
                 PresenceManager presenceManager = new PresenceManager(_connectionString);
-                List<Presences> presences = presenceManager.GetByIdPlayer(idPlayer);
+                List<Presences> presences = presenceManager.GetPlayedByIdPlayer(idPlayer);
 
                 // Recupero la partita data la presenza                
                 GameManager gameManager = new GameManager(_connectionString);

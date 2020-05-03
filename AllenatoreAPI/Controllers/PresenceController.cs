@@ -60,16 +60,16 @@ namespace AllenatoreAPI.Controllers
         /// Ritorna tutte le presenze di un giocatore
         /// </summary>
         /// <returns></returns>
-        [Route("GetByIdPlayer")]
+        [Route("GetPlayedByIdPlayer")]
         [HttpGet]
-        public async Task<IActionResult> GetByIdPlayer([FromQuery] int idPlayer)
+        public async Task<IActionResult> GetPlayedByIdPlayer([FromQuery] int idPlayer)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
                 PresenceManager manager = new PresenceManager(_connectionString);
-                List<Presences> presences = await manager.GetByIdPlayer(idPlayer);
+                List<Presences> presences = await manager.GetPlayedByIdPlayer(idPlayer);
 
                 return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Piedi trovati." });
             }
