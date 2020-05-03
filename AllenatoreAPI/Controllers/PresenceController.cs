@@ -34,7 +34,7 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
-        /// Ritorna tutti i giocatori
+        /// Ritorna tutti i giocatori di una squadra che hanno giocato una partita
         /// </summary>
         /// <returns></returns>
         [Route("GetByIdRound")]
@@ -47,6 +47,29 @@ namespace AllenatoreAPI.Controllers
             {
                 PresenceManager manager = new PresenceManager(_connectionString);
                 List<Presences> presences = await manager.GetByIdRound(idRound, idTeam);
+
+                return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Piedi trovati." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna tutte le presenze di un giocatore
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetByIdPlayer")]
+        [HttpGet]
+        public async Task<IActionResult> GetByIdPlayer([FromQuery] int idPlayer)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                PresenceManager manager = new PresenceManager(_connectionString);
+                List<Presences> presences = await manager.GetByIdPlayer(idPlayer);
 
                 return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Piedi trovati." });
             }

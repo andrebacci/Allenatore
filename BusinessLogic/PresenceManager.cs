@@ -25,5 +25,14 @@ namespace BusinessLogic
                 return await ctx.Presences.Where(x => x.Id == idRound && x.IdTeam == idTeam).ToListAsync();
             }
         }
+
+        // Ritorna tutte le presenze di un giocatore
+        public async Task<List<Presences>> GetByIdPlayer(int idPlayer)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Presences.Where(x => x.IdPlayer == idPlayer).ToListAsync();
+            }
+        }
     }
 }
