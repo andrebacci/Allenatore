@@ -5,6 +5,11 @@ namespace DataAccess.Models
 {
     public partial class Games
     {
+        public Games()
+        {
+            Presences = new HashSet<Presences>();
+        }
+
         public int Id { get; set; }
         public int IdTeamHome { get; set; }
         public int IdTeamAway { get; set; }
@@ -17,5 +22,6 @@ namespace DataAccess.Models
         public virtual Teams IdTeamAwayNavigation { get; set; }
         public virtual Teams IdTeamHomeNavigation { get; set; }
         public virtual Rounds RoundNavigation { get; set; }
+        public virtual ICollection<Presences> Presences { get; set; }
     }
 }

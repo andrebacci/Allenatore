@@ -251,5 +251,46 @@ namespace AllenatoreAPI.Controllers
                 return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
         }
+
+        /// <summary>
+        /// Restituisce la storia delle posizioni in classifica della squadra
+        /// </summary>
+        /// <param name="idTeam"></param>
+        /// <returns></returns>
+        [Route("GetRankingHistory")]
+        [HttpGet]
+        public async Task<IActionResult> GetRankingHistory([FromQuery] int idTeam)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                List<int> rankingHistory = new List<int>();
+
+                RankingController rankingController = new RankingController();
+
+                RoundController roundController = new RoundController();
+                ObjectResult objectResult = await roundController.GetAll() as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+                List<Rounds> rounds = resultData.Data as List<Rounds>;
+
+                foreach (Rounds r in rounds)
+                {
+                    objectResult = await rankingController.Get(r.Number.GetValueOrDefault(), r.Number.GetValueOrDefault()) as ObjectResult;
+                    resultData = objectResult.Value as ResultData;
+                    List<RankingAPI> ranks = resultData.Data as List<RankingAPI>;
+
+                    RankingAPI rank = ranks.Where(x => x.IdTeam == idTeam).FirstOrDefault();
+                    int index = ranks.IndexOf(rank);
+                    rankingHistory.Add(index);
+                }
+
+                return StatusCode(200, new ResultData { Data = rankingHistory, Status = true, FunctionName = functionName, Message = $"Statistiche trovate con successo." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
     }
 }

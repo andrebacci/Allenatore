@@ -136,6 +136,46 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Restituisce tutte le partite giocate da un giocatore
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetGamesByIdPlayer")]
+        [HttpGet]
+        public async Task<IActionResult> GetGamesByIdPlayer([FromQuery] idPlayer)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                List<GamePlayerAPI> ga = new List<GamePlayerAPI>();
+
+                // Recupero le presenze
+                PresenceManager presenceManager = new PresenceManager(_connectionString);
+                List<Presences> presences = presenceManager.GetPlayedByIdPlayer(idPlayer);
+
+                // Recupero la partita data la presenza                
+                GameManager gameManager = new GameManager(_connectionString);
+
+                foreach (Presences p in presences)
+                {
+                    Games game = gameManager.GetById(p.IdGame);
+                    GamePlayerAPI gp = new GamePlayerAPI(game);
+                    gp.TimeIn = p.TimeIn;
+                    gp.TimeOut = p.TimeOut;
+                    gp.Info = PlayerUtility.GetInfoMinutes(p.TimeIn, p.TimeOut);
+
+                    ga.Add(gp);
+                }
+
+                return StatusCode(200, new ResultData { Data = ga, Status = true, FunctionName = functionName, Message = $"Ok" });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Inserisce una nuova partita
         /// </summary>
         /// <returns></returns>

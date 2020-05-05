@@ -27,8 +27,8 @@ namespace AllenatoreAPI.Models
             TeamHome = TeamUtility.GetTeamName(IdTeamHome);            
             TeamAway = TeamUtility.GetTeamName(IdTeamAway);
 
-            PlayersHome = new List<PlayerGame>();
-            PlayersAway = new List<PlayerGame>();
+            PlayersHome = new List<PlayerGameAPI>();
+            PlayersAway = new List<PlayerGameAPI>();
         }
 
         public string TeamHome { get; set; }

@@ -61,5 +61,34 @@ namespace AllenatoreAPI.Utils
                 throw (exc);
             }
         }
+
+        // Ritorna il dettaglio di quanto ha giocato un giocatore
+        public static string GetInfoMinutes(int? timeIn, int? timeOut)
+        {
+            try
+            {
+                if (timeIn == null)
+                    return "Non entrato";
+                
+                if (timeIn == 0)
+                {
+                    if (timeOut == 90)
+                        return "Titolare";
+                    
+                    return $"Titolare - Sostituito al minuto {{timeOut.GetValueOrDefault()}}";
+                }
+                else
+                {
+                    if (timeOut.GetValueOrDefault() == 90)
+                        return $"Subentrato - Entrato al minuto {{timeIn.GetValueOrDefault()}}";
+                    
+                    return $"Subentrato e Sostituito - Entrato al minuto {{timeIn.GetValueOrDefault()}} ed uscito al minuto {{timeOut.GetValueOrDefault()}}";
+                }                
+            }
+            catch (Exception exc)
+            {
+                throw (exc);
+            }
+        }
     }
 }

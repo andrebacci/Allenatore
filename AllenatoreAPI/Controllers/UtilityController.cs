@@ -1,3 +1,4 @@
+using AllenatoreAPI.Models;
 using AllenatoreAPI.Result;
 using AllenatoreAPI.Utils;
 using BusinessLogic;
@@ -52,6 +53,10 @@ namespace AllenatoreAPI.Controllers
                 if (!System.IO.File.Exists(filepath))
                     return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei team non trovato." });
 
+                // Svuoto la tabella
+                //UtilityManager utilityManager = new UtilityManager(_connectionString);
+                //await utilityManager.Truncate("Teams");
+
                 FileInfo fi = new FileInfo(filepath);
 
                 using (ExcelPackage excelPackage = new ExcelPackage(fi))
@@ -63,6 +68,9 @@ namespace AllenatoreAPI.Controllers
                     for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
                     {
                         ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
+
+                        if (rowValues["A" + row].Value == null)
+                            return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
 
                         Teams team = new Teams
                         {
@@ -94,13 +102,73 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("ImportPlayers")]
         [HttpGet]
-        public async Task<IActionResult> ImportPlayers()
+        public async Task<IActionResult> ImportPlayers([FromQuery] int idTeam)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
-                return Ok();
+                // Recupero il team
+                TeamController teamController = new TeamController();
+                ObjectResult objectResult = await teamController.GetById(idTeam) as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+
+                TeamAPI team = resultData.Data as TeamAPI;
+                
+                string filename = string.Concat(team.Name.Trim(), ".xlsx");
+                string filepath = string.Concat(_configuration.GetValue<string>("TeamPlayers"), "\\", filename);
+
+                // Controllo l'esistenza del file
+                if (!System.IO.File.Exists(filepath))
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei giocatori non trovato." }); 
+                
+                FileInfo fi = new FileInfo(filepath);
+
+                using (ExcelPackage excelPackage = new ExcelPackage(fi))
+                {
+                    PlayerController playerController = new PlayerController();
+
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.First();
+
+                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                    {
+                        ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
+
+                        if (rowValues["A" + row].Value == null)
+                            return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+
+                        Players player = new Players
+                        {
+                            IdTeam = idTeam,
+                            Lastname = rowValues["A" + row].Value.ToString()
+                        };
+
+                        if (rowValues["B" + row].Value != null)
+                            player.Firstname = rowValues["B" + row].Value.ToString();
+                        
+                        if (rowValues["C" + row].Value != null)
+                            player.Age = Convert.ToInt32(rowValues["C" + row].Value);
+                        
+                        if (rowValues["D" + row].Value != null)
+                            player.Role = Convert.ToInt32(rowValues["D" + row].Value);
+                        
+                        if (rowValues["E" + row].Value != null)
+                            player.Feet = Convert.ToInt32(rowValues["E" + row].Value);
+                        
+                        if (rowValues["F" + row].Value != null)
+                            player.Penalty = Convert.ToBoolean(rowValues["F" + row].Value);
+                        
+                        if (rowValues["G" + row].Value != null)
+                            player.Details = rowValues["G" + row].Value.ToString();
+                        
+                        objectResult = await playerController.Insert(player) as ObjectResult;
+                        resultData = objectResult.Value as ResultData;
+                        if (resultData.Data == null)
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento del giocatore." });                                               
+                    }
+                }
+
+                return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
             {
@@ -120,11 +188,11 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                string filepath = _configuration.GetValue<string>("TeamFile");
+                string filepath = _configuration.GetValue<string>("TeamRounds");
 
                 // Controllo l'esistenza del file
                 if (!System.IO.File.Exists(filepath))
-                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei team non trovato." });
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File delle partite non trovato." });
 
                 FileInfo fi = new FileInfo(filepath);
 
@@ -135,38 +203,47 @@ namespace AllenatoreAPI.Controllers
 
                     ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.First();
 
+                    Rounds round = null;
+
                     for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
                     {
                         ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
 
-                        // Inserisco la giornata
-                        Rounds r = new Rounds 
+                        if (rowValues["A" + row].Value == null)
+                            return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+
+                        if (round == null)
                         {
-                            Number = Convert.ToInt32(rowValues["A" + row].Value),
-                            Date = DateTime.Parse(rowValues["D" + row].Value.ToString())
-                        };
+                            // Inserisco la giornata
+                            Rounds r = new Rounds
+                            {
+                                Number = Convert.ToInt32(rowValues["A" + row].Value),
+                                Date = DateTime.Now
+                                //Date = DateTime.Parse(rowValues["F" + row].Value.ToString())
+                            };
 
-                        ObjectResult objectResult = await roundController.Insert(r) as ObjectResult;
-                        ResultData resultData = objectResult.Value as ResultData;
-                        if (resultData.Data == null)
-                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della giornata." });
+                            ObjectResult or = await roundController.Insert(r) as ObjectResult;
+                            ResultData rd = or.Value as ResultData;
+                            if (rd.Data == null)
+                                return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della giornata." });
 
-                        Rounds round = resultData.Data as Rounds;
+                            round = rd.Data as Rounds;
+                        }
 
                         // Inserisco la partita
                         Games g = new Games
                         {
                             IdTeamHome = Convert.ToInt32(rowValues["B" + row].Value),
                             IdTeamAway = Convert.ToInt32(rowValues["C" + row].Value),
+                            GolTeamHome = Convert.ToInt32(rowValues["D" + row].Value),
+                            GolTeamAway = Convert.ToInt32(rowValues["E" + row].Value),
                             Round = round.Id
                         };
 
-                        objectResult = await gameController.Insert(g) as ObjectResult;
-                        resultData = objectResult.Value as ResultData;
+                        ObjectResult objectResult = await gameController.Insert(g) as ObjectResult;
+                        ResultData resultData = objectResult.Value as ResultData;
                         if (resultData.Data == null)
-                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della partita." });
-                        
-                        return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della partita." });                                               
                     }
                 }
 
