@@ -62,7 +62,13 @@ export class TeamComponent implements AfterViewInit {
   canvasGolsHome: any;
   canvasGolsAway: any;
 
-  ctx: any;
+  ctxGames: any;
+  ctxGamesHome: any;
+  ctxGamesAway: any;
+
+  ctxGols: any;
+  ctxGolsHome: any;
+  ctxGolsAway: any;
 
   constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService,
     private route: ActivatedRoute, private router: Router) {
@@ -106,9 +112,9 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart delle partite 
   initChartGames(): void {
     this.canvasGames = document.getElementById("chart-games");
-    this.ctx = this.canvasGames.getContext("2d");
+    this.ctxGames = this.canvasGames.getContext("2d");
 
-    let chart = new Chart(this.ctx, {
+    let chart = new Chart(this.ctxGames, {
       type: 'pie',
       data: {
         labels: ["Vinte", "Pareggiate", "Perse"],
@@ -129,9 +135,9 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart delle partite in casa
   initChartGamesHome(): void {
     this.canvasGamesHome = document.getElementById("chart-games-home");
-    this.ctx = this.canvasGamesHome.getContext("2d");
+    this.ctxGamesHome = this.canvasGamesHome.getContext("2d");
 
-    let chart = new Chart(this.ctx, {
+    let chart = new Chart(this.ctxGamesHome, {
       type: 'pie',
       data: {
         labels: ["Vinte", "Pareggiate", "Perse"],
@@ -151,9 +157,9 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart delle partite in trasferta
   initChartGamesAway(): void {
     this.canvasGamesAway = document.getElementById("chart-games-away");
-    this.ctx = this.canvasGamesAway.getContext("2d");
+    this.ctxGamesAway = this.canvasGamesAway.getContext("2d");
 
-    let chart = new Chart(this.ctx, {
+    let chart = new Chart(this.ctxGamesAway, {
       type: 'pie',
       data: {
         labels: ["Vinte", "Pareggiate", "Perse"],
@@ -173,9 +179,9 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart dei gol 
   initChartGols(): void {
     this.canvasGols = document.getElementById("chart-gols");
-    this.ctx = this.canvasGames.getContext("2d");
+    this.ctxGols = this.canvasGames.getContext("2d");
 
-    let chart = new Chart(this.ctx, {
+    let chart = new Chart(this.ctxGols, {
       type: 'pie',
       data: {
         labels: ["Gol Fatti", "Gol Subiti"],
@@ -195,9 +201,9 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart dei gol in casa
   initChartGolsHome(): void {
     this.canvasGolsHome = document.getElementById("chart-gols-home");
-    this.ctx = this.canvasGames.getContext("2d");
+    this.ctxGolsHome = this.canvasGames.getContext("2d");
 
-    let chart = new Chart(this.ctx, {
+    let chart = new Chart(this.ctxGolsHome, {
       type: 'pie',
       data: {
         labels: ["Gol Fatti", "Gol Subiti"],
@@ -217,9 +223,9 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart dei gol in trasferta
   initChartGolsAway(): void {
     this.canvasGolsAway = document.getElementById("chart-gols-away");
-    this.ctx = this.canvasGames.getContext("2d");
+    this.ctxGolsAway = this.canvasGames.getContext("2d");
 
-    let chart = new Chart(this.ctx, {
+    let chart = new Chart(this.ctxGolsAway, {
       type: 'pie',
       data: {
         labels: ["Gol Fatti", "Gol Subiti"],
