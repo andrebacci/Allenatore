@@ -24,8 +24,6 @@ namespace AllenatoreAPI.Models
             TeamAway = TeamUtility.GetTeamName(IdTeamAway);
         }
 
-        public int Id { get; set; }
-
         public string TeamHome { get; set; }
 
         public string TeamAway { get; set; }
