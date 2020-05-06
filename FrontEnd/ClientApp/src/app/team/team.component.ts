@@ -195,7 +195,7 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart dei gol in casa
   initChartGolsHome(): void {
     this.canvasGolsHome = document.getElementById("chart-gols-home");
-    this.ctx = this.canvasGames.getContext("2d");
+      this.ctx = this.canvasGolsHome.getContext("2d");
 
     let chart = new Chart(this.ctx, {
       type: 'pie',
@@ -311,14 +311,15 @@ export class TeamComponent implements AfterViewInit {
   }
 
   // Inizializza tutti i charts
-  initCharts(): void {
+    initCharts(): void {
+
     this.initChartGames();
     this.initChartGamesHome();
     this.initChartGamesAway();
-
     this.initChartGols();
     this.initChartGolsHome();
     this.initChartGolsAway();
+      
   }
 
   // Inizializza i campi della form
