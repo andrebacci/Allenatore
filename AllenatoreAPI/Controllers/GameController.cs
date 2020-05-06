@@ -141,7 +141,7 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("GetGamesByIdPlayer")]
         [HttpGet]
-        public async Task<IActionResult> GetGamesByIdPlayer([FromQuery] idPlayer)
+        public async Task<IActionResult> GetGamesByIdPlayer([FromQuery] int idPlayer)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
@@ -151,18 +151,20 @@ namespace AllenatoreAPI.Controllers
 
                 // Recupero le presenze
                 PresenceManager presenceManager = new PresenceManager(_connectionString);
-                List<Presences> presences = presenceManager.GetPlayedByIdPlayer(idPlayer);
+                List<Presences> presences = await presenceManager.GetPlayedByIdPlayer(idPlayer);
 
                 // Recupero la partita data la presenza                
                 GameManager gameManager = new GameManager(_connectionString);
 
                 foreach (Presences p in presences)
                 {
-                    Games game = gameManager.GetById(p.IdGame);
-                    GamePlayerAPI gp = new GamePlayerAPI(game);
-                    gp.TimeIn = p.TimeIn;
-                    gp.TimeOut = p.TimeOut;
-                    gp.Info = PlayerUtility.GetInfoMinutes(p.TimeIn, p.TimeOut);
+                    Games game = await gameManager.GetById(p.IdGame);
+                    GamePlayerAPI gp = new GamePlayerAPI(game)
+                    {
+                        TimeIn = p.TimeIn,
+                        TimeOut = p.TimeOut,
+                        Info = PlayerUtility.GetInfoMinutes(p.TimeIn, p.TimeOut)
+                    };
 
                     ga.Add(gp);
                 }
