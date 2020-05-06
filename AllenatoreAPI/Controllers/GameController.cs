@@ -159,10 +159,12 @@ namespace AllenatoreAPI.Controllers
                 foreach (Presences p in presences)
                 {
                     Games game = await gameManager.GetById(p.IdGame);
-                    GamePlayerAPI gp = new GamePlayerAPI(game);
-                    gp.TimeIn = p.TimeIn;
-                    gp.TimeOut = p.TimeOut;
-                    gp.Info = PlayerUtility.GetInfoMinutes(p.TimeIn, p.TimeOut);
+                    GamePlayerAPI gp = new GamePlayerAPI(game)
+                    {
+                        TimeIn = p.TimeIn,
+                        TimeOut = p.TimeOut,
+                        Info = PlayerUtility.GetInfoMinutes(p.TimeIn, p.TimeOut)
+                    };
 
                     ga.Add(gp);
                 }
