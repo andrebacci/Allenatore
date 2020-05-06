@@ -17,8 +17,8 @@ namespace AllenatoreAPI.Models
             IdTeamHome = g.IdTeamHome;
             IdTeamAway = g.IdTeamAway;
 
-            GolHome = g.GolHome;
-            GolAway = g.GolAway;
+            GolTeamHome = g.GolTeamHome;
+            GolTeamAway = g.GolTeamAway;
 
             TeamHome = TeamUtility.GetTeamName(IdTeamHome);            
             TeamAway = TeamUtility.GetTeamName(IdTeamAway);
@@ -29,10 +29,6 @@ namespace AllenatoreAPI.Models
         public string TeamHome { get; set; }
 
         public string TeamAway { get; set; }
-
-        public int GolHome { get; set; }
-
-        public int GolAway { get; set; }
 
         public int? TimeIn { get; set; }
 
