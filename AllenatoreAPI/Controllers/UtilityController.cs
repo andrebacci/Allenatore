@@ -6,6 +6,7 @@ using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -205,6 +206,9 @@ namespace AllenatoreAPI.Controllers
 
                     Rounds round = null;
 
+                    int actualRound = 0;
+                    List<int> addedRound = new List<int>();
+
                     for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
                     {
                         ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
@@ -212,12 +216,14 @@ namespace AllenatoreAPI.Controllers
                         if (rowValues["A" + row].Value == null)
                             return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
 
-                        if (round == null)
+                        actualRound = Convert.ToInt32(rowValues["A" + row].Value);
+
+                        if (!addedRound.Contains(actualRound))
                         {
                             // Inserisco la giornata
                             Rounds r = new Rounds
                             {
-                                Number = Convert.ToInt32(rowValues["A" + row].Value),
+                                Number = actualRound,
                                 Date = DateTime.Now
                                 //Date = DateTime.Parse(rowValues["F" + row].Value.ToString())
                             };
@@ -228,15 +234,25 @@ namespace AllenatoreAPI.Controllers
                                 return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della giornata." });
 
                             round = rd.Data as Rounds;
+
+                            addedRound.Add(actualRound);
                         }
 
                         // Inserisco la partita
+                        int? golHome = null;
+                        if (rowValues["D" + row].Value != null)
+                            golHome = Convert.ToInt32(rowValues["D" + row].Value);
+
+                        int? golAway = null;
+                        if (rowValues["E" + row].Value != null)
+                            golAway = Convert.ToInt32(rowValues["E" + row].Value);
+
                         Games g = new Games
                         {
                             IdTeamHome = Convert.ToInt32(rowValues["B" + row].Value),
                             IdTeamAway = Convert.ToInt32(rowValues["C" + row].Value),
-                            GolTeamHome = Convert.ToInt32(rowValues["D" + row].Value),
-                            GolTeamAway = Convert.ToInt32(rowValues["E" + row].Value),
+                            GolTeamHome = golHome,
+                            GolTeamAway = golAway,
                             Round = round.Id
                         };
 
