@@ -34,6 +34,9 @@ namespace AllenatoreAPI.Models
             PenaltyString = p.Penalty.GetValueOrDefault() ? "Sì" : "No";
 
             Fullname = Lastname + " " + Firstname;
+
+            CountPresences = PlayerUtility.GetCountPresences(p.Id);
+            CountGols = PlayerUtility.GetCountGols(p.Id);
         }
 
         public string Fullname { get; set; }
@@ -47,5 +50,9 @@ namespace AllenatoreAPI.Models
         public string Team { get; set; }
 
         public string PenaltyString { get; set; }
+
+        public int CountGols { get; set; }
+
+        public int CountPresences { get; set; }
     }
 }

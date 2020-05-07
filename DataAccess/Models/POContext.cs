@@ -18,6 +18,7 @@ namespace DataAccess.Models
         public virtual DbSet<CardTypes> CardTypes { get; set; }
         public virtual DbSet<Feets> Feets { get; set; }
         public virtual DbSet<Games> Games { get; set; }
+        public virtual DbSet<Gols> Gols { get; set; }
         public virtual DbSet<Players> Players { get; set; }
         public virtual DbSet<Presences> Presences { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
@@ -33,9 +34,8 @@ namespace DataAccess.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS17;Database=Allenatore;User Id=sa;Password=123Stella$;");
+                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Allenatore;User Id=andre;Password=123Stella$;");
             }
-            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -76,6 +76,27 @@ namespace DataAccess.Models
                     .WithMany(p => p.Games)
                     .HasForeignKey(d => d.Round)
                     .HasConstraintName("FK_Games_Rounds");
+            });
+
+            modelBuilder.Entity<Gols>(entity =>
+            {
+                entity.HasOne(d => d.IdGameNavigation)
+                    .WithMany(p => p.Gols)
+                    .HasForeignKey(d => d.IdGame)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Gols_Games");
+
+                entity.HasOne(d => d.IdPlayerNavigation)
+                    .WithMany(p => p.Gols)
+                    .HasForeignKey(d => d.IdPlayer)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Gols_Players");
+
+                entity.HasOne(d => d.IdTeamNavigation)
+                    .WithMany(p => p.Gols)
+                    .HasForeignKey(d => d.IdTeam)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Gols_Teams");
             });
 
             modelBuilder.Entity<Players>(entity =>

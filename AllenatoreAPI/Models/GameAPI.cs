@@ -18,8 +18,8 @@ namespace AllenatoreAPI.Models
 
             GolTeamHome = g.GolTeamHome;
             GolTeamAway = g.GolTeamAway;
-            
-            Round = g.Round;
+
+            Round = GameUtility.GetNumber(g.Round.GetValueOrDefault());
 
             ModuleHome = g.ModuleHome;
             ModuleAway = g.ModuleAway;

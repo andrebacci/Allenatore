@@ -81,6 +81,15 @@ namespace BusinessLogic
             }
         }
 
+        // Ritorna la partita dato l'id della squadra in casa e della squadra in trasferta
+        public async Task<Games> GetByIdTeams(int idTeamHome, int idTeamAway)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Games.Where(x => x.IdTeamHome == idTeamHome && x.IdTeamAway == idTeamAway).FirstOrDefaultAsync();
+            }
+        }
+
         // Inserisce uan nuova partita
         public async Task<Games> Insert(Games game)
         {

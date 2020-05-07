@@ -57,6 +57,29 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Ritorna tutte le partite
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetById")]
+        [HttpGet]
+        public async Task<IActionResult> GetById([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                RoundManager manager = new RoundManager(_connectionString);
+                Rounds rounds = await manager.GetById(id);
+
+                return StatusCode(200, new ResultData { Data = rounds, Status = true, FunctionName = functionName, Message = $"Ok" });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Ritorna l'ultima giornata giocata
         /// </summary>
         /// <returns></returns>

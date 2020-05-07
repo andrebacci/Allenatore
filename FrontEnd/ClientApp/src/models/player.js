@@ -19,6 +19,8 @@ var Player = /** @class */ (function () {
         this.team = "";
         this.lastTeamString = "";
         this.penaltyString = "";
+        this.countPresences = 0;
+        this.countGols = 0;
     }
     return Player;
 }());

@@ -31,7 +31,7 @@ namespace AllenatoreAPI.Models
 
         public int DrawsHome { get; set; } 
 
-        public int DrwasAway { get; set; }
+        public int DrawsAway { get; set; }
 
         public int Losts { get; set; }
 
