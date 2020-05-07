@@ -34,6 +34,31 @@ namespace AllenatoreAPI.Controllers
             _configuration = builder.Build();
 
             _connectionString = _configuration.GetValue<string>("ConnectionString");
-        }        
+        }
+
+        /// <summary>
+        /// Ritorna un utente dati mail e password
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetByLogin")]
+        [HttpPost]
+        public async Task<IActionResult> GetByLogin([FromBody] LoginAPI login)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                UserManager userManager = new UserManager(_connectionString);
+                Users user = await userManager.GetByLogin(login.Mail, login.Password);
+                if (user == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Nessun utente trovato." });
+
+                return StatusCode(200, new ResultData { Data = user, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
     }
 }
