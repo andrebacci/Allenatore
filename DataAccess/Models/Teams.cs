@@ -9,6 +9,7 @@ namespace DataAccess.Models
         {
             GamesIdTeamAwayNavigation = new HashSet<Games>();
             GamesIdTeamHomeNavigation = new HashSet<Games>();
+            Gols = new HashSet<Gols>();
             PlayersIdTeamNavigation = new HashSet<Players>();
             PlayersLastTeamNavigation = new HashSet<Players>();
             Presences = new HashSet<Presences>();
@@ -25,6 +26,7 @@ namespace DataAccess.Models
 
         public virtual ICollection<Games> GamesIdTeamAwayNavigation { get; set; }
         public virtual ICollection<Games> GamesIdTeamHomeNavigation { get; set; }
+        public virtual ICollection<Gols> Gols { get; set; }
         public virtual ICollection<Players> PlayersIdTeamNavigation { get; set; }
         public virtual ICollection<Players> PlayersLastTeamNavigation { get; set; }
         public virtual ICollection<Presences> Presences { get; set; }

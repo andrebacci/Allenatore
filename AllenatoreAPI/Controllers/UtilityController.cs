@@ -283,7 +283,7 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                string filepath = _configuration.GetValue<string>("TeamRounds");
+                string filepath = _configuration.GetValue<string>("Game");
 
                 // Controllo l'esistenza del file
                 if (!System.IO.File.Exists(filepath))
@@ -293,7 +293,8 @@ namespace AllenatoreAPI.Controllers
 
                 using (ExcelPackage excelPackage = new ExcelPackage(fi))
                 {
-                    PresenceController presenceController = new PresenceController();
+                    PresenceManager presenceManager = new PresenceManager(_connectionString);
+                    GolManager golManager = new GolManager(_connectionString);
 
                     ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.First();
 
@@ -317,16 +318,57 @@ namespace AllenatoreAPI.Controllers
                         presence.IdPlayer = Convert.ToInt32(rowValues["B" + row].Value);
                         presence.IdTeam = Convert.ToInt32(rowValues["C" + row].Value);
 
-                        ObjectResult objectResult = await presenceController.Insert(presence) as ObjectResult;
-                        ResultData resultData = objectResult.Value as ResultData;
-                        if (resultData.Data == null)
+                        if (rowValues["G" + row].Value != null)
+                            presence.TimeIn = Convert.ToInt32(rowValues["G" + row].Value);
+
+                        if (rowValues["H" + row].Value != null)
+                            presence.TimeOut = Convert.ToInt32(rowValues["H" + row].Value);
+
+                        Presences pre = await presenceManager.Insert(presence);                        
+                        if (pre == null)
                             return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della presenza {presence.IdPlayer}." });
 
-                        // Aggiungere insert per gol
+                        // Inserisco i gol (al momento non vengono popolati i campi IsPenalty, Minute e Details)
+                        if (rowValues["D" + row].Value != null)
+                        {
+                            int gols = Convert.ToInt32(rowValues["D" + row].Value);
+                            
+                            for (int i = 0; i < gols; i++)
+                            {
+                                Gols gol = new Gols
+                                {
+                                    IdPlayer = presence.IdPlayer,
+                                    IdGame = game.Id,
+                                    IdTeam = presence.IdTeam.GetValueOrDefault()
+                                };
+
+                                Gols g = await golManager.Insert(gol);
+                                if (g == null)
+                                    return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento del gol {presence.IdPlayer}." });
+                            }
+                        }
 
                         // Aggiungere insert per cartellini
+                        if (rowValues["E" + row].Value != null)
+                        {
+                            int yellow = Convert.ToInt32(rowValues["E" + row].Value);
+
+                            for (int i = 0; i < yellow; i++)
+                            {
+
+                            }
+                        }
 
                         // Aggiungere insert per sostituzioni
+                        if (rowValues["F" + row].Value != null)
+                        {
+                            int red = Convert.ToInt32(rowValues["F" + row].Value);
+
+                            for (int i = 0; i < red; i++)
+                            {
+
+                            }
+                        }
                     }
                 }
 
