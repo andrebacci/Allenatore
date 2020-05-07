@@ -73,8 +73,8 @@ namespace AllenatoreAPI.Controllers
                         if (g.IdTeamHome == t.Id)
                         {
                             ranking.Games++;
-                            ranking.GoalMade = g.GolTeamHome.GetValueOrDefault();
-                            ranking.GoalConceded = g.GolTeamAway.GetValueOrDefault();
+                            ranking.GoalMade += g.GolTeamHome.GetValueOrDefault();
+                            ranking.GoalConceded += g.GolTeamAway.GetValueOrDefault();
 
                             if (g.GolTeamHome > g.GolTeamAway)
                             {
@@ -95,8 +95,8 @@ namespace AllenatoreAPI.Controllers
                         else if (g.IdTeamAway == t.Id)
                         {
                             ranking.Games++;
-                            ranking.GoalMade = g.GolTeamAway.GetValueOrDefault();
-                            ranking.GoalConceded = g.GolTeamHome.GetValueOrDefault();
+                            ranking.GoalMade += g.GolTeamAway.GetValueOrDefault();
+                            ranking.GoalConceded += g.GolTeamHome.GetValueOrDefault();
 
                             if (g.GolTeamAway > g.GolTeamHome)
                             {
@@ -158,8 +158,11 @@ namespace AllenatoreAPI.Controllers
                 {
                     games = games.Where(x => x.IdTeamHome == t.Id).ToList();
 
-                    RankingAPI ranking = new RankingAPI();
-                    ranking.Team = t.Name;
+                    RankingAPI ranking = new RankingAPI
+                    {
+                        IdTeam = t.Id,
+                        Team = t.Name
+                    };
 
                     foreach (Games g in games)
                     {
@@ -174,8 +177,8 @@ namespace AllenatoreAPI.Controllers
 
                         if (g.GolTeamHome != null && g.GolTeamAway != null)
                         {
-                            ranking.GoalMade = g.GolTeamAway.GetValueOrDefault();
-                            ranking.GoalConceded = g.GolTeamHome.GetValueOrDefault();
+                            ranking.GoalMade += g.GolTeamHome.GetValueOrDefault();
+                            ranking.GoalConceded += g.GolTeamAway.GetValueOrDefault();
                         }
 
                         if (g.GolTeamHome > g.GolTeamAway)
@@ -233,8 +236,11 @@ namespace AllenatoreAPI.Controllers
                 {
                     games = games.Where(x => x.IdTeamAway == t.Id).ToList();
 
-                    RankingAPI ranking = new RankingAPI();
-                    ranking.Team = t.Name;
+                    RankingAPI ranking = new RankingAPI
+                    {
+                        IdTeam = t.Id,
+                        Team = t.Name
+                    };
 
                     foreach (Games g in games)
                     {
@@ -242,15 +248,15 @@ namespace AllenatoreAPI.Controllers
                         if (g.GolTeamHome == null || g.GolTeamAway == null)
                             continue;
 
-                        if (g.IdTeamHome != t.Id)
+                        if (g.IdTeamAway != t.Id)
                             continue;
 
                         ranking.Games++;
 
                         if (g.GolTeamHome != null && g.GolTeamAway != null)
                         {
-                            ranking.GoalMade = g.GolTeamAway.GetValueOrDefault();
-                            ranking.GoalConceded = g.GolTeamHome.GetValueOrDefault();
+                            ranking.GoalMade += g.GolTeamAway.GetValueOrDefault();
+                            ranking.GoalConceded += g.GolTeamHome.GetValueOrDefault();
                         }
 
                         if (g.GolTeamAway > g.GolTeamHome)
@@ -295,6 +301,58 @@ namespace AllenatoreAPI.Controllers
             try
             {
                 ObjectResult objectResult = await Get(0, 0) as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+                List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
+
+                RankingAPI ranking = listRank.Where(x => x.IdTeam == id).FirstOrDefault();
+
+                return StatusCode(200, new ResultData { Data = ranking, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la classifica in casa per una squadra
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetHomeByIdTeam")]
+        [HttpGet]
+        public async Task<IActionResult> GetHomeByIdTeam([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                ObjectResult objectResult = await GetHome(0, 0) as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+                List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
+
+                RankingAPI ranking = listRank.Where(x => x.IdTeam == id).FirstOrDefault();
+
+                return StatusCode(200, new ResultData { Data = ranking, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la classifica in trasferta per una squadra
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetAwayByIdTeam")]
+        [HttpGet]
+        public async Task<IActionResult> GetAwayByIdTeam([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                ObjectResult objectResult = await GetAway(0, 0) as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
                 List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
 

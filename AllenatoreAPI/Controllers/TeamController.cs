@@ -244,6 +244,30 @@ namespace AllenatoreAPI.Controllers
                 statistics.ScoredGols = ranking.GoalMade;
                 statistics.ConcededGols = ranking.GoalConceded;
 
+                // Statistiche in casa
+                objectResult = await rankingController.GetHomeByIdTeam(id) as ObjectResult;
+                resultData = objectResult.Value as ResultData;
+
+                ranking = resultData.Data as RankingAPI;
+
+                statistics.WinsHome = ranking.Wins;
+                statistics.DrawsHome = ranking.Draws;
+                statistics.LostsHome = ranking.Losts;
+                statistics.ScoredGolsHome = ranking.GoalMade;
+                statistics.ConcededGolsHome = ranking.GoalConceded;
+
+                // Statistiche in trasferta
+                objectResult = await rankingController.GetAwayByIdTeam(id) as ObjectResult;
+                resultData = objectResult.Value as ResultData;
+
+                ranking = resultData.Data as RankingAPI;
+
+                statistics.WinsAway = ranking.Wins;
+                statistics.DrawsAway = ranking.Draws;
+                statistics.LostsAway = ranking.Losts;
+                statistics.ScoredGolsAway = ranking.GoalMade;
+                statistics.ConcededGolsAway = ranking.GoalConceded;
+
                 return StatusCode(200, new ResultData { Data = statistics, Status = true, FunctionName = functionName, Message = $"Statistiche trovate con successo." });
             }
             catch (Exception exc)

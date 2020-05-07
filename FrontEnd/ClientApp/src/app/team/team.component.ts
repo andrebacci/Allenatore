@@ -70,7 +70,7 @@ export class TeamComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.sub = this.route.params.subscribe(params => {      
+    this.sub = this.route.params.subscribe(params => {
       this.mode = params['mode'];
 
       if (this.mode == "create") {
@@ -79,9 +79,9 @@ export class TeamComponent implements AfterViewInit {
         this.idTeam = params['id'];
 
         if (this.mode == "update") {
-          this.isReadOnly = false;          
+          this.isReadOnly = false;
         } else if (this.mode == "detail") {
-          this.isReadOnly = true;          
+          this.isReadOnly = true;
         }
 
         // Recupero le informazioni della squadra
@@ -100,7 +100,7 @@ export class TeamComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    
+
   }
 
   // Inizializza il chart delle partite 
@@ -173,7 +173,7 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart dei gol 
   initChartGols(): void {
     this.canvasGols = document.getElementById("chart-gols");
-      this.ctx = this.canvasGols.getContext("2d");
+    this.ctx = this.canvasGols.getContext("2d");
 
     let chart = new Chart(this.ctx, {
       type: 'pie',
@@ -195,7 +195,7 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart dei gol in casa
   initChartGolsHome(): void {
     this.canvasGolsHome = document.getElementById("chart-gols-home");
-      this.ctx = this.canvasGolsHome.getContext("2d");
+    this.ctx = this.canvasGolsHome.getContext("2d");
 
     let chart = new Chart(this.ctx, {
       type: 'pie',
@@ -217,7 +217,7 @@ export class TeamComponent implements AfterViewInit {
   // Inizializza il chart dei gol in trasferta
   initChartGolsAway(): void {
     this.canvasGolsAway = document.getElementById("chart-gols-away");
-      this.ctx = this.canvasGolsAway.getContext("2d");
+    this.ctx = this.canvasGolsAway.getContext("2d");
 
     let chart = new Chart(this.ctx, {
       type: 'pie',
@@ -311,15 +311,14 @@ export class TeamComponent implements AfterViewInit {
   }
 
   // Inizializza tutti i charts
-    initCharts(): void {
-
+  initCharts(): void {
     this.initChartGames();
     this.initChartGamesHome();
     this.initChartGamesAway();
+
     this.initChartGols();
     this.initChartGolsHome();
     this.initChartGolsAway();
-      
   }
 
   // Inizializza i campi della form
@@ -327,7 +326,7 @@ export class TeamComponent implements AfterViewInit {
     this.teamName = this.team.name;
     this.teamCity = this.team.city;
     this.teamCategory = this.team.category;
-    this.teamMister = this.team.mister;    
+    this.teamMister = this.team.mister;
   }
 
   // Svuota tutti i campi
