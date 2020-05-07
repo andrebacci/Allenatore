@@ -25,6 +25,8 @@ namespace DataAccess.Models
         public virtual DbSet<SubstitutionSessions> SubstitutionSessions { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
         public virtual DbSet<Transfers> Transfers { get; set; }
+        public virtual DbSet<UserRoles> UserRoles { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -180,6 +182,38 @@ namespace DataAccess.Models
                     .WithMany(p => p.TransfersIdTeamOldNavigation)
                     .HasForeignKey(d => d.IdTeamOld)
                     .HasConstraintName("FK_Transfers_Teams1");
+            });
+
+            modelBuilder.Entity<UserRoles>(entity =>
+            {
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(25);
+            });
+
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.Property(e => e.Firstname)
+                    .IsRequired()
+                    .HasMaxLength(25);
+
+                entity.Property(e => e.Lastname)
+                    .IsRequired()
+                    .HasMaxLength(25);
+
+                entity.Property(e => e.Mail)
+                    .IsRequired()
+                    .HasMaxLength(25);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(25);
+
+                entity.HasOne(d => d.RoleNavigation)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.Role)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Users_UserRoles");
             });
 
             OnModelCreatingPartial(modelBuilder);
