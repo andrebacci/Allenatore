@@ -119,6 +119,31 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Ritorna tutte le partite dato l'id della squadra in casa e l'id della squadra in trasferta
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetByIdTeams")]
+        [HttpGet]
+        public async Task<IActionResult> GetByIdTeams([FromQuery] int idTeamHome, int idTeamAway)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                GameManager manager = new GameManager(_connectionString);
+                Games games = await manager.GetByIdTeams(idTeamHome, idTeamAway);
+
+                GameAPI ga = new GameAPI(games);
+
+                return StatusCode(200, new ResultData { Data = ga, Status = true, FunctionName = functionName, Message = $"Ok" });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Restituisce tutte le partite giocate da un giocatore
         /// </summary>
         /// <returns></returns>

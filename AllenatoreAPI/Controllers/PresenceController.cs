@@ -48,7 +48,7 @@ namespace AllenatoreAPI.Controllers
                 PresenceManager manager = new PresenceManager(_connectionString);
                 List<Presences> presences = await manager.GetByIdRound(idRound, idTeam);
 
-                return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Piedi trovati." });
+                return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
             {
@@ -71,7 +71,33 @@ namespace AllenatoreAPI.Controllers
                 PresenceManager manager = new PresenceManager(_connectionString);
                 List<Presences> presences = await manager.GetPlayedByIdPlayer(idPlayer);
 
-                return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Piedi trovati." });
+                return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Inserisce una nuova presenza
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        [Route("Insert")]
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] Presences body)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                PresenceManager manager = new PresenceManager(_connectionString);
+                Presences presences = await manager.Insert(body);
+                if (presences == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento di una presenza." });
+
+                return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
             {

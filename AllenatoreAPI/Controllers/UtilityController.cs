@@ -115,14 +115,14 @@ namespace AllenatoreAPI.Controllers
                 ResultData resultData = objectResult.Value as ResultData;
 
                 TeamAPI team = resultData.Data as TeamAPI;
-                
+
                 string filename = string.Concat(team.Name.Trim(), ".xlsx");
                 string filepath = string.Concat(_configuration.GetValue<string>("TeamPlayers"), "\\", filename);
 
                 // Controllo l'esistenza del file
                 if (!System.IO.File.Exists(filepath))
-                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei giocatori non trovato." }); 
-                
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File dei giocatori non trovato." });
+
                 FileInfo fi = new FileInfo(filepath);
 
                 using (ExcelPackage excelPackage = new ExcelPackage(fi))
@@ -146,26 +146,26 @@ namespace AllenatoreAPI.Controllers
 
                         if (rowValues["B" + row].Value != null)
                             player.Firstname = rowValues["B" + row].Value.ToString();
-                        
+
                         if (rowValues["C" + row].Value != null)
                             player.Age = Convert.ToInt32(rowValues["C" + row].Value);
-                        
+
                         if (rowValues["D" + row].Value != null)
                             player.Role = Convert.ToInt32(rowValues["D" + row].Value);
-                        
+
                         if (rowValues["E" + row].Value != null)
                             player.Feet = Convert.ToInt32(rowValues["E" + row].Value);
-                        
+
                         if (rowValues["F" + row].Value != null)
                             player.Penalty = Convert.ToBoolean(rowValues["F" + row].Value);
-                        
+
                         if (rowValues["G" + row].Value != null)
                             player.Details = rowValues["G" + row].Value.ToString();
-                        
+
                         objectResult = await playerController.Insert(player) as ObjectResult;
                         resultData = objectResult.Value as ResultData;
                         if (resultData.Data == null)
-                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento del giocatore." });                                               
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento del giocatore." });
                     }
                 }
 
@@ -259,7 +259,74 @@ namespace AllenatoreAPI.Controllers
                         ObjectResult objectResult = await gameController.Insert(g) as ObjectResult;
                         ResultData resultData = objectResult.Value as ResultData;
                         if (resultData.Data == null)
-                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della partita." });                                               
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della partita." });
+                    }
+                }
+
+                return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Importa le formazioni di una partita
+        /// </summary>
+        /// <returns></returns>
+        [Route("ImportGame")]
+        [HttpGet]
+        public async Task<IActionResult> ImportGame([FromQuery] int idTeamHome, int idTeamAway)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                string filepath = _configuration.GetValue<string>("TeamRounds");
+
+                // Controllo l'esistenza del file
+                if (!System.IO.File.Exists(filepath))
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File delle partite non trovato." });
+
+                FileInfo fi = new FileInfo(filepath);
+
+                using (ExcelPackage excelPackage = new ExcelPackage(fi))
+                {
+                    PresenceController presenceController = new PresenceController();
+
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.First();
+
+                    // Recupero la partita
+                    GameManager gameManager = new GameManager(_connectionString);
+                    Games game = await gameManager.GetByIdTeams(idTeamHome, idTeamAway);
+
+                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                    {
+                        ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
+
+                        if (rowValues["A" + row].Value == null)
+                            return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+
+                        Presences presence = new Presences
+                        {
+                            IdGame = game.Id
+                        };
+
+                        presence.Number = Convert.ToInt32(rowValues["A" + row].Value);
+                        presence.IdPlayer = Convert.ToInt32(rowValues["B" + row].Value);
+                        presence.IdTeam = Convert.ToInt32(rowValues["C" + row].Value);
+
+                        ObjectResult objectResult = await presenceController.Insert(presence) as ObjectResult;
+                        ResultData resultData = objectResult.Value as ResultData;
+                        if (resultData.Data == null)
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della presenza {presence.IdPlayer}." });
+
+                        // Aggiungere insert per gol
+
+                        // Aggiungere insert per cartellini
+
+                        // Aggiungere insert per sostituzioni
                     }
                 }
 

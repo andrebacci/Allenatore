@@ -11,6 +11,7 @@ namespace DataAccess.Models
         public int? TimeIn { get; set; }
         public int? TimeOut { get; set; }
         public int? IdTeam { get; set; }
+        public int? Number { get; set; }
 
         public virtual Games IdGameNavigation { get; set; }
         public virtual Players IdPlayerNavigation { get; set; }
