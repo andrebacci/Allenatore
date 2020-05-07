@@ -17,4 +17,6 @@ export class Player {
   team: string = "";
   lastTeamString: string = "";  
   penaltyString: string = "";
+  countPresences: number = 0;
+  countGols: number = 0;
 }

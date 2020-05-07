@@ -18,7 +18,7 @@ namespace BusinessLogic
             _connectionString = connectionString;
         }
 
-        // Ritorna una presenza dato il suo id
+        // Ritorna un gol dato il suo id
         public async Task<Gols> GetById(int id)
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
@@ -26,6 +26,15 @@ namespace BusinessLogic
                 return await ctx.Gols.Where(x => x.Id == id).FirstOrDefaultAsync();
             }
         }
+
+        // Ritorna tutti i gol di un giocatore
+        public async Task<Gols> GetByIdPlayer(int idPlayer)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Gols.Where(x => x.IdPlayer == idPlayer).FirstOrDefaultAsync();
+            }
+        }        
 
         // Inserisce una nuova presenza
         public async Task<Gols> Insert(Gols body)

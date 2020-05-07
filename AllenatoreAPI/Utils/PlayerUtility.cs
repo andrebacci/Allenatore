@@ -90,5 +90,43 @@ namespace AllenatoreAPI.Utils
                 throw (exc);
             }
         }
+
+        // Ritorna il numero delle presenze di un giocatore
+        public static int GetCountPresences(int id)
+        {
+            try
+            {
+                PresenceController presenceController = new PresenceController();
+                ObjectResult objectResult = presenceController.GetPlayedByIdPlayer(id).Result as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+                if (resultData.Data == null)
+                    return 0;
+
+                return (resultData.Data as List<Presences>).Count;
+            }
+            catch (Exception exc)
+            {
+                throw (exc);
+            }
+        }
+
+        // Ritorna il numero di gol di un giocatore
+        public static int GetCountGols(int id)
+        {
+            try
+            {
+                GolController golController = new GolController();
+                ObjectResult objectResult = golController.GetByIdPlayer(id).Result as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+                if (resultData.Data == null)
+                    return 0;
+
+                return (resultData.Data as List<Gols>).Count;
+            }
+            catch (Exception exc)
+            {
+                throw (exc);
+            }
+        }
     }
 }

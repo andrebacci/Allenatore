@@ -58,5 +58,27 @@ namespace AllenatoreAPI.Controllers
                 return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
         }
+
+        [Route("GetByIdPlayer")]
+        [HttpGet]
+        public async Task<IActionResult> GetByIdPlayer([FromQuery] int idPlayer)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                GolManager manager = new GolManager(_connectionString);
+                Gols gol = await manager.GetByIdPlayer(idPlayer);
+                if (gol == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante la ricerca dei gol." });
+
+                return StatusCode(200, new ResultData { Data = gol, Status = true, FunctionName = functionName, Message = $"Ok." });
+
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
     }
 }
