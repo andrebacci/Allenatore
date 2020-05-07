@@ -77,7 +77,7 @@ namespace BusinessLogic
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
-                return await ctx.Players.ToListAsync();
+                return await ctx.Players.OrderBy(x => x.Firstname).OrderBy(x => x.Lastname).ToListAsync();
             }
         }
     }
