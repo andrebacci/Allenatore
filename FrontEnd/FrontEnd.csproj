@@ -43,8 +43,10 @@
     <None Remove="ClientApp\src\models\team.ts" />
     <None Remove="ClientApp\src\models\teamStatistics.ts" />
     <None Remove="ClientApp\src\models\transfer.ts" />
+    <None Remove="ClientApp\src\models\userLogin.ts" />
     <None Remove="ClientApp\src\services\feet.service.ts" />
     <None Remove="ClientApp\src\services\game.service.ts" />
+    <None Remove="ClientApp\src\services\login.service.ts" />
     <None Remove="ClientApp\src\services\player.service.ts" />
     <None Remove="ClientApp\src\services\role.service.ts" />
     <None Remove="ClientApp\src\services\round.service.ts" />
@@ -73,8 +75,10 @@
     <TypeScriptCompile Include="ClientApp\src\models\teamStatistics.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\team.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\transfer.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\userLogin.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\feet.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\game.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\services\login.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\player.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\role.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\services\round.service.ts" />

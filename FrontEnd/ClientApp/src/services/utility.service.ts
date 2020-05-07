@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class UtilityService {
 
-  baseUrl: string = "https://localhost:44328/";
+    baseUrl: string = "https://localhost:44328/";
 
   constructor(private http: HttpClient) {
 

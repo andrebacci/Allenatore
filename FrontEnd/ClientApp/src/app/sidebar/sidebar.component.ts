@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 
 export class SidebarComponent {
+
+    readOnly: boolean = true;
+
+    ngOnInit(): void {
+
+        this.readOnly = (localStorage.getItem('readOnly') == 'true');
+
+    }
 }

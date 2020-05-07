@@ -19,6 +19,7 @@ import { TeamsComponent } from './teams/teams.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { UtilityComponent } from './utility/utility.component';
+import { LoginComponent } from './login/login.component';
 
 // Servizi
 import { FeetService } from '../services/feet.service';
@@ -30,6 +31,7 @@ import { RoundService } from '../services/round.service';
 import { TeamService } from '../services/team.service';
 import { TransferService } from '../services/transferService';
 import { UtilityService } from '../services/utility.service';
+import { LoginService } from '../services/login.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { UtilityService } from '../services/utility.service';
     TeamsComponent,
     TransferComponent,
     TransfersComponent,
-    UtilityComponent
+    UtilityComponent,
+    LoginComponent
   ],
   imports: [
     AngularFontAwesomeModule,
@@ -65,7 +68,8 @@ import { UtilityService } from '../services/utility.service';
       { path: 'teams', component: TeamsComponent },
       { path: 'transfer/create', component: TransferComponent },
       { path: 'transfers', component: TransfersComponent },
-      { path: 'utility', component: UtilityComponent }
+      { path: 'utility', component: UtilityComponent },
+      { path: 'login', component: LoginComponent}
     ])
   ],
   providers: [
@@ -77,7 +81,8 @@ import { UtilityService } from '../services/utility.service';
     RoundService,
     TeamService,
     TransferService,
-    UtilityService
+    UtilityService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })
