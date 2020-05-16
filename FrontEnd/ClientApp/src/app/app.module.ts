@@ -15,6 +15,7 @@ import { GameInfoComponent } from './game-info/game-info.component';
 import { LoginComponent } from './login/login.component';
 import { PlayerComponent } from './player/player.component';
 import { PlayersComponent } from './players/players.component';
+import { RankingComponent } from './ranking/ranking.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TeamComponent } from './team/team.component';
 import { TeamsComponent } from './teams/teams.component';
@@ -45,6 +46,7 @@ import { LoginService } from '../services/login.service';
     LoginComponent,
     PlayerComponent,
     PlayersComponent,
+    RankingComponent,
     SidebarComponent,
     TeamComponent,
     TeamsComponent,
@@ -67,6 +69,7 @@ import { LoginService } from '../services/login.service';
       { path: 'player/:mode', component: PlayerComponent },
       { path: 'player/:mode/:id', component: PlayerComponent },
       { path: 'players', component: PlayersComponent },
+      { path: 'ranking/:mode', component: RankingComponent },
       { path: 'team/:mode', component: TeamComponent },
       { path: 'team/:mode/:id', component: TeamComponent },
       { path: 'teams', component: TeamsComponent },

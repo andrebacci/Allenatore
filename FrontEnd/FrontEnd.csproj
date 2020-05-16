@@ -29,6 +29,7 @@
     <None Remove="ClientApp\src\app\game\game.component.ts" />
     <None Remove="ClientApp\src\app\players\players.component.ts" />
     <None Remove="ClientApp\src\app\player\player.component.ts" />
+    <None Remove="ClientApp\src\app\ranking\ranking.component.ts" />
     <None Remove="ClientApp\src\app\sidebar\sidebar.component.ts" />
     <None Remove="ClientApp\src\app\team\team.component.ts" />
     <None Remove="ClientApp\src\app\transfers\transfers.component.ts" />
@@ -64,6 +65,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\game\game.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\players\players.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\player\player.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\ranking\ranking.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\sidebar\sidebar.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\team\team.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\transfers\transfers.component.ts" />
