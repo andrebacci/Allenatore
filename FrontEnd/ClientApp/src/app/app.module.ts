@@ -30,10 +30,12 @@ import { PlayerService } from '../services/player.service';
 import { RankingService } from '../services/ranking.service';
 import { RoleService } from '../services/role.service';
 import { RoundService } from '../services/round.service';
+import { ScorerComponent } from './scorer/scorer.component';
 import { TeamService } from '../services/team.service';
 import { TransferService } from '../services/transferService';
 import { UtilityService } from '../services/utility.service';
 import { LoginService } from '../services/login.service';
+import { ScorerService } from '../services/scorer.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { LoginService } from '../services/login.service';
     PlayerComponent,
     PlayersComponent,
     RankingComponent,
+    ScorerComponent,
     SidebarComponent,
     TeamComponent,
     TeamsComponent,
@@ -70,6 +73,7 @@ import { LoginService } from '../services/login.service';
       { path: 'player/:mode/:id', component: PlayerComponent },
       { path: 'players', component: PlayersComponent },
       { path: 'ranking/:mode', component: RankingComponent },
+      { path: 'scorer', component: ScorerComponent },
       { path: 'team/:mode', component: TeamComponent },
       { path: 'team/:mode/:id', component: TeamComponent },
       { path: 'teams', component: TeamsComponent },
@@ -81,14 +85,15 @@ import { LoginService } from '../services/login.service';
   providers: [
     FeetService,
     GameService,
+    LoginService,
     PlayerService,
     RankingService,
     RoleService,
     RoundService,
+    ScorerService,
     TeamService,
     TransferService,
-    UtilityService,
-    LoginService
+    UtilityService    
   ],
   bootstrap: [AppComponent]
 })

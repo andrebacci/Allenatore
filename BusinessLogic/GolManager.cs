@@ -45,6 +45,15 @@ namespace BusinessLogic
             }
         }
 
+        // Ritorna tutti i gol
+        public async Task<List<Gols>> GetAll()
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Gols.ToListAsync();
+            }
+        }
+
         // Inserisce una nuova presenza
         public async Task<Gols> Insert(Gols body)
         {

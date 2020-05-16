@@ -1,4 +1,5 @@
-﻿using AllenatoreAPI.Result;
+﻿using AllenatoreAPI.Models;
+using AllenatoreAPI.Result;
 using AllenatoreAPI.Utils;
 using BusinessLogic;
 using DataAccess.Models;
@@ -106,6 +107,63 @@ namespace AllenatoreAPI.Controllers
                     return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante la ricerca dei gol." });
 
                 return StatusCode(200, new ResultData { Data = gols, Status = true, FunctionName = functionName, Message = $"Ok." });
+
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna la classifica dei marcatori
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetRankingGols")]
+        [HttpGet]
+        public async Task<IActionResult> GetRankingGols()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                List<ScorerAPI> scorers = new List<ScorerAPI>();
+
+                GolManager manager = new GolManager(_connectionString);
+                List<Gols> gols = await manager.GetAll();
+                if (gols == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante la ricerca dei gol." });
+
+                foreach (Gols g in gols)
+                {
+                    if (scorers.Count > 0)
+                    {
+                        ScorerAPI s = scorers.Where(x => x.IdPlayer == g.IdPlayer).First();
+                        if (s != null)
+                        {
+                            s.Gols++;
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        ScorerAPI scorer = new ScorerAPI
+                        {
+                            IdPlayer = g.IdPlayer,
+                            Firstname = "",
+                            Lastname = "",
+                            Fullname = PlayerUtility.GetFullname(g.IdPlayer),
+                            Teamname = TeamUtility.GetTeamName(g.IdTeam),
+                            Gols = 1
+                        };
+
+                        scorers.Add(scorer);
+                    }
+                }
+
+                scorers = scorers.OrderByDescending(x => x.Gols).ToList();
+
+                return StatusCode(200, new ResultData { Data = scorers, Status = true, FunctionName = functionName, Message = $"Ok." });
 
             }
             catch (Exception exc)

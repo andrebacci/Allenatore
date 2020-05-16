@@ -1,0 +1,45 @@
+<div class="app-main__outer">
+  <div class="app-main__inner">
+
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <div class="main-card mb-3 card">
+          <div class="card-header">
+            CLASSIFICA MARCATORI
+            <!--<div class="btn-actions-pane-right">
+            <div role="group" class="btn-group-sm btn-group">
+              <button class="active btn btn-focus">Last Week</button>
+              <button class="btn btn-focus">All Month</button>
+            </div>
+          </div>-->
+          </div>
+          <div class="table-responsive">
+            <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+              <thead>
+                <tr>
+                  <th class="text-center">#</th>
+                  <th class="text-center">Giocatore</th>
+                  <th class="text-center">Squadra</th>
+                  <th class="text-center">Gol fatti</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let s of scorers">
+                  <td class="text-center text-muted">#345</td>
+                  <td class="text-center">{{s.fullname}}</td>
+                  <td class="text-center">{{s.teamname}}</td>
+                  <td class="text-center">{{s.gols}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--<div class="d-block text-center card-footer">
+          <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
+          <button class="btn-wide btn btn-success">Save</button>
+        </div>-->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

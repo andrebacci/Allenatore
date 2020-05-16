@@ -1,10 +1,3 @@
-using AllenatoreAPI.Utils;
-using DataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace AllenatoreAPI.Models
 {
     public class ScorerAPI
@@ -14,6 +7,16 @@ namespace AllenatoreAPI.Models
 
         }
 
-        
+        public int IdPlayer { get; set; }        
+
+        public string Firstname { get; set; }
+
+        public string Lastname { get; set; }
+
+        public string Fullname { get; set; }
+
+        public string Teamname { get; set; }
+
+        public int Gols { get; set; }       
     }
 }
