@@ -147,12 +147,19 @@ namespace AllenatoreAPI.Utils
 
                 foreach (Presences p in presences)
                 {
+                    int? golsCount = null;
+                    List<Gols> gols = GolUtility.GetPlayerGolsByIdGame(p.IdPlayer, p.IdGame);
+                    if (gols != null)
+                        golsCount = gols.Count;
+
                     PlayerGameAPI pg = new PlayerGameAPI
                     {
                         Id = p.IdPlayer,
                         Fullname = GetFullname(p.IdPlayer),
                         ChangeIn = p.TimeIn > 0 ? p.TimeIn : null,
-                        ChangeOut = p.TimeOut < 90 ? p.TimeOut : null
+                        ChangeOut = p.TimeOut < 90 ? p.TimeOut : null,
+                        Number = p.Number.GetValueOrDefault(),
+                        Gols = golsCount == 0 ? null : golsCount
                     };
 
                     formation.Add(pg);

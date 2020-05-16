@@ -1,13 +1,15 @@
 export class PlayerGame {
-    id: number = 0;
+  id: number = 0;
 
-    fullname: string = "";
+  fullname: string = "";
 
-    yellowCards: number = 0;
-    redCards: number = 0;
+  yellowCards: number;
+  redCards: number;
 
-    gols: number = 0;
+  gols: number;
 
-    changeIn: number = 0;
-    changeOut: number = 0;
+  changeIn: number = 0;
+  changeOut: number = 0;
+
+  number: number = 0;
 }

@@ -98,10 +98,6 @@
         <h5 class="card-title">DETTAGLI PARTITA</h5>
 
         <div class="row">
-          <button class="btn btn-primary" type="button" (click)="exportPdf()" *ngIf="isReadOnly">Esporta</button>
-        </div>
-
-        <div class="row">
           <div class="col-md-6">
             <table class="table table-borderless table-striped table-hover">
               <tr>
@@ -114,6 +110,7 @@
                 <td>ESP</td>
               </tr>
               <tr *ngFor="let p of game.playersHome">
+                <td>{{p.number}}</td>
                 <td>{{p.fullname}}</td>
                 <td>{{p.gols}}</td>
                 <td>{{p.changeIn}}</td>
@@ -135,6 +132,7 @@
                 <td>ESP</td>
               </tr>
               <tr *ngFor="let p of game.playersAway">
+                <td>{{p.number}}</td>
                 <td>{{p.fullname}}</td>
                 <td>{{p.gols}}</td>
                 <td>{{p.changeIn}}</td>
@@ -144,6 +142,10 @@
               </tr>
             </table>
           </div>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-primary" type="button" (click)="exportPdf()" *ngIf="isReadOnly"><i class="fas fa-print mr-2"></i>Stampa</button>
         </div>
       </div>
     </div>

@@ -34,7 +34,16 @@ namespace BusinessLogic
             {
                 return await ctx.Gols.Where(x => x.IdPlayer == idPlayer).ToListAsync();
             }
-        }        
+        }       
+        
+        // Ritorna i gol di un giocatore in una partita
+        public async Task<List<Gols>> GetGolByIdPlayerIdGame(int idPlayer, int idGame)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Gols.Where(x => x.IdPlayer == idPlayer && x.IdGame == idGame).ToListAsync();
+            }
+        }
 
         // Inserisce una nuova presenza
         public async Task<Gols> Insert(Gols body)

@@ -59,6 +59,11 @@ namespace AllenatoreAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Ritorna i gol segnati da un giocatore
+        /// </summary>
+        /// <param name="idPlayer"></param>
+        /// <returns></returns>
         [Route("GetByIdPlayer")]
         [HttpGet]
         public async Task<IActionResult> GetByIdPlayer([FromQuery] int idPlayer)
@@ -69,6 +74,34 @@ namespace AllenatoreAPI.Controllers
             {
                 GolManager manager = new GolManager(_connectionString);
                 List<Gols> gols = await manager.GetByIdPlayer(idPlayer);
+                if (gols == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante la ricerca dei gol." });
+
+                return StatusCode(200, new ResultData { Data = gols, Status = true, FunctionName = functionName, Message = $"Ok." });
+
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna i gol di un giocatore in una partita
+        /// </summary>
+        /// <param name="idPlayer"></param>
+        /// <param name="idGame"></param>
+        /// <returns></returns>
+        [Route("GetGolByIdPlayerIdGame")]
+        [HttpGet]
+        public async Task<IActionResult> GetGolByIdPlayerIdGame([FromQuery] int idPlayer, int idGame)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                GolManager manager = new GolManager(_connectionString);
+                List<Gols> gols = await manager.GetGolByIdPlayerIdGame(idPlayer, idGame);
                 if (gols == null)
                     return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante la ricerca dei gol." });
 

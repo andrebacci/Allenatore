@@ -19,14 +19,16 @@ namespace AllenatoreAPI.Models
 
         public string Fullname { get; set; }
         
-        public int YellowCards { get; set; }
+        public int? YellowCards { get; set; }
 
-        public int RedCards { get; set; }
+        public int? RedCards { get; set; }
 
-        public int Gols { get; set; }
+        public int? Gols { get; set; }
 
         public int? ChangeIn { get; set; }
 
         public int? ChangeOut { get; set; }
+
+        public int Number { get; set; }
     }
 }
