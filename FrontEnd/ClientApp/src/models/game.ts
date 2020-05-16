@@ -3,8 +3,8 @@ import { PlayerGame } from "./playerGame";
 export class Game {
   id: number = 0;
 
-  idTeamHome: number = 0;
-  idTeamAway: number = 0;
+  idTeamHome: number;
+  idTeamAway: number;
 
   golTeamHome: number = 0;
   golTeamAway: number = 0;

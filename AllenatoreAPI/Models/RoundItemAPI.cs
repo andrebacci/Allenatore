@@ -21,8 +21,8 @@ namespace AllenatoreAPI.Models
             TeamHome = TeamUtility.GetTeamName(game.IdTeamHome);
             TeamAway = TeamUtility.GetTeamName(game.IdTeamAway);
 
-            GolHome = game.GolTeamHome.GetValueOrDefault();
-            GolAway = game.GolTeamAway.GetValueOrDefault();
+            GolHome = game.GolTeamHome;
+            GolAway = game.GolTeamAway;
         }
 
         public int IdGame { get; set; }
@@ -31,8 +31,8 @@ namespace AllenatoreAPI.Models
 
         public string TeamAway { get; set; }
 
-        public int GolHome { get; set; }
+        public int? GolHome { get; set; }
 
-        public int GolAway { get; set; }
+        public int? GolAway { get; set; }
     }
 }

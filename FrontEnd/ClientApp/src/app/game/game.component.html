@@ -81,13 +81,6 @@
                   Please provide a valid city.
                 </div>
               </div>
-              <div class="col-md-4 mb-3">
-                <label for="validationCustom03">Giornata</label>
-                <input type="date" class="form-control" id="validationCustom04" placeholder="Data" [(ngModel)]="date" name="date" #ctrl="ngModel" required>
-                <div class="invalid-feedback">
-                  Please provide a valid city.
-                </div>
-              </div>
             </div>
           </fieldset>
 
@@ -102,7 +95,7 @@
     </div>
 
     <!-- parte sotto -->
-    <div class="main-card mb-3 card">
+    <div class="main-card mb-3 card" *ngIf="isReadOnly">
       <div class="card-body">
         <h5 class="card-title">DETTAGLI PARTITA</h5>
 

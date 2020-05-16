@@ -175,7 +175,7 @@
                     <td class="text-left" *ngIf="g.timeIn != 0">Subentrato al minuto {{g.timeIn}}</td>
                     <td class="text-left" *ngIf="g.timeOut == 90"></td>
                     <td class="text-left" *ngIf="g.timeOut != 90">Uscito al minuto {{g.timeOut}}</td>
-                    <td class="text-left">Minuti giocati {{g.timeOut - g.timeIn}}</td>
+                    <td class="text-left">{{g.timeOut - g.timeIn}} minuti giocati</td>
                     <td>
                       <button type="button" id="btn-detail-team" class="btn btn-primary btn-sm" data-toggle="Dettaglio" (click)="detailGame(g.idGame)">
                         <i class="fas fa-search"></i>
