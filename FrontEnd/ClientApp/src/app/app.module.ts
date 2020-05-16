@@ -9,8 +9,10 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
+import { CalendarComponent } from './calendar/calendar.component';
 import { GameComponent } from './game/game.component';
 import { GameInfoComponent } from './game-info/game-info.component';
+import { LoginComponent } from './login/login.component';
 import { PlayerComponent } from './player/player.component';
 import { PlayersComponent } from './players/players.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -19,7 +21,6 @@ import { TeamsComponent } from './teams/teams.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { TransfersComponent } from './transfers/transfers.component';
 import { UtilityComponent } from './utility/utility.component';
-import { LoginComponent } from './login/login.component';
 
 // Servizi
 import { FeetService } from '../services/feet.service';
@@ -38,8 +39,10 @@ import { LoginService } from '../services/login.service';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
+    CalendarComponent,
     GameComponent,
     GameInfoComponent,
+    LoginComponent,
     PlayerComponent,
     PlayersComponent,
     SidebarComponent,
@@ -47,8 +50,7 @@ import { LoginService } from '../services/login.service';
     TeamsComponent,
     TransferComponent,
     TransfersComponent,
-    UtilityComponent,
-    LoginComponent
+    UtilityComponent     
   ],
   imports: [
     AngularFontAwesomeModule,
@@ -57,9 +59,11 @@ import { LoginService } from '../services/login.service';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'calendar', component: CalendarComponent },
       { path: 'game/:mode', component: GameComponent },
       { path: 'game/:mode/:id', component: GameComponent },
       { path: 'game-info/:mode/:id', component: GameInfoComponent },
+      { path: 'login', component: LoginComponent },
       { path: 'player/:mode', component: PlayerComponent },
       { path: 'player/:mode/:id', component: PlayerComponent },
       { path: 'players', component: PlayersComponent },
@@ -68,8 +72,7 @@ import { LoginService } from '../services/login.service';
       { path: 'teams', component: TeamsComponent },
       { path: 'transfer/create', component: TransferComponent },
       { path: 'transfers', component: TransfersComponent },
-      { path: 'utility', component: UtilityComponent },
-      { path: 'login', component: LoginComponent}
+      { path: 'utility', component: UtilityComponent }
     ])
   ],
   providers: [

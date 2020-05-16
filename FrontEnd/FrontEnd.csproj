@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\calendar\calendar.component.ts" />
     <None Remove="ClientApp\src\app\game-info\game-info.component.ts" />
     <None Remove="ClientApp\src\app\game\game.component.ts" />
     <None Remove="ClientApp\src\app\players\players.component.ts" />
@@ -58,6 +59,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\calendar\calendar.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\game-info\game-info.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\game\game.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\players\players.component.ts" />
