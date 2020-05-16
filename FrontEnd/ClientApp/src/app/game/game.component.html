@@ -25,8 +25,7 @@
           <fieldset [disabled]="isReadOnly">
             <div class="form-row">
               <div class="col-md-4 mb-3">
-                <label for="validationCustom01">Squadra Casa</label>
-                <!--<input type="text" class="form-control" id="validationCustom01" placeholder="Squadra Casa" [(ngModel)]="teamHome" name="teamHome" #ctrl="ngModel" required>-->
+                <label for="validationCustom01">Squadra Casa</label>                
                 <select name="select-team-home" id="select-team-home" class="form-control" [(ngModel)]="selectedTeamHome">
                   <option *ngFor="let t of teams" [value]="t.name">{{t.name}}</option>
                 </select>
@@ -35,8 +34,7 @@
                 </div>
               </div>
               <div class="col-md-4 mb-3">
-                <label for="validationCustom02">Squadra Trasferta</label>
-                <!--<input type="text" class="form-control" id="validationCustom02" placeholder="Squadra Trasferta" [(ngModel)]="teamAway" name="teamAway" #ctrl="ngModel" required>-->
+                <label for="validationCustom02">Squadra Trasferta</label>                
                 <select name="select-team-awat" id="select-team-away" class="form-control" [(ngModel)]="selectedTeamAway">
                   <option *ngFor="let t of teams" [value]="t.name">{{t.name}}</option>
                 </select>
@@ -45,14 +43,14 @@
                 </div>
               </div>
               <div class="col-md-2 mb-3">
-                <label for="validationCustom03">Risultato</label>
+                <label for="validationCustom03">Gol Casa</label>
                 <input type="text" class="form-control" id="validationCustom03" placeholder="" [(ngModel)]="golHome" name="golHome" #ctrl="ngModel" required>
                 <div class="valid-feedback">
                   Looks good!
                 </div>
               </div>
               <div class="col-md-2 mb-3">
-                <label for="validationCustom03">Data</label>
+                <label for="validationCustom03">Gol Trasferta</label>
                 <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="golAway" name="golAway" #ctrl="ngModel" required>
                 <div class="invalid-feedback">
                   Please provide a valid city.
@@ -110,13 +108,36 @@
                 <td>#</td>
                 <td>GIOCATORE</td>
                 <td>GOL</td>
-                <td>SOS</td>
+                <td>SOS OUT</td>
+                <td>SOS IN</td>
                 <td>AMM</td>
                 <td>ESP</td>
               </tr>
               <tr *ngFor="let p of game.playersHome">
                 <td>{{p.fullname}}</td>
                 <td>{{p.gols}}</td>
+                <td>{{p.changeIn}}</td>
+                <td>{{p.changeOut}}</td>
+                <td>{{p.yellowCards}}</td>
+                <td>{{p.redCards}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-borderless table-striped table-hover">
+              <tr>
+                <td>#</td>
+                <td>GIOCATORE</td>
+                <td>GOL</td>
+                <td>SOS OUT</td>
+                <td>SOS IN</td>
+                <td>AMM</td>
+                <td>ESP</td>
+              </tr>
+              <tr *ngFor="let p of game.playersAway">
+                <td>{{p.fullname}}</td>
+                <td>{{p.gols}}</td>
+                <td>{{p.changeIn}}</td>
                 <td>{{p.changeOut}}</td>
                 <td>{{p.yellowCards}}</td>
                 <td>{{p.redCards}}</td>

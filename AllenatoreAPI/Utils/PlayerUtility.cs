@@ -1,4 +1,5 @@
 ﻿using AllenatoreAPI.Controllers;
+using AllenatoreAPI.Models;
 using AllenatoreAPI.Result;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -122,6 +123,42 @@ namespace AllenatoreAPI.Utils
                     return 0;
 
                 return (resultData.Data as List<Gols>).Count;
+            }
+            catch (Exception exc)
+            {
+                throw (exc);
+            }
+        }
+
+        // Ritorna la lista di giocatori di una partita
+        public static List<PlayerGameAPI> GetFormation(int idGame, int idTeam)
+        {
+            try
+            {
+                List<PlayerGameAPI> formation = new List<PlayerGameAPI>();
+
+                PresenceController presenceController = new PresenceController();
+                ObjectResult objectResult = presenceController.GetByIdGameIdTeam(idGame, idTeam).Result as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+                if (resultData.Data == null)
+                    return formation;
+
+                List<Presences> presences = resultData.Data as List<Presences>;
+
+                foreach (Presences p in presences)
+                {
+                    PlayerGameAPI pg = new PlayerGameAPI
+                    {
+                        Id = p.IdPlayer,
+                        Fullname = GetFullname(p.IdPlayer),
+                        ChangeIn = p.TimeIn > 0 ? p.TimeIn : null,
+                        ChangeOut = p.TimeOut < 90 ? p.TimeOut : null
+                    };
+
+                    formation.Add(pg);
+                }
+
+                return formation;
             }
             catch (Exception exc)
             {

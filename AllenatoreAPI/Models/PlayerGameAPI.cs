@@ -10,13 +10,6 @@ namespace AllenatoreAPI.Models
 {
     public class PlayerGameAPI
     {
-        // public PlayerGameAPI(Presences presence)
-        // {
-        //     Id = presence.IdPlayer;
-
-        //     Fullname = Utils.PlayerUtility.GetFullname(presence.IdPlayer);
-        // }
-
         public PlayerGameAPI()
         {
             
@@ -32,8 +25,8 @@ namespace AllenatoreAPI.Models
 
         public int Gols { get; set; }
 
-        public int ChangeIn { get; set; }
+        public int? ChangeIn { get; set; }
 
-        public int ChangeOut { get; set; }
+        public int? ChangeOut { get; set; }
     }
 }

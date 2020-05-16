@@ -52,7 +52,7 @@ namespace AllenatoreAPI.Controllers
 
                 foreach (Games g in games)
                 {
-                    GameAPI ga = new GameAPI(g);
+                    GameAPI ga = new GameAPI(g, false);
                     gamesApi.Add(ga);
                 }
 
@@ -78,7 +78,7 @@ namespace AllenatoreAPI.Controllers
             {
                 GameManager gameManager = new GameManager(_connectionString);
                 Games game = await gameManager.GetById(id);
-                GameAPI ga = new GameAPI(game);
+                GameAPI ga = new GameAPI(game, true);
 
                 return StatusCode(200, new ResultData { Data = ga, Status = true, FunctionName = functionName, Message = $"Ok" });
             }
@@ -107,7 +107,7 @@ namespace AllenatoreAPI.Controllers
 
                 foreach (Games g in games)
                 {
-                    ga.Add(new GameAPI(g));
+                    ga.Add(new GameAPI(g, false));
                 }
 
                 return StatusCode(200, new ResultData { Data = ga, Status = true, FunctionName = functionName, Message = $"Ok" });
@@ -133,7 +133,7 @@ namespace AllenatoreAPI.Controllers
                 GameManager manager = new GameManager(_connectionString);
                 Games games = await manager.GetByIdTeams(idTeamHome, idTeamAway);
 
-                GameAPI ga = new GameAPI(games);
+                GameAPI ga = new GameAPI(games, false);
 
                 return StatusCode(200, new ResultData { Data = ga, Status = true, FunctionName = functionName, Message = $"Ok" });
             }

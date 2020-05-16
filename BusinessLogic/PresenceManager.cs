@@ -28,11 +28,11 @@ namespace BusinessLogic
         }
 
         // Ritorna i giocatori schierati da una squadra in una partita
-        public async Task<List<Presences>> GetByIdRound(int idRound, int idTeam)
+        public async Task<List<Presences>> GetByIdGameIdTeam(int idGame, int idTeam)
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
-                return await ctx.Presences.Where(x => x.Id == idRound && x.IdTeam == idTeam).ToListAsync();
+                return await ctx.Presences.Where(x => x.IdGame == idGame && x.IdTeam == idTeam).ToListAsync();
             }
         }
 

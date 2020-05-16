@@ -37,16 +37,16 @@ namespace AllenatoreAPI.Controllers
         /// Ritorna tutti i giocatori di una squadra che hanno giocato una partita
         /// </summary>
         /// <returns></returns>
-        [Route("GetByIdRound")]
+        [Route("GetByIdGameIdTeam")]
         [HttpGet]
-        public async Task<IActionResult> GetByIdRound([FromQuery] int idRound, int idTeam)
+        public async Task<IActionResult> GetByIdGameIdTeam([FromQuery] int idGame, int idTeam)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
                 PresenceManager manager = new PresenceManager(_connectionString);
-                List<Presences> presences = await manager.GetByIdRound(idRound, idTeam);
+                List<Presences> presences = await manager.GetByIdGameIdTeam(idGame, idTeam);
 
                 return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Ok." });
             }

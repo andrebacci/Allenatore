@@ -9,7 +9,7 @@ namespace AllenatoreAPI.Models
 {
     public class GameAPI : Games
     {
-        public GameAPI(Games g)
+        public GameAPI(Games g, bool createFormation)
         {
             Id = g.Id;
 
@@ -28,8 +28,11 @@ namespace AllenatoreAPI.Models
             TeamHome = TeamUtility.GetTeamName(IdTeamHome);            
             TeamAway = TeamUtility.GetTeamName(IdTeamAway);
 
-            PlayersHome = new List<PlayerGameAPI>();
-            PlayersAway = new List<PlayerGameAPI>();
+            if (createFormation)
+            {
+                PlayersHome = PlayerUtility.GetFormation(g.Id, g.IdTeamHome);
+                PlayersAway = PlayerUtility.GetFormation(g.Id, g.IdTeamAway);
+            }
         }
 
         public int RoundNumber { get; set; }
