@@ -105,7 +105,7 @@ export class GameComponent {
     this.golHome = this.game.golTeamHome;
     this.golAway = this.game.golTeamAway;
 
-    this.round = this.game.round;
+    this.round = this.game.roundNumber;
     this.date = this.game.date;
 
     this.moduleHome = this.game.moduleHome;

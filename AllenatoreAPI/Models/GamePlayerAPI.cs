@@ -14,6 +14,8 @@ namespace AllenatoreAPI.Models
         {
             Id = g.Id;
 
+            Round = GameUtility.GetNumber(g.Round.GetValueOrDefault());
+
             IdTeamHome = g.IdTeamHome;
             IdTeamAway = g.IdTeamAway;
 

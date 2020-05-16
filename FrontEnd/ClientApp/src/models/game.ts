@@ -2,6 +2,7 @@ import { PlayerGame } from "./playerGame";
 
 export class Game {
   id: number = 0;
+
   idTeamHome: number = 0;
   idTeamAway: number = 0;
 
@@ -10,7 +11,7 @@ export class Game {
 
   date: Date = null;
 
-  round: number = 0;
+  roundNumber: number = 0;
 
   moduleHome: string = "";
   moduleAway: string = "";

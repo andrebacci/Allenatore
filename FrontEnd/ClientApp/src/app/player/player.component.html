@@ -125,16 +125,68 @@
         <div class="tab-content">
 
           <!-- tab 1 -->
-          <div class="tab-pane tabs-animation fade show active" id="tab-content-1" role="tabpanel">
-            <div class="row" style="background-color:red">
-              <p>TAB 1</p>
+          <div class="tab-pane tabs-animation fade show active" id="tab-content-1" role="tabpanel" *ngIf="statistics">
+            <div class="row">
+              <div class="col-md-4">
+                Minuti giocati: {{statistics.minutes}}
+              </div>
+              <div class="col-md-4">
+                Partite giocate: {{statistics.gamesAll}}
+              </div>
+              <div class="col-md-4">
+                Gol fatti: {{statistics.gols}}
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-md-4">
+                Partite titolare: {{statistics.gamesHolder}}
+              </div>
+              <div class="col-md-4">
+                Partite subentrato: {{statistics.gamesIn}}
+              </div>
+              <div class="col-md-4">
+                Partite sostituito: {{statistics.gamesOut}}
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-md-4">
+                Media minuti giocati: {{statistics.minutes / statistics.gamesAll}}
+              </div>
+              <div class="col-md-4">
+                Ultima partita giocata: {{statistics.lastGame}}
+              </div>
+              <div class="col-md-4">
+                Ultima partita titolare: {{statistics.lastGameHolder}}
+              </div>
             </div>
           </div>
 
           <!-- tab 2 -->
           <div class="tab-pane tabs-animation fade" id="tab-content-2" role="tabpanel">
-            <div class="row" style="background-color:blue">
-              <p>TAB 2</p>
+            <div class="row" *ngIf="games.length > 0">
+              <table class="mb-0 table table-sm">
+                <tbody>
+                  <tr *ngFor="let g of games">
+                    <td class="text-center">{{g.round}}° Giornata</td>
+                    <td class="text-right">{{g.teamHome}}</td>
+                    <td class="text-center">{{g.golTeamHome}} - {{g.golTeamAway}}</td>
+                    <td class="text-left">{{g.teamAway}}</td>
+                    <td class="text-left" *ngIf="g.timeIn == 0">Titolare</td>
+                    <td class="text-left" *ngIf="g.timeIn != 0">Subentrato al minuto {{g.timeIn}}</td>
+                    <td class="text-left" *ngIf="g.timeOut == 90"></td>
+                    <td class="text-left" *ngIf="g.timeOut != 90">Uscito al minuto {{g.timeOut}}</td>
+                    <td class="text-left">Minuti giocati {{g.timeOut - g.timeIn}}</td>
+                    <td>
+                      <button type="button" id="btn-detail-team" class="btn btn-primary btn-sm" data-toggle="Dettaglio" (click)="detailGame(g.idGame)">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="row" *ngIf="games.length == 0">
+              {{messageNoGame}}
             </div>
           </div>
 

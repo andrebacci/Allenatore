@@ -28,11 +28,11 @@ namespace BusinessLogic
         }
 
         // Ritorna tutti i gol di un giocatore
-        public async Task<Gols> GetByIdPlayer(int idPlayer)
+        public async Task<List<Gols>> GetByIdPlayer(int idPlayer)
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
-                return await ctx.Gols.Where(x => x.IdPlayer == idPlayer).FirstOrDefaultAsync();
+                return await ctx.Gols.Where(x => x.IdPlayer == idPlayer).ToListAsync();
             }
         }        
 

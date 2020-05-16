@@ -12,6 +12,8 @@ import { GameService } from "../../services/game.service";
 import { Role } from "../../models/role";
 import { Penalty } from "../../models/penalty";
 import Utility from "../../utility/utility";
+import { GamePlayer } from "../../models/gamePlayer";
+import { PlayerStatistics } from "../../models/playerStatistics";
 
 @Component({
   selector: 'app-player',
@@ -22,7 +24,7 @@ export class PlayerComponent {
 
   player: Player = null;
 
-  games: Game[] = [];
+  games: GamePlayer[] = [];
 
   isReadOnly: boolean = false;
 
@@ -46,6 +48,8 @@ export class PlayerComponent {
   feets: Feet[] = [];
   roles: Role[] = [];
   penalties: Penalty[] = [];
+
+  statistics: PlayerStatistics = null;
 
   nameTeams: string[] = [];
 
@@ -77,11 +81,6 @@ export class PlayerComponent {
         this.getPlayerById(this.idPlayer);
       }
 
-      // Recupero la lista dei nomi di tutte le squadre
-      if (this.mode != "detail") {
-        this.getNameTeams();
-      }
-
       // Inizializzo la form in caso di nuovo giocatore
       if (this.mode == "create") {
         this.initFormCreate();
@@ -89,6 +88,9 @@ export class PlayerComponent {
 
       // Recupero le partite giocate dal giocatore
       this.getGames();
+
+      // Recupero le statistiche del giocatore
+      this.getStatistics();
     });
   }
 
@@ -119,18 +121,6 @@ export class PlayerComponent {
     this.penalties.push(new Penalty(2, 'No'));
   }
 
-  // Recupera la lista dei nomi delle squadre
-  getNameTeams(): void {
-    this.teamService.getNameTeams().subscribe(res => {
-      var resultData = res as ResultData;
-      if (resultData.status) {
-        this.nameTeams = resultData.data as string[];
-      } else {
-        // Errore
-      }
-    })
-  }
-
   // Inizializzo il giocatore dato il suo id
   getPlayerById(id: number): void {
     this.playerService.getById(id).subscribe(res => {
@@ -151,11 +141,23 @@ export class PlayerComponent {
     this.gameService.getGamesByIdPlayer(this.idPlayer).subscribe(res => {
       var resultData = res as ResultData;
       if (resultData.status) {
-        this.games = resultData.data as Game[];
+        this.games = resultData.data as GamePlayer[];
       } else {
         // Errore
       }
     });
+  }
+
+  // Inizializza le statistiche
+  getStatistics(): void {
+    this.playerService.getStatistics(this.idPlayer).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.statistics = resultData.data as PlayerStatistics;
+      } else {
+        // Errore
+      }
+    })
   }
 
   // Inizializzo i campi della form

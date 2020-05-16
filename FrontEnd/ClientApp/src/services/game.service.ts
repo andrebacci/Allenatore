@@ -42,7 +42,7 @@ export class GameService {
   getGamesByIdPlayer(idPlayer: any) {
     return this.http.get(this.baseUrl + 'api/Game/GetGamesByIdPlayer', {
       params: {
-        id: idPlayer
+        idPlayer: idPlayer
       }
     });
   }
@@ -59,7 +59,7 @@ export class GameService {
       idTeamAway: game.idTeamAway,
       golTeamHome: game.golTeamHome,
       golTeamAway: game.golTeamAway,
-      round: game.round,
+      round: game.roundNumber,
       moduleHome: game.moduleHome,
       moduleAway: game.moduleAway
     });
@@ -79,7 +79,7 @@ export class GameService {
       idTeamAway: game.idTeamAway,
       golTeamHome: game.golTeamHome,
       golTeamAway: game.golTeamAway,
-      round: game.round,
+      round: game.roundNumber,
       moduleHome: game.moduleHome,
       moduleAway: game.moduleAway
     });

@@ -34,6 +34,16 @@ export class PlayerService {
     })
   }
 
+
+  // Restituisce le statistiche di un giocatore
+  getStatistics(id: any) {
+    return this.http.get(this.baseUrl + 'api/Player/GetStatistics', {
+      params: {
+        id: id
+      }
+    })
+  }
+
   // Aggiunge un nuovo giocatore
   insert(player: Player) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });

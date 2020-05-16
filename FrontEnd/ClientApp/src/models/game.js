@@ -13,6 +13,8 @@ var Game = /** @class */ (function () {
         this.moduleAway = "";
         this.teamHome = "";
         this.teamAway = "";
+        this.playersHome = [];
+        this.playersAway = [];
     }
     return Game;
 }());

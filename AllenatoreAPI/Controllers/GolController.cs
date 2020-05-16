@@ -68,11 +68,11 @@ namespace AllenatoreAPI.Controllers
             try
             {
                 GolManager manager = new GolManager(_connectionString);
-                Gols gol = await manager.GetByIdPlayer(idPlayer);
-                if (gol == null)
+                List<Gols> gols = await manager.GetByIdPlayer(idPlayer);
+                if (gols == null)
                     return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante la ricerca dei gol." });
 
-                return StatusCode(200, new ResultData { Data = gol, Status = true, FunctionName = functionName, Message = $"Ok." });
+                return StatusCode(200, new ResultData { Data = gols, Status = true, FunctionName = functionName, Message = $"Ok." });
 
             }
             catch (Exception exc)

@@ -150,6 +150,54 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Ritorna le statistiche di un giocatore
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("GetStatistics")]
+        [HttpGet]
+        public async Task<IActionResult> GetStatistics([FromQuery] int id)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                PresenceManager presenceManager = new PresenceManager(_connectionString);
+                GolManager golManager = new GolManager(_connectionString);
+
+                // Recupero le presenze
+                List<Presences> presences = await presenceManager.GetPlayedByIdPlayer(id);
+
+                // Recupero i gol
+                List<Gols> gols = await golManager.GetByIdPlayer(id);
+
+                int minute = 0;
+                foreach (Presences p in presences)
+                {
+                    minute += (p.TimeOut.GetValueOrDefault() - p.TimeIn.GetValueOrDefault());
+                }
+
+                PlayerStatistics playerStatistics = new PlayerStatistics
+                {
+                    Minutes = minute,
+                    GamesAll = presences.Count,
+                    GamesHolder = presences.Where(x => x.TimeIn == 0).Count(),
+                    GamesOut = presences.Where(x => x.TimeOut < 90).Count(),
+                    GamesIn = presences.Where(x => x.TimeIn > 0).Count(),
+                    Gols = gols.Count,
+                    LastGame = GameUtility.GetDate(presences.OrderByDescending(x => x.IdGame).FirstOrDefault().IdGame),
+                    LastGameHolder = GameUtility.GetDate(presences.Where(x => x.TimeIn == 0).OrderByDescending(x => x.IdGame).FirstOrDefault().IdGame)
+                };
+
+                return StatusCode(200, new ResultData { Data = playerStatistics, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Aggiunge un nuovo giocatore
         /// </summary>
         /// <param name="body"></param>

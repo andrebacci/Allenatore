@@ -19,7 +19,8 @@ namespace AllenatoreAPI.Models
             GolTeamHome = g.GolTeamHome;
             GolTeamAway = g.GolTeamAway;
 
-            Round = GameUtility.GetNumber(g.Round.GetValueOrDefault());
+            Round = g.Round;
+            RoundNumber = GameUtility.GetNumber(g.Round.GetValueOrDefault());
 
             ModuleHome = g.ModuleHome;
             ModuleAway = g.ModuleAway;
@@ -30,6 +31,8 @@ namespace AllenatoreAPI.Models
             PlayersHome = new List<PlayerGameAPI>();
             PlayersAway = new List<PlayerGameAPI>();
         }
+
+        public int RoundNumber { get; set; }
 
         public string TeamHome { get; set; }
 
