@@ -156,7 +156,7 @@ namespace AllenatoreAPI.Controllers
 
                 foreach (Teams t in teams)
                 {
-                    games = games.Where(x => x.IdTeamHome == t.Id).ToList();
+                    List<Games> gamesHome = games.Where(x => x.IdTeamHome == t.Id).ToList();
 
                     RankingAPI ranking = new RankingAPI
                     {
@@ -164,7 +164,7 @@ namespace AllenatoreAPI.Controllers
                         Team = t.Name
                     };
 
-                    foreach (Games g in games)
+                    foreach (Games g in gamesHome)
                     {
                         // Controllo se la partita si è giocata
                         if (g.GolTeamHome == null || g.GolTeamAway == null)
@@ -200,7 +200,7 @@ namespace AllenatoreAPI.Controllers
                     rankings.Add(ranking);
                 }
 
-                rankings.OrderByDescending(x => x.Points);
+                rankings =  rankings.OrderByDescending(x => x.Points).ToList();
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
@@ -234,7 +234,7 @@ namespace AllenatoreAPI.Controllers
 
                 foreach (Teams t in teams)
                 {
-                    games = games.Where(x => x.IdTeamAway == t.Id).ToList();
+                    List<Games> gamesAway = games.Where(x => x.IdTeamAway == t.Id).ToList();
 
                     RankingAPI ranking = new RankingAPI
                     {
@@ -242,7 +242,7 @@ namespace AllenatoreAPI.Controllers
                         Team = t.Name
                     };
 
-                    foreach (Games g in games)
+                    foreach (Games g in gamesAway)
                     {
                         // Controllo se la partita si è giocata
                         if (g.GolTeamHome == null || g.GolTeamAway == null)
@@ -278,7 +278,7 @@ namespace AllenatoreAPI.Controllers
                     rankings.Add(ranking);
                 }
 
-                rankings.OrderByDescending(x => x.Points);
+                rankings = rankings.OrderByDescending(x => x.Points).ToList();
 
                 return StatusCode(200, new ResultData { Data = rankings, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
@@ -408,7 +408,7 @@ namespace AllenatoreAPI.Controllers
                 ResultData resultData = objectResult.Value as ResultData;
                 List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
 
-                listRank = listRank.OrderByDescending(x => x.GoalConceded).ToList();
+                listRank = listRank.OrderBy(x => x.GoalConceded).ToList();
 
                 return StatusCode(200, new ResultData { Data = listRank, Status = true, FunctionName = functionName, Message = $"Ok." });
             }

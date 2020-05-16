@@ -20,6 +20,7 @@
                 <tr>
                   <th class="text-center">#</th>
                   <th class="text-center">Squadra</th>
+                  <th class="text-center">Punti</th>
                   <th class="text-center">Giocate</th>
                   <th class="text-center">Vinte</th>
                   <th class="text-center">Pareggiate</th>
@@ -31,8 +32,9 @@
               </thead>
               <tbody>
                 <tr *ngFor="let rank of ranking">
-                  <td class="text-center text-muted">#345</td>                  
-                  <td class="text-center">{{rank.team}}</td> 
+                  <td class="text-center text-muted">#345</td>
+                  <td class="text-center">{{rank.team}}</td>
+                  <td class="text-center">{{rank.points}}</td>
                   <td class="text-center">{{rank.games}}</td>
                   <td class="text-center">{{rank.wins}}</td>
                   <td class="text-center">{{rank.draws}}</td>
