@@ -49,17 +49,11 @@
             <div class="form-row">
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Squadra Attuale</label>
-                <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="team" name="team" #ctrl="ngModel" [disabled]="true" required>
-                <div class="invalid-feedback">
-                  Please provide a valid city.
-                </div>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="team" name="team" #ctrl="ngModel" [disabled]="true" required>                
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Provenienza</label>
                 <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="lastteam" name="lastteam" #ctrl="ngModel" [disabled]="true" required>
-                <div class="invalid-feedback">
-                  Please provide a valid city.
-                </div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Ruolo</label>
@@ -91,10 +85,10 @@
           </fieldset>
 
           <!-- button -->
-          <button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly">Salva</button>
-          <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly">Annulla</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly"><i class="fas fa-save mr-2"></i>Salva</button>
+          <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly"><i class="fas fa-undo mr-2"></i>Annulla</button>
 
-          <button class="btn btn-primary mr-5" type="submit" (click)="update()" *ngIf="isReadOnly">Modifica</button>
+          <button class="btn btn-primary mr-5" type="submit" (click)="update()" *ngIf="isReadOnly"><i class="fas fa-edit mr-2"></i>Modifica</button>
         </form>
       </div>
     </div>

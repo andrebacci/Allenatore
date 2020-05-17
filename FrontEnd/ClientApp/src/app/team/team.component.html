@@ -58,11 +58,10 @@
             <label>{{errorMessage}}</label>
           </div>-->
           <!-- button -->
-          <button class="btn btn-primary mr-2" type="submit" (click)="save(false)" *ngIf="!isReadOnly">Salva</button>
-          <button class="btn btn-primary mr-2" type="submit" (click)="save(true)" *ngIf="!isReadOnly && mode == 'create'">Salva + Crea</button>
-          <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly">Annulla</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="save(false)" *ngIf="!isReadOnly"><i class="fas fa-save mr-2"></i>Salva</button>
+          <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly"><i class="fas fa-undo mr-2"></i>Annulla</button>
 
-          <button class="btn btn-primary mr-5" type="submit" (click)="update()" *ngIf="isReadOnly">Modifica</button>
+          <button class="btn btn-primary mr-5" type="submit" (click)="update()" *ngIf="isReadOnly"><i class="fas fa-edit mr-2"></i>Modifica</button>
         </form>
       </div>
     </div>

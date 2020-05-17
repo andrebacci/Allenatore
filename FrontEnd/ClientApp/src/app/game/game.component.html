@@ -83,11 +83,11 @@
           </fieldset>
 
           <!-- button -->
-          <button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly">Salva</button>
-          <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly">Annulla</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="save()" *ngIf="!isReadOnly"><i class="fas fa-save mr-2"></i>Salva</button>
+          <button class="btn btn-danger mr-2" type="submit" (click)="undo()" *ngIf="!isReadOnly"><i class="fas fa-undo mr-2"></i>Annulla</button>
 
-          <button class="btn btn-primary mr-2" type="submit" (click)="update()" *ngIf="isReadOnly">Modifica</button>
-          <button class="btn btn-primary mr-2" type="submit" (click)="updateInfo()" *ngIf="isReadOnly">Modifica Info</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="update()" *ngIf="isReadOnly"><i class="fas fa-edit mr-2"></i>Modifica</button>
+          <button class="btn btn-primary mr-2" type="submit" (click)="updateInfo()" *ngIf="isReadOnly"><i class="fas fa-edit mr-2"></i>Modifica Info</button>
         </form>
       </div>
     </div>

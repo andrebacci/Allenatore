@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { TransferService } from '../../services/transferService';
 import { Transfer } from '../../models/transfer';
 import { ResultData } from '../../models/resultData';
+import { Router } from '@angular/router';
+import Utility from 'src/utility/utility';
 
 @Component({
   selector: 'app-transfers',
@@ -11,7 +13,7 @@ export class TransfersComponent {
 
   transfers: Transfer[] = [];
 
-  constructor(private transferService: TransferService) {
+  constructor(private transferService: TransferService, private router: Router) {
 
   }
 
@@ -28,5 +30,9 @@ export class TransfersComponent {
         // Errore
       }
     });
+  }
+
+  detailPlayer(id: number): void {
+    Utility.redirect('/player/detail/' + id, this.router);    
   }
 }

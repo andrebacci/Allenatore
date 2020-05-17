@@ -36,7 +36,7 @@ export class TeamsComponent {
 
   // Apre la pagina del singolo team
   detailTeam(id: number): void {
-    Utility.redirect('/team/detail/' + id, this.router);    
+    Utility.redirect('/team/detail/' + id, this.router);
   }
 
   // Apre la pagina di modifica del team

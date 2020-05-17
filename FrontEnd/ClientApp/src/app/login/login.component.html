@@ -4,6 +4,7 @@
       <div class="card card-signin my-5">
         <div class="card-body">
           <h5 class="card-title text-center">Sign In</h5>
+          
           <form class="form-signin">
             <div class="form-label-group">
               <input type="email" id="loginEmail" class="form-control" placeholder="Email address" #email>
@@ -12,9 +13,9 @@
             <div class="form-label-group">
               <input type="password" id="loginPassword" class="form-control" placeholder="Password" #password>
             </div>
-            <button id="btnLogin" type="button" class="btn btn-lg btn-primary btn-block text-uppercase"
-                    (click)="login(email.value, password.value)">Login</button>
+            <button id="btnLogin" type="button" class="btn btn-lg btn-primary btn-block text-uppercase" (click)="login(email.value, password.value)">Login</button>
           </form>
+          
         </div>
       </div>
     </div>
