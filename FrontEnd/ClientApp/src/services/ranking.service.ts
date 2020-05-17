@@ -50,9 +50,49 @@ export class RankingService {
     })
   }
 
+  // Restituisce la classifica dei gol fatti in casa
+  getScoredGoalsHome(start: any, end: any) {
+    return this.http.get(this.baseUrl + 'api/Ranking/GetScoredGoalsHome', {
+      params: {
+        start: start,
+        end: end
+      }
+    })
+  }
+
+  // Restituisce la classifica dei gol fatti in trasferta
+  getScoredGoalsAway(start: any, end: any) {
+    return this.http.get(this.baseUrl + 'api/Ranking/GetScoredGoalsAway', {
+      params: {
+        start: start,
+        end: end
+      }
+    })
+  }
+
   // Restituisce la classifica dei gol subiti
   getConcededGoals(start: any, end: any) {
     return this.http.get(this.baseUrl + 'api/Ranking/GetConcededGoals', {
+      params: {
+        start: start,
+        end: end
+      }
+    })
+  }
+
+  // Restituisce la classifica dei gol subiti in casa
+  getConcededGoalsHome(start: any, end: any) {
+    return this.http.get(this.baseUrl + 'api/Ranking/GetConcededGoalsHome', {
+      params: {
+        start: start,
+        end: end
+      }
+    })
+  }
+
+  // Restituisce la classifica dei gol subiti in trasferta
+  getConcededGoalsAway(start: any, end: any) {
+    return this.http.get(this.baseUrl + 'api/Ranking/GetConcededGoalsAway', {
       params: {
         start: start,
         end: end

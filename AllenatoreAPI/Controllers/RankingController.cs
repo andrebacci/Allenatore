@@ -372,13 +372,13 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("GetScoredGoals")]
         [HttpGet]
-        public async Task<IActionResult> GetScoredGoals()
+        public async Task<IActionResult> GetScoredGoals([FromQuery] int start, int end)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
-                ObjectResult objectResult = await Get(0, 0) as ObjectResult;
+                ObjectResult objectResult = await Get(start, end) as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
                 List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
 
@@ -398,13 +398,13 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("GetConcededGoals")]
         [HttpGet]
-        public async Task<IActionResult> GetConcededGoals()
+        public async Task<IActionResult> GetConcededGoals([FromQuery] int start, int end)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
-                ObjectResult objectResult = await Get(0, 0) as ObjectResult;
+                ObjectResult objectResult = await Get(start, end) as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
                 List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
 
@@ -424,13 +424,13 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("GetScoredGoalsHome")]
         [HttpGet]
-        public async Task<IActionResult> GetScoredGoalsHome()
+        public async Task<IActionResult> GetScoredGoalsHome([FromQuery] int start, int end)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
-                ObjectResult objectResult = await GetHome(0, 0) as ObjectResult;
+                ObjectResult objectResult = await GetHome(start, end) as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
                 List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
 
@@ -450,17 +450,17 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("GetConcededGoalsHome")]
         [HttpGet]
-        public async Task<IActionResult> GetConcededGoalsHome()
+        public async Task<IActionResult> GetConcededGoalsHome([FromQuery] int start, int end)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
-                ObjectResult objectResult = await GetHome(0, 0) as ObjectResult;
+                ObjectResult objectResult = await GetHome(start, end) as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
                 List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
 
-                listRank = listRank.OrderByDescending(x => x.GoalConceded).ToList();
+                listRank = listRank.OrderBy(x => x.GoalConceded).ToList();
 
                 return StatusCode(200, new ResultData { Data = listRank, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
@@ -476,13 +476,13 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("GetScoredGoalsAway")]
         [HttpGet]
-        public async Task<IActionResult> GetScoredGoalsAway()
+        public async Task<IActionResult> GetScoredGoalsAway([FromQuery] int start, int end)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
-                ObjectResult objectResult = await GetAway(0, 0) as ObjectResult;
+                ObjectResult objectResult = await GetAway(start, end) as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
                 List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
 
@@ -502,17 +502,17 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("GetConcededGoalsAway")]
         [HttpGet]
-        public async Task<IActionResult> GetConcededGoalsAway()
+        public async Task<IActionResult> GetConcededGoalsAway([FromQuery] int start, int end)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
             try
             {
-                ObjectResult objectResult = await GetAway(0, 0) as ObjectResult;
+                ObjectResult objectResult = await GetAway(start, end) as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
                 List<RankingAPI> listRank = resultData.Data as List<RankingAPI>;
 
-                listRank = listRank.OrderByDescending(x => x.GoalConceded).ToList();
+                listRank = listRank.OrderBy(x => x.GoalConceded).ToList();
 
                 return StatusCode(200, new ResultData { Data = listRank, Status = true, FunctionName = functionName, Message = $"Ok." });
             }

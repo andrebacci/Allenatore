@@ -25,7 +25,7 @@
           <fieldset [disabled]="isReadOnly">
             <div class="form-row">
               <div class="col-md-4 mb-3">
-                <label for="validationCustom01">Squadra Casa</label>                
+                <label for="validationCustom01">Squadra Casa</label>
                 <select name="select-team-home" id="select-team-home" class="form-control" [(ngModel)]="selectedTeamHome">
                   <option *ngFor="let t of teams" [value]="t.name">{{t.name}}</option>
                 </select>
@@ -34,7 +34,7 @@
                 </div>
               </div>
               <div class="col-md-4 mb-3">
-                <label for="validationCustom02">Squadra Trasferta</label>                
+                <label for="validationCustom02">Squadra Trasferta</label>
                 <select name="select-team-awat" id="select-team-away" class="form-control" [(ngModel)]="selectedTeamAway">
                   <option *ngFor="let t of teams" [value]="t.name">{{t.name}}</option>
                 </select>
@@ -110,13 +110,13 @@
                 <td>ESP</td>
               </tr>
               <tr *ngFor="let p of game.playersHome">
-                <td>{{p.number}}</td>
-                <td>{{p.fullname}}</td>
-                <td>{{p.gols}}</td>
-                <td>{{p.changeIn}}</td>
-                <td>{{p.changeOut}}</td>
-                <td>{{p.yellowCards}}</td>
-                <td>{{p.redCards}}</td>
+                <td class="text-center">{{p.number}}</td>
+                <td><b>{{p.fullname}}</b></td>
+                <td class="text-center">{{p.gols}}</td>
+                <td class="text-center">{{p.changeIn}}</td>
+                <td class="text-center">{{p.changeOut}}</td>
+                <td class="text-center">{{p.yellowCards}}</td>
+                <td class="text-center">{{p.redCards}}</td>
               </tr>
             </table>
           </div>
@@ -132,21 +132,23 @@
                 <td>ESP</td>
               </tr>
               <tr *ngFor="let p of game.playersAway">
-                <td>{{p.number}}</td>
-                <td>{{p.fullname}}</td>
-                <td>{{p.gols}}</td>
-                <td>{{p.changeIn}}</td>
-                <td>{{p.changeOut}}</td>
-                <td>{{p.yellowCards}}</td>
-                <td>{{p.redCards}}</td>
+                <td class="text-center">{{p.number}}</td>
+                <td><b>{{p.fullname}}</b></td>
+                <td class="text-center">{{p.gols}}</td>
+                <td class="text-center">{{p.changeIn}}</td>
+                <td class="text-center">{{p.changeOut}}</td>
+                <td class="text-center">{{p.yellowCards}}</td>
+                <td class="text-center">{{p.redCards}}</td>
               </tr>
             </table>
           </div>
         </div>
+      </div>
 
-        <div class="row">
-          <button class="btn btn-primary" type="button" (click)="exportPdf()" *ngIf="isReadOnly"><i class="fas fa-print mr-2"></i>Stampa</button>
-        </div>
+      <div class="d-block text-right card-footer">
+        <!--<button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"> </i></button>
+        <button class="btn-wide btn btn-success">Save</button>-->
+        <button class="btn btn-primary" type="button" (click)="exportPdf()"><i class="fas fa-print mr-2"></i>Stampa</button>
       </div>
     </div>
   </div>

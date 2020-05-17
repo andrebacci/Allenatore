@@ -32,8 +32,16 @@ export class RankingComponent {
         this.getRankingAway();
       } else if (this.mode == 'scoredGoals') {
         this.getRankingScoredGoals();
+      } else if (this.mode == 'scoredGoalsHome') {
+        this.getRankingScoredGoalsHome();
+      } else if (this.mode == 'scoredGoalsAway') {
+        this.getRankingScoredGoalsAway();
       } else if (this.mode == 'concededGoals') {
         this.getRankingConcededGoals();
+      } else if (this.mode == 'concededGoalsHome') {
+        this.getRankingConcededGoalsHome();
+      } else if (this.mode == 'concededGoalsAway') {
+        this.getRankingConcededGoalsAway();
       }
     });
   }
@@ -86,7 +94,31 @@ export class RankingComponent {
     });
   }
 
-  // Inizializza la classifica dei gol fatti
+  // Inizializza la classifica dei gol fatti in casa
+  getRankingScoredGoalsHome(): void {
+    this.rankingService.getScoredGoalsHome(0, 0).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.ranking = resultData.data as Ranking[];
+      } else {
+        // Errore
+      }
+    });
+  }
+
+  // Inizializza la classifica dei gol fatti in trasferta
+  getRankingScoredGoalsAway(): void {
+    this.rankingService.getScoredGoalsAway(0, 0).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.ranking = resultData.data as Ranking[];
+      } else {
+        // Errore
+      }
+    });
+  }
+
+  // Inizializza la classifica dei gol subiti
   getRankingConcededGoals(): void {
     this.rankingService.getConcededGoals(0, 0).subscribe(res => {
       var resultData = res as ResultData;
@@ -97,4 +129,29 @@ export class RankingComponent {
       }
     });
   }
+
+  // Inizializza la classifica dei gol subiti in casa
+  getRankingConcededGoalsHome(): void {
+    this.rankingService.getConcededGoalsHome(0, 0).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.ranking = resultData.data as Ranking[];
+      } else {
+        // Errore
+      }
+    });
+  }
+
+  // Inizializza la classifica dei gol subiti in trasferta
+  getRankingConcededGoalsAway(): void {
+    this.rankingService.getConcededGoalsAway(0, 0).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.ranking = resultData.data as Ranking[];
+      } else {
+        // Errore
+      }
+    });
+  }
+
 }
