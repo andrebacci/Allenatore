@@ -23,6 +23,7 @@ export class GameInfoComponent {
   playersAway: Player[] = [];
 
   selectedPlayers: any = [];
+  scorerPlayers: any = [];
 
   idGame: number = 0;
 
