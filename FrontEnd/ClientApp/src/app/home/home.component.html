@@ -31,8 +31,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let rank of ranking">
-                  <td class="text-center text-muted">#345</td>
+                <tr *ngFor="let rank of ranking; let i = index">
+                  <td class="text-center">{{i + 1 }}</td>
                   <td class="text-center">{{rank.team}}</td>
                   <td class="text-center">{{rank.points}}</td>
                   <td class="text-center">{{rank.games}}</td>
@@ -41,7 +41,7 @@
                   <td class="text-center">{{rank.losts}}</td>
                   <td class="text-center">{{rank.goalMade}}</td>
                   <td class="text-center">{{rank.goalConceded}}</td>
-                  <td class="text-center">{{rank.goalDifference}}</td>
+                  <td class="text-center">{{rank.goalMade - rank.goalConceded}}</td>
                 </tr>                                             
               </tbody>
             </table>
@@ -67,7 +67,7 @@
             </div>            
           </div>
           <div class="card-body">
-            <table class="mb-0 table table-sm">
+            <table class="mb-0 table">
               <tbody>
                 <tr *ngFor="let game of lastRound.games">
                   <td class="text-right">{{game.teamHome}}</td>
@@ -100,7 +100,12 @@
                 <tr *ngFor="let game of nextRound.games">
                   <td class="text-right">{{game.teamHome}}</td>
                   <td class="text-center">{{game.golHome}} - {{game.golAway}}</td>
-                  <td class="text-left">{{game.teamAway}}</td>                  
+                  <td class="text-left">{{game.teamAway}}</td>
+                  <td>
+                    <button type="button" id="btn-detail-team" class="btn btn-primary btn-sm" data-toggle="Dettaglio" (click)="detailGame(game.idGame)">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>

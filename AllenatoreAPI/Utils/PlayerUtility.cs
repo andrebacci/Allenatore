@@ -165,6 +165,8 @@ namespace AllenatoreAPI.Utils
                     formation.Add(pg);
                 }
 
+                formation = formation.OrderBy(x => x.Number).ToList();
+
                 return formation;
             }
             catch (Exception exc)

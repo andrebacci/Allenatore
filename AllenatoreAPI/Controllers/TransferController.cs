@@ -106,6 +106,9 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
+                if (body.Date == null)
+                    body.Date = DateTime.Now;
+
                 TransferManager manager = new TransferManager(_connectionString);
                 Transfers transfer = await manager.Insert(body);
                 if (transfer != null)

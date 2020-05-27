@@ -23,7 +23,7 @@ export class PlayerService {
         id: id
       }
     });
-  }
+  }  
 
   // Restituisce il giocatore dato il suo id
   getById(id: any) {
@@ -33,7 +33,6 @@ export class PlayerService {
       }
     })
   }
-
 
   // Restituisce le statistiche di un giocatore
   getStatistics(id: any) {

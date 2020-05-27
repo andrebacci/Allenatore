@@ -56,11 +56,11 @@ namespace AllenatoreAPI.Controllers
                     playersAPI.Add(pa);
                 }
 
-                return StatusCode(200, new ResultData { Data = playersAPI, Status = true, FunctionName = functionName, Message = $"Giocatori trovati."});
+                return StatusCode(200, new ResultData { Data = playersAPI, Status = true, FunctionName = functionName, Message = $"Giocatori trovati." });
             }
             catch (Exception exc)
             {
-                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}"});
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
         }
 
@@ -116,7 +116,7 @@ namespace AllenatoreAPI.Controllers
                 if (player == null)
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Giocatore non trovato." });
 
-                PlayerAPI pa = new PlayerAPI(player);                
+                PlayerAPI pa = new PlayerAPI(player);
                 return StatusCode(200, new ResultData { Data = pa, Status = true, FunctionName = functionName, Message = $"Giocatore trovato con successo." });
             }
             catch (Exception exc)
@@ -139,7 +139,7 @@ namespace AllenatoreAPI.Controllers
             try
             {
                 PlayerManager manager = new PlayerManager(_connectionString);
-                string name = await manager.GetNameById(id);                
+                string name = await manager.GetNameById(id);
 
                 return StatusCode(200, new ResultData { Data = name, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
@@ -177,6 +177,15 @@ namespace AllenatoreAPI.Controllers
                     minute += (p.TimeOut.GetValueOrDefault() - p.TimeIn.GetValueOrDefault());
                 }
 
+                DateTime? lastGame = null;
+                DateTime? lastGameHolder = null;
+
+                if (presences.Count > 0)
+                {
+                    GameUtility.GetDate(presences.OrderByDescending(x => x.IdGame).FirstOrDefault().IdGame);
+                    GameUtility.GetDate(presences.Where(x => x.TimeIn == 0).OrderByDescending(x => x.IdGame).FirstOrDefault().IdGame);
+                }
+
                 PlayerStatistics playerStatistics = new PlayerStatistics
                 {
                     Minutes = minute,
@@ -185,8 +194,8 @@ namespace AllenatoreAPI.Controllers
                     GamesOut = presences.Where(x => x.TimeOut < 90).Count(),
                     GamesIn = presences.Where(x => x.TimeIn > 0).Count(),
                     Gols = gols.Count,
-                    LastGame = GameUtility.GetDate(presences.OrderByDescending(x => x.IdGame).FirstOrDefault().IdGame),
-                    LastGameHolder = GameUtility.GetDate(presences.Where(x => x.TimeIn == 0).OrderByDescending(x => x.IdGame).FirstOrDefault().IdGame)
+                    LastGame = lastGame,
+                    LastGameHolder = lastGameHolder
                 };
 
                 return StatusCode(200, new ResultData { Data = playerStatistics, Status = true, FunctionName = functionName, Message = $"Ok." });
@@ -220,7 +229,7 @@ namespace AllenatoreAPI.Controllers
                 Players player = await manager.Insert(body);
                 if (player == null)
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento del giocatore." });
-                
+
                 PlayerAPI pa = new PlayerAPI(player);
                 return StatusCode(200, new ResultData { Data = pa, Status = true, FunctionName = functionName, Message = $"Giocatore inserito con successo." });
 

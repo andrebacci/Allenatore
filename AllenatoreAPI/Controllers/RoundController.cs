@@ -5,6 +5,7 @@ using BusinessLogic;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,10 +46,27 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
-                RoundManager manager = new RoundManager(_connectionString);
-                List< Rounds> rounds = await manager.GetAll();               
+                GameManager gameManager = new GameManager(_connectionString);
+                RoundManager roundManager = new RoundManager(_connectionString);
+                List<Rounds> rounds = await roundManager.GetAll();
 
-                return StatusCode(200, new ResultData { Data = rounds, Status = true, FunctionName = functionName, Message = $"Ok" });
+                List<RoundAPI> listRound = new List<RoundAPI>();
+
+                foreach (Rounds r in rounds)
+                {
+                    RoundAPI roundAPI = new RoundAPI(r);
+
+                    List<Games> games = await gameManager.GetByRound(r.Id);
+
+                    foreach (Games g in games)
+                    {
+                        roundAPI.Games.Add(new RoundItemAPI(g));
+                    }
+
+                    listRound.Add(roundAPI);
+                }
+
+                return StatusCode(200, new ResultData { Data = listRound, Status = true, FunctionName = functionName, Message = $"Ok" });
             }
             catch (Exception exc)
             {
@@ -95,10 +113,10 @@ namespace AllenatoreAPI.Controllers
                 Rounds round = await manager.GetLast();
 
                 RoundAPI roundAPI = new RoundAPI(round);
-                
+
                 // Recupero le partite della giornata
                 GameManager gameManager = new GameManager(_connectionString);
-                List<Games> games = await gameManager.GetByRound(round.Id);                
+                List<Games> games = await gameManager.GetByRound(round.Id);
 
                 foreach (Games g in games)
                 {
@@ -197,7 +215,7 @@ namespace AllenatoreAPI.Controllers
                 Rounds round = await manager.Insert(body);
                 if (round == null)
                     return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento di una giornata" });
-                    
+
                 return StatusCode(200, new ResultData { Data = round, Status = true, FunctionName = functionName, Message = $"Ok" });
             }
             catch (Exception exc)

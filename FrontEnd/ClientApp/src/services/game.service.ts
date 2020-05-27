@@ -47,6 +47,16 @@ export class GameService {
     });
   }
 
+  // Restituisce la formazione di una squadra
+  getFormationByIdTeamIdGame(idTeam: any, idGame: any) {
+    return this.http.get(this.baseUrl + 'api/Game/GetFormationByIdTeamIdGame', {
+      params: {
+        idTeam: idTeam,
+        idGame: idGame
+      }
+    });
+  }
+
   // Inserisce una nuova partita
   insert(game: Game) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });

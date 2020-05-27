@@ -10,6 +10,11 @@ export class RoundService {
 
   }
 
+  // Restituisce tutte le giornate
+  getAll() {
+    return this.http.get(this.baseUrl + 'api/Round/GetAll');
+  }
+
   // Restituisce l'ultima giornata
   getLast() {
     return this.http.get(this.baseUrl + 'api/Round/GetLast');

@@ -25,9 +25,6 @@ export class GameComponent {
 
   teams: Team[] = [];
 
-  // playersHome: PlayerGame[] = [];
-  // playersAway: PlayerGame[] = [];
-
   selectedTeamHome;
   selectedTeamAway;
 
@@ -155,6 +152,7 @@ export class GameComponent {
 
   // Passa alla modalità di modifica
   update(): void {
+    this.mode = "update";
     this.isReadOnly = false;
   }
 

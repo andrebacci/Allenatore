@@ -89,6 +89,30 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Ritorna la formazione di una squadra
+        /// </summary>
+        /// <param name="idTeam"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        [Route("GetFormationByIdTeamIdGame")]
+        [HttpGet]
+        public async Task<IActionResult> GetFormationByIdTeamIdGame([FromQuery] int idTeam, int idGame)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                List<PlayerGameAPI> formation = PlayerUtility.GetFormation(idGame, idTeam);
+
+                return StatusCode(200, new ResultData { Data = formation, Status = true, FunctionName = functionName, Message = $"Ok" });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Ritorna tutte le partite dato l'id di una squadra
         /// </summary>
         /// <returns></returns>
