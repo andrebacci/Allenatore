@@ -126,9 +126,9 @@ export class GameInfoComponent {
     var andre = 0;
   }
 
-  playerIsSelected(idPlayer: number, position: number) {
-    for (var i = 0; i < this.formationHome.length; i++) {
-      if (this.formationHome[i].id == idPlayer) {
+  playerIsSelected(formation: Player[], idPlayer: number, position: number) {
+    for (var i = 0; i < formation.length; i++) {
+      if (formation[i].id == idPlayer) {
         if (position == i)
           return true;
       }
