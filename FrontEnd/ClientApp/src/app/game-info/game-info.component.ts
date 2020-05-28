@@ -6,6 +6,7 @@ import { ResultData } from "../../models/resultData";
 import { Player } from "../../models/player";
 import { PlayerService } from "../../services/player.service";
 import { PlayerGame } from "../../models/playerGame";
+import Utility from "../../utility/utility";
 
 @Component({
   selector: 'app-game-info',
@@ -23,8 +24,11 @@ export class GameInfoComponent {
   playersHome: Player[] = [];
   playersAway: Player[] = [];
 
+  originalFormationHome: Player[] = [];
+  originalFormationAway: Player[] = [];
+
   formationHome: Player[] = [];
-  formationAway: any = [];
+  formationAway: Player[] = [];
 
   scorerPlayers: any = [];
 
@@ -32,8 +36,7 @@ export class GameInfoComponent {
 
   numbers;
 
-  constructor(private gameService: GameService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {
-    //this.numbers = Array(5).fill().map((x,i)=>i);
+  constructor(private gameService: GameService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {   
     this.numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   }
 
@@ -96,29 +99,45 @@ export class GameInfoComponent {
           for (var i = 0; i < formation.length; i++) {
             for (var j = 0; j < this.playersHome.length; j++) {
               if (formation[i].id == this.playersHome[j].id) {
-                this.formationHome[i] = this.playersHome[j];
+                this.originalFormationHome[i] = this.playersHome[j];
               }
             }
+
+            // Creare formationHome con costruttore di copia di originalFormationHome
           }
         } else {
           for (var i = 0; i < formation.length; i++) {
-            this.formationAway[i] = formation[i];
+            if (formation[i].id == this.playersAway[j].id) {
+              this.originalFormationAway[i] = this.playersAway[j];
+            }
           }
+
+          // Creare formationAway con costruttore di copia di originalFormationAway
         }
       }
     })
   }
 
-  onChange(event: any): void {
-
+  onChange(event: any, position: number): void {
+    var andre = 0;
   }
 
-  playerIsSelected(idPlayer: number) {
+  playerIsSelected(idPlayer: number, position: number) {
     for (var i = 0; i < this.formationHome.length; i++) {
-      if (this.formationHome[i].id == idPlayer)
-        return true;
+      if (this.formationHome[i].id == idPlayer) {
+        if (position == i)
+          return true;
+      }
     }
 
     return false;
+  }
+
+  save(): void {
+    var andre = 0;
+  }
+
+  undo(): void {
+    Utility.redirect('/game/detail/' + this.idGame, this.router);
   }
 }
