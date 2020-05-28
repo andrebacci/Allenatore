@@ -7,6 +7,7 @@ import { Player } from "../../models/player";
 import { PlayerService } from "../../services/player.service";
 import { PlayerGame } from "../../models/playerGame";
 import Utility from "../../utility/utility";
+import { GameInfo } from "../../models/gameInfo";
 
 @Component({
   selector: 'app-game-info',
@@ -24,9 +25,6 @@ export class GameInfoComponent {
   playersHome: Player[] = [];
   playersAway: Player[] = [];
 
-  originalFormationHome: Player[] = [];
-  originalFormationAway: Player[] = [];
-
   formationHome: Player[] = [];
   formationAway: Player[] = [];
 
@@ -36,7 +34,8 @@ export class GameInfoComponent {
 
   numbers;
 
-  constructor(private gameService: GameService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {   
+  constructor(private gameService: GameService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {   {
+    }
     this.numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   }
 
@@ -59,7 +58,8 @@ export class GameInfoComponent {
 
         // Recupero i giocatori delle due squadre
         this.getPlayersByIdTeam(this.game.idTeamHome);
-        this.getPlayersByIdTeam(this.game.idTeamAway);        
+        this.getPlayersByIdTeam(this.game.idTeamAway);        {
+          }
       } else {
         // Errore
       }
@@ -98,21 +98,25 @@ export class GameInfoComponent {
         if (this.game.idTeamHome == idTeam) {
           for (var i = 0; i < formation.length; i++) {
             for (var j = 0; j < this.playersHome.length; j++) {
-              if (formation[i].id == this.playersHome[j].id) {
-                this.originalFormationHome[i] = this.playersHome[j];
-              }
-            }
+              if (this.playersHome[j] == null)
+                continue;
 
-            // Creare formationHome con costruttore di copia di originalFormationHome
+              if (formation[i].id == this.playersHome[j].id) {
+                this.formationHome[i] = this.playersHome[j];
+              }
+            }            
           }
         } else {
           for (var i = 0; i < formation.length; i++) {
-            if (formation[i].id == this.playersAway[j].id) {
-              this.originalFormationAway[i] = this.playersAway[j];
-            }
-          }
+            for (var j = 0; j < this.playersAway.length; j++) {
+              if (this.playersAway[j] == null)
+                continue;
 
-          // Creare formationAway con costruttore di copia di originalFormationAway
+              if (formation[i].id == this.playersAway[j].id) {
+                this.formationAway[i] = this.playersAway[j];
+              }
+            }
+          }          
         }
       }
     })
@@ -134,7 +138,18 @@ export class GameInfoComponent {
   }
 
   save(): void {
-    var andre = 0;
+    // Creo l'oggetto da passare al back-end
+    var gameInfo = new GameInfo();
+    gameInfo.formationHome = this.formationHome;
+
+    this.gameService.insertInfo(gameInfo).subscribe(res => {
+      var result = res as ResultData;
+      if (result.status) {
+
+      } else {
+        // Errore
+      }
+    })
   }
 
   undo(): void {

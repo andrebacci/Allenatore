@@ -234,6 +234,22 @@ namespace AllenatoreAPI.Controllers
             }
         }
 
+        [Route("InsertInfo")]
+        [HttpPost]
+        public async Task<IActionResult> InsertInfo([FromBody] GameInfoAPI gameInfo)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Ok" });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
         /// <summary>
         /// Aggiorna una partita
         /// </summary>

@@ -10,6 +10,11 @@ namespace AllenatoreAPI.Models
 {
     public class PlayerAPI : Players
     {
+        public PlayerAPI()
+        {
+
+        }
+
         public PlayerAPI(Players p)
         {
             Id = p.Id;
