@@ -253,7 +253,44 @@ namespace AllenatoreAPI.Controllers
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante la cancellazione delle presenze di {gameInfo.IdTeamAway} in {gameInfo.IdGame}." });
 
                 // Aggiunto le presenze della squadra di casa e della squadra in trasferta
-                // TODO: finire
+                int i = 0;
+                int j = 0;
+
+                foreach (PlayerAPI p in gameInfo.FormationHome)
+                {
+                    i++;
+
+                    Presences pre = new Presences();
+                    p.IdPlayer = p.IdPlayer;
+                    p.IdGame = gameInfo.IdGame;
+                    p.Number = i;
+
+                    if (i < 12)
+                        p.TimeIn = 0;   
+
+                    Presences added = presenceManager.Insert(pre).Result;
+                    if (added == null)
+                        return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento della presenza {pre.IdPlayer} di {gameInfo.IdTeamAway} in {gameInfo.IdGame}." });
+                }
+                
+                foreach (PlayerAPI p in gameInfo.FormationAway)
+                {
+                    j++;
+
+                    Presences pre = new Presences();
+                    p.IdPlayer = p.IdPlayer;
+                    p.IdGame = gameInfo.IdGame;
+                    p.Number = j;
+                    
+                    if (j < 12)
+                        p.TimeIn = 0; 
+
+                    Presences added = presenceManager.Insert(pre).Result;
+                    if (added == null)
+                        return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante l'inserimento della presenza {pre.IdPlayer} di {gameInfo.IdTeamAway} in {gameInfo.IdGame}." });                                           
+                }
+
+                // TODO: finire --> marcatori e cambi
 
                 return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Ok" });
             }
