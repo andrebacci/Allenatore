@@ -119,11 +119,11 @@ namespace AllenatoreAPI.Controllers
             try
             {
                 PresenceManager manager = new PresenceManager(_connectionString);
-                Presences presences = await manager.Delete(idGame, idTeam);
-                if (presences == null)
+                bool deleted = await manager.Delete(idGame, idTeam);
+                if (!deleted)
                     return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante la cancellazione delle presenza della squadra {idTeam} nella partita {idGame}." });
 
-                return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Ok." });
+                return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
             }
             catch (Exception exc)
             {

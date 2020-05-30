@@ -62,9 +62,19 @@ namespace BusinessLogic
         {
             using (POContextDb ctx = new POContextDb(_connectionString))
             {
-                await ctx.Presences.Delete(x => x.IdTeam == idTeam && x.IdGame == idGame);
+                List<Presences> list = await ctx.Presences.Where(x => x.IdTeam == idTeam && x.IdGame == idGame).ToListAsync();
+                if (list == null || list.Count == 0)
+                    return true;
+
+                foreach (Presences p in list)
+                {
+                    ctx.Presences.Remove(p);
+                }
+
                 await ctx.SaveChangesAsync();
             }
+
+            return true;
         }
     }
 }

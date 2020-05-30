@@ -248,7 +248,7 @@ namespace AllenatoreAPI.Controllers
                 if (!result)
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante la cancellazione delle presenze di {gameInfo.IdTeamHome} in {gameInfo.IdGame}." });
                     
-                bool result = presenceManager.Delete(gameInfo.IdTeamAway, gameInfo.IdGame).Result;
+                result = presenceManager.Delete(gameInfo.IdTeamAway, gameInfo.IdGame).Result;
                 if (!result)
                     return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante la cancellazione delle presenze di {gameInfo.IdTeamAway} in {gameInfo.IdGame}." });
 
@@ -260,13 +260,15 @@ namespace AllenatoreAPI.Controllers
                 {
                     i++;
 
-                    Presences pre = new Presences();
-                    p.IdPlayer = p.IdPlayer;
-                    p.IdGame = gameInfo.IdGame;
-                    p.Number = i;
+                    Presences pre = new Presences
+                    {
+                        IdPlayer = p.Id,
+                        IdGame = gameInfo.IdGame,
+                        Number = i
+                    };
 
                     if (i < 12)
-                        p.TimeIn = 0;   
+                        pre.TimeIn = 0;
 
                     Presences added = presenceManager.Insert(pre).Result;
                     if (added == null)
@@ -277,13 +279,15 @@ namespace AllenatoreAPI.Controllers
                 {
                     j++;
 
-                    Presences pre = new Presences();
-                    p.IdPlayer = p.IdPlayer;
-                    p.IdGame = gameInfo.IdGame;
-                    p.Number = j;
-                    
-                    if (j < 12)
-                        p.TimeIn = 0; 
+                    Presences pre = new Presences
+                    {
+                        IdPlayer = p.Id,
+                        IdGame = gameInfo.IdGame,
+                        Number = i
+                    };
+
+                    if (i < 12)
+                        pre.TimeIn = 0;
 
                     Presences added = presenceManager.Insert(pre).Result;
                     if (added == null)
