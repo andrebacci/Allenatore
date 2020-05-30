@@ -108,27 +108,27 @@
                     </div>
                   </div>
 
-                  <div class="card-body" *ngIf="playerScorersAway.length != 0 && scorersAway.length != 0">
+                  <div class="card-body">
                     <div class="tab-content">
-                      <div class="tab-pane active" id="tab-home" role="tabpanel">
-                        <div class="col-md-12" *ngFor="let item of golAway; let i = index">
+                      <div class="tab-pane active" id="tab-home" role="tabpanel" *ngIf="playerScorersHome.length != 0 && scorersHome.length != 0">
+                        <div class="col-md-12" *ngFor="let item of golHome; let i = index">
                           <div class="row">
                             <div class="col-md-6">
                               <table>
                                 <tr>
                                   <td>
-                                    <select name="select-scorer-home" id="select-scorer-home" class="form-control mt-1" [(ngModel)]="playerScorersAway[i]">
-                                      <option *ngFor="let p of playersAway" [ngValue]="p" [selected]="playerIsSelected(playerScorersAway, p.id, i)">{{p.fullname}}</option>
+                                    <select name="select-scorer-home" id="select-scorer-home" class="form-control mt-1" [(ngModel)]="playerScorersHome[i]">
+                                      <option *ngFor="let p of playersHome" [ngValue]="p" [selected]="playerIsSelected(playerScorersHome, p.id, i)">{{p.fullname}}</option>
                                     </select>
                                   </td>
                                   <td>
-                                    <input type="text" maxlength="2" class="form-control" id="minuteHome" placeholder="" [(ngModel)]="scorersAway[i].minute" name="minuteHome" #ctrl="ngModel">
+                                    <input type="text" maxlength="2" class="form-control" id="minuteHome" placeholder="" [(ngModel)]="scorersHome[i].minute" name="minuteHome" #ctrl="ngModel">
                                   </td>
                                   <td>
-                                    <input type="checkbox" id="penaltyHome" [(ngModel)]="scorersAway[i].isPenalty" name="penaltyHome" #ctrl="ngModel" />
+                                    <input type="checkbox" id="penaltyHome" [(ngModel)]="scorersHome[i].isPenalty" name="penaltyHome" #ctrl="ngModel" />
                                   </td>
                                   <td>
-                                    <input type="text" class="form-control" id="descriptionHome" placeholder="" [(ngModel)]="scorersAway[i].description" name="minuteHome" #ctrl="ngModel">
+                                    <input type="text" class="form-control" id="descriptionHome" placeholder="" [(ngModel)]="scorersHome[i].description" name="minuteHome" #ctrl="ngModel">
                                   </td>
                                 </tr>
                               </table>
@@ -137,8 +137,31 @@
                         </div>
                       </div>
 
-                      <div class="tab-pane" id="tab-away" role="tabpanel">
-
+                      <div class="tab-pane" id="tab-away" role="tabpanel" *ngIf="playerScorersAway.length != 0 && scorersAway.length != 0">
+                        <div class="col-md-12" *ngFor="let item of golAway; let i = index">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <table>
+                                <tr>
+                                  <td>
+                                    <select name="select-scorer-away" id="select-scorer-home" class="form-control mt-1" [(ngModel)]="playerScorersAway[i]">
+                                      <option *ngFor="let p of playersAway" [ngValue]="p" [selected]="playerIsSelected(playerScorersAway, p.id, i)">{{p.fullname}}</option>
+                                    </select>
+                                  </td>
+                                  <td>
+                                    <input type="text" maxlength="2" class="form-control" id="minuteAway" placeholder="" [(ngModel)]="scorersAway[i].minute" name="minuteAway" #ctrl="ngModel">
+                                  </td>
+                                  <td>
+                                    <input type="checkbox" id="penaltyAway" [(ngModel)]="scorersAway[i].isPenalty" name="penaltyAway" #ctrl="ngModel" />
+                                  </td>
+                                  <td>
+                                    <input type="text" class="form-control" id="descriptionAway" placeholder="" [(ngModel)]="scorersAway[i].description" name="descriptionAway" #ctrl="ngModel">
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
