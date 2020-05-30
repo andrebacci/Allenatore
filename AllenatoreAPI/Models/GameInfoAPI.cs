@@ -13,5 +13,7 @@ namespace AllenatoreAPI.Models
         }
 
         public List<PlayerAPI> FormationHome { get; set; }
+
+        public List<PlayerAPI> FormationAway { get; set; }
     }
 }

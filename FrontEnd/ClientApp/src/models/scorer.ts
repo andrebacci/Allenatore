@@ -8,4 +8,8 @@ export class Scorer {
   teamname: string = "";
 
   gols: number = 0;
+
+  minute: number = null;
+
+  description: string = "";
 }

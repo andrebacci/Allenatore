@@ -88,6 +88,53 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Ritorna i gol di una squadra in una partita
+        /// </summary>
+        /// <param name="idPlayer"></param>
+        /// <param name="idGame"></param>
+        /// <returns></returns>
+        [Route("GetByIdTeamIdGame")]
+        [HttpGet]
+        public async Task<IActionResult> GetByIdTeamIdGame([FromQuery] int idTeam, int idGame)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                GolManager manager = new GolManager(_connectionString);
+                List<Gols> gols = await manager.GetGolByIdTeamIdGame(idTeam, idGame);
+                if (gols == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante la ricerca dei gol." });
+
+                List<ScorerAPI> scorers = new List<ScorerAPI>();
+
+                foreach (Gols g in gols)
+                {
+                    ScorerAPI scorer = new ScorerAPI
+                    {
+                        IdPlayer = g.IdPlayer,
+                        Firstname = string.Empty,
+                        Lastname = string.Empty,
+                        Fullname = PlayerUtility.GetFullname(g.IdPlayer),
+                        Teamname = TeamUtility.GetTeamName(g.IdTeam),
+                        Gols = 1,
+                        Minute = g.Minute,
+                        Description = g.Details
+                    };
+
+                    scorers.Add(scorer);
+                }
+
+                return StatusCode(200, new ResultData { Data = scorers, Status = true, FunctionName = functionName, Message = $"Ok." });
+
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Ritorna i gol di un giocatore in una partita
         /// </summary>
         /// <param name="idPlayer"></param>
@@ -150,8 +197,8 @@ namespace AllenatoreAPI.Controllers
                         ScorerAPI scorer = new ScorerAPI
                         {
                             IdPlayer = g.IdPlayer,
-                            Firstname = "",
-                            Lastname = "",
+                            Firstname = string.Empty,
+                            Lastname = string.Empty,
                             Fullname = PlayerUtility.GetFullname(g.IdPlayer),
                             Teamname = TeamUtility.GetTeamName(g.IdTeam),
                             Gols = 1

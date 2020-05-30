@@ -14,4 +14,13 @@ export class ScorerService {
   getRankingGols() {
     return this.http.get(this.baseUrl + 'api/Gol/GetRankingGols');
   }
+
+  getScorerByIdTeamIdGame(idTeam: any, idGame: any) {
+    return this.http.get(this.baseUrl + 'api/Gol/GetByIdTeamIdGame', {
+      params: {
+        idTeam: idTeam,
+        idGame: idGame
+      }
+    });
+  }
 }

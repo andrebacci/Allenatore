@@ -8,6 +8,8 @@ import { PlayerService } from "../../services/player.service";
 import { PlayerGame } from "../../models/playerGame";
 import Utility from "../../utility/utility";
 import { GameInfo } from "../../models/gameInfo";
+import { ScorerService } from "../../services/scorer.service";
+import { Scorer } from "../../models/scorer";
 
 @Component({
   selector: 'app-game-info',
@@ -28,15 +30,22 @@ export class GameInfoComponent {
   formationHome: Player[] = [];
   formationAway: Player[] = [];
 
-  scorerPlayers: any = [];
+  scorersHome: Scorer[] = [];
+  scorersAway: Scorer[] = [];
+
+  playerScorersHome: Player[] = [];
+  playerScorersAway: Player[] = [];
 
   idGame: number = 0;
 
   numbers;
+  golHome;
+  golAway;
 
-  constructor(private gameService: GameService, private playerService: PlayerService, private route: ActivatedRoute, private router: Router) {   {
-    }
+  constructor(private gameService: GameService, private playerService: PlayerService, private scorerService: ScorerService, private route: ActivatedRoute, private router: Router) {    
     this.numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    this.golHome = [];
+    this.golAway = [];
   }
 
   ngOnInit(): void {
@@ -58,8 +67,16 @@ export class GameInfoComponent {
 
         // Recupero i giocatori delle due squadre
         this.getPlayersByIdTeam(this.game.idTeamHome);
-        this.getPlayersByIdTeam(this.game.idTeamAway);        {
-          }
+        this.getPlayersByIdTeam(this.game.idTeamAway);
+
+        // Inizializzo gli array per i gol segnati
+        for (var i = 0; i < this.game.golTeamHome; i++) {
+          this.golHome.push(i + 1);
+        }
+
+        for (var i = 0; i < this.game.golTeamAway; i++) {
+          this.golAway.push(i + 1);
+        }
       } else {
         // Errore
       }
@@ -76,11 +93,17 @@ export class GameInfoComponent {
 
           // Recupero la formazione della squadra di casa
           this.getFormationByIdTeamIdGame(this.game.idTeamHome, this.game.id);
+
+          // Recupero le informazioni sui marcatori della squadra di casa
+          this.getScorerByIdTeamIdGame(this.game.idTeamHome, this.game.id);
         } else {
           this.playersAway = resultData.data as Player[];
 
           // Recupero la formazione della squadra in trasferta
           this.getFormationByIdTeamIdGame(this.game.idTeamAway, this.game.id);
+
+          // Recupero le informazioni sui marcatori della squadra in trasferta
+          this.getScorerByIdTeamIdGame(this.game.idTeamAway, this.game.id);
         }
       } else {
         // Errore
@@ -122,11 +145,41 @@ export class GameInfoComponent {
     })
   }
 
-  onChange(event: any, position: number): void {
-    var andre = 0;
+  // Recupero i marcatori della squadra
+  getScorerByIdTeamIdGame(idTeam: number, idGame: number): void {
+    this.scorerService.getScorerByIdTeamIdGame(idTeam, idGame).subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        var scorers = resultData.data as Scorer[];
+
+        var playerScorer = [];
+
+        for (var i = 0; i < scorers.length; i++) {
+          var ps = new Player();
+          ps.id = scorers[i].idPlayer;
+          ps.firstname = scorers[i].firstname;
+          ps.lastname = scorers[i].lastname;
+          ps.fullname = scorers[i].fullname;
+
+          playerScorer.push(ps);
+        }
+
+        if (this.game.idTeamHome == idTeam) {
+          this.scorersHome = scorers;
+          this.playerScorersHome = playerScorer;
+        } else {
+          this.scorersAway = scorers;
+          this.playerScorersAway = playerScorer;
+        }
+      }
+    });
   }
 
   playerIsSelected(formation: Player[], idPlayer: number, position: number) {
+    if (formation.length == 1) {
+      var andre = 0;
+    }
+
     for (var i = 0; i < formation.length; i++) {
       if (formation[i].id == idPlayer) {
         if (position == i)
@@ -141,6 +194,7 @@ export class GameInfoComponent {
     // Creo l'oggetto da passare al back-end
     var gameInfo = new GameInfo();
     gameInfo.formationHome = this.formationHome;
+    gameInfo.formationAway = this.formationAway;
 
     this.gameService.insertInfo(gameInfo).subscribe(res => {
       var result = res as ResultData;

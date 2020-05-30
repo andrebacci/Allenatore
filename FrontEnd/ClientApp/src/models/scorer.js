@@ -8,6 +8,8 @@ var Scorer = /** @class */ (function () {
         this.fullname = "";
         this.teamname = "";
         this.gols = 0;
+        this.minute = null;
+        this.description = "";
     }
     return Scorer;
 }());

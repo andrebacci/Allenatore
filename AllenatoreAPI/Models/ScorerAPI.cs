@@ -17,6 +17,10 @@ namespace AllenatoreAPI.Models
 
         public string Teamname { get; set; }
 
-        public int Gols { get; set; }       
+        public int Gols { get; set; }
+
+        public int? Minute { get; set; }
+
+        public string Description { get; set; }
     }
 }

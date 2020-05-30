@@ -45,6 +45,15 @@ namespace BusinessLogic
             }
         }
 
+        // Ritorna i gol di una squadra in una partita
+        public async Task<List<Gols>> GetGolByIdTeamIdGame(int idTeam, int idGame)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                return await ctx.Gols.Where(x => x.IdTeam == idTeam && x.IdGame == idGame).ToListAsync();
+            }
+        }
+
         // Ritorna tutti i gol
         public async Task<List<Gols>> GetAll()
         {
