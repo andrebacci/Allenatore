@@ -56,5 +56,15 @@ namespace BusinessLogic
 
             return await GetById(body.Id);
         }
+
+        // Rimuove le presenza di una squadra da una partita
+        public async Task<bool> Delete(int idTeam, int idGame)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                await ctx.Presences.Delete(x => x.IdTeam == idTeam && x.IdGame == idGame);
+                await ctx.SaveChangesAsync();
+            }
+        }
     }
 }

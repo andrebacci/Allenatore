@@ -242,6 +242,19 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
+                // Cancello le presenze della squadra di casa e della squadra in trasferta
+                PresenceManager presenceManager = new PresenceManager(_connectionString);
+                bool result = presenceManager.Delete(gameInfo.IdTeamHome, gameInfo.IdGame).Result;
+                if (!result)
+                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante la cancellazione delle presenze di {gameInfo.IdTeamHome} in {gameInfo.IdGame}." });
+                    
+                bool result = presenceManager.Delete(gameInfo.IdTeamAway, gameInfo.IdGame).Result;
+                if (!result)
+                    return StatusCode(200, new ResultData { Data = null, Status = true, FunctionName = functionName, Message = $"Errore durante la cancellazione delle presenze di {gameInfo.IdTeamAway} in {gameInfo.IdGame}." });
+
+                // Aggiunto le presenze della squadra di casa e della squadra in trasferta
+                // TODO: finire
+
                 return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Ok" });
             }
             catch (Exception exc)

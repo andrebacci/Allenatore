@@ -104,5 +104,31 @@ namespace AllenatoreAPI.Controllers
                 return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
         }
+
+        /// <summary>
+        /// Rimuove le presenze dei giocatori di una squadra in una partita
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        [Route("Delete")]
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] int idGame, int idTeam)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                PresenceManager manager = new PresenceManager(_connectionString);
+                Presences presences = await manager.Delete(idGame, idTeam);
+                if (presences == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante la cancellazione delle presenza della squadra {idTeam} nella partita {idGame}." });
+
+                return StatusCode(200, new ResultData { Data = presences, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
     }
 }
