@@ -12,4 +12,6 @@ export class Scorer {
   minute: number = null;
 
   description: string = "";
+
+  isPenalty: boolean = false;
 }

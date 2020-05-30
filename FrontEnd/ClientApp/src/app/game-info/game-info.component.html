@@ -117,12 +117,15 @@
                               <table>
                                 <tr>
                                   <td>
-                                    <select name="select-team-home" id="select-team-home" class="form-control mt-1" [(ngModel)]="playerScorersAway[i]">
+                                    <select name="select-scorer-home" id="select-scorer-home" class="form-control mt-1" [(ngModel)]="playerScorersAway[i]">
                                       <option *ngFor="let p of playersAway" [ngValue]="p" [selected]="playerIsSelected(playerScorersAway, p.id, i)">{{p.fullname}}</option>
                                     </select>
                                   </td>
                                   <td>
                                     <input type="text" maxlength="2" class="form-control" id="minuteHome" placeholder="" [(ngModel)]="scorersAway[i].minute" name="minuteHome" #ctrl="ngModel">
+                                  </td>
+                                  <td>
+                                    <input type="checkbox" id="penaltyHome" [(ngModel)]="scorersAway[i].isPenalty" name="penaltyHome" #ctrl="ngModel" />
                                   </td>
                                   <td>
                                     <input type="text" class="form-control" id="descriptionHome" placeholder="" [(ngModel)]="scorersAway[i].description" name="minuteHome" #ctrl="ngModel">

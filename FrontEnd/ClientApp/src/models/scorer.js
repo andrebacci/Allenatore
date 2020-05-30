@@ -10,6 +10,7 @@ var Scorer = /** @class */ (function () {
         this.gols = 0;
         this.minute = null;
         this.description = "";
+        this.isPenalty = false;
     }
     return Scorer;
 }());

@@ -22,5 +22,7 @@ namespace AllenatoreAPI.Models
         public int? Minute { get; set; }
 
         public string Description { get; set; }
+
+        public bool IsPenalty { get; set; }
     }
 }

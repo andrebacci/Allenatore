@@ -119,7 +119,8 @@ namespace AllenatoreAPI.Controllers
                         Teamname = TeamUtility.GetTeamName(g.IdTeam),
                         Gols = 1,
                         Minute = g.Minute,
-                        Description = g.Details
+                        Description = g.Details,
+                        IsPenalty = g.IsPenalby.GetValueOrDefault()
                     };
 
                     scorers.Add(scorer);
