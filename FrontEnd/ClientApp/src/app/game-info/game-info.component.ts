@@ -30,22 +30,27 @@ export class GameInfoComponent {
   formationHome: Player[] = [];
   formationAway: Player[] = [];
 
-  scorersHome: Scorer[] = [];
-  scorersAway: Scorer[] = [];
-
   playerScorersHome: Player[] = [];
   playerScorersAway: Player[] = [];
+
+  substitutionsHome: Player[] = [];
+  substitutionsAway: Player[] = []; 
+
+  scorersHome: Scorer[] = [];
+  scorersAway: Scorer[] = [];
 
   idGame: number = 0;
 
   numbers;
   golHome;
   golAway;
+  substitutions;
 
   constructor(private gameService: GameService, private playerService: PlayerService, private scorerService: ScorerService, private route: ActivatedRoute, private router: Router) {    
     this.numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     this.golHome = [];
     this.golAway = [];
+    this.substitutions = [1, 2, 3, 4, 5];
   }
 
   ngOnInit(): void {
