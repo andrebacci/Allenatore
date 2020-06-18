@@ -16,6 +16,7 @@ namespace DataAccess.Models
         }
 
         public virtual DbSet<CardTypes> CardTypes { get; set; }
+        public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Feets> Feets { get; set; }
         public virtual DbSet<Games> Games { get; set; }
         public virtual DbSet<Gols> Gols { get; set; }
@@ -45,6 +46,15 @@ namespace DataAccess.Models
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(25);
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(25);
+
+                entity.Property(e => e.Round).HasMaxLength(2);
             });
 
             modelBuilder.Entity<Feets>(entity =>
@@ -169,7 +179,7 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<Teams>(entity =>
             {
-                entity.Property(e => e.Category).HasMaxLength(128);
+                //entity.Property(e => e.Category).HasMaxLength(128);
 
                 entity.Property(e => e.City)
                     .IsRequired()

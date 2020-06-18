@@ -78,7 +78,7 @@ namespace AllenatoreAPI.Controllers
                             Name = rowValues["A" + row].Value.ToString(),
                             City = rowValues["B" + row].Value.ToString(),
                             Mister = rowValues["C" + row].Value.ToString(),
-                            Category = rowValues["D" + row].Value.ToString(),
+                            //Category = rowValues["D" + row].Value.ToString(),
                             //Logo = rowValues["E" + row].Value.ToString()
                         };
 

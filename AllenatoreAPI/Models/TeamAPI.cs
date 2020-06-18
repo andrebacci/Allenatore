@@ -1,4 +1,5 @@
-﻿using DataAccess.Models;
+﻿using AllenatoreAPI.Utils;
+using DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace AllenatoreAPI.Models
             Name = team.Name;
             City = team.City;
             Mister = team.Mister;
-            Category = team.Category;
+            IdCategory = team.IdCategory.GetValueOrDefault();
+            Category = CategoryUtility.GetCategoryName(IdCategory);
             Logo = team.Logo;
         }
 
@@ -29,6 +31,8 @@ namespace AllenatoreAPI.Models
         public string Category { get; set; }
 
         public string Logo { get; set; }
+
+        public int IdCategory { get; set; }
 
         public TeamStatisticsAPI Statistics { get; set; }
     }

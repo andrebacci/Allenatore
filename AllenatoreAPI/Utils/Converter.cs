@@ -37,7 +37,7 @@ namespace AllenatoreAPI.Utils
 
         public static int ConvertCategory(string category)
         {
-            switch(category)
+            switch (category)
             {
                 case "Serie D":
                     return Constant.SERIE_D;

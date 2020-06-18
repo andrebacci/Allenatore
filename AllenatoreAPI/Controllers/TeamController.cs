@@ -60,7 +60,7 @@ namespace AllenatoreAPI.Controllers
                     //    teamAPI.Add(new TeamAPI(t));
                     //}
 
-                    teams = teams.Where(x => Converter.ConvertCategory(x.Category) == _configuration.GetValue<int>("category")).ToList();
+                    teams = teams.Where(x => x.IdCategory == _configuration.GetValue<int>("category")).ToList();
 
                     return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Squadre trovate." });
                 }
