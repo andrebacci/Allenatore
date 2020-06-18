@@ -29,7 +29,7 @@ namespace AllenatoreAPI.Models
             Image = p.Image;
             Penalty = p.Penalty;
 
-            FeetString = Constant.FeetToString(p.Feet.GetValueOrDefault());
+            FeetString = Converter.FeetToString(p.Feet.GetValueOrDefault());
 
             RoleString = RoleUtility.GetRoleDescription(p.Role.GetValueOrDefault());
 

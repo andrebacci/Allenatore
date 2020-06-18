@@ -145,6 +145,8 @@ namespace AllenatoreAPI.Controllers
             {
                 RoundManager manager = new RoundManager(_connectionString);
                 Rounds round = await manager.GetNext();
+                if (round == null)
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Partita non trovata" });
 
                 RoundAPI roundAPI = new RoundAPI(round);
 
