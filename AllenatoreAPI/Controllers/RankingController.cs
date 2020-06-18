@@ -48,8 +48,11 @@ namespace AllenatoreAPI.Controllers
                 List<RankingAPI> rankings = new List<RankingAPI>();
 
                 // Recupero tutte le squadre
-                TeamManager teamManager = new TeamManager(_connectionString);
-                List<Teams> teams = await teamManager.GetAll();
+                TeamController controller = new TeamController();
+                ObjectResult objectResult = controller.GetAll().Result as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+
+                List<Teams> teams = resultData.Data as List<Teams>;
 
                 // Recupero tutte le partite
                 GameManager gameManager = new GameManager(_connectionString);
@@ -147,8 +150,11 @@ namespace AllenatoreAPI.Controllers
                 List<RankingAPI> rankings = new List<RankingAPI>();
 
                 // Recupero tutte le squadre
-                TeamManager teamManager = new TeamManager(_connectionString);
-                List<Teams> teams = await teamManager.GetAll();
+                TeamController controller = new TeamController();
+                ObjectResult objectResult = controller.GetAll().Result as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+
+                List<Teams> teams = resultData.Data as List<Teams>;
 
                 // Recupero tutte le partite
                 GameManager gameManager = new GameManager(_connectionString);
@@ -225,8 +231,11 @@ namespace AllenatoreAPI.Controllers
                 List<RankingAPI> rankings = new List<RankingAPI>();
 
                 // Recupero tutte le squadre
-                TeamManager teamManager = new TeamManager(_connectionString);
-                List<Teams> teams = await teamManager.GetAll();
+                TeamController controller = new TeamController();
+                ObjectResult objectResult = controller.GetAll().Result as ObjectResult;
+                ResultData resultData = objectResult.Value as ResultData;
+
+                List<Teams> teams = resultData.Data as List<Teams>;
 
                 // Recupero tutte le partite
                 GameManager gameManager = new GameManager(_connectionString);

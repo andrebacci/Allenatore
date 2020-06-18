@@ -49,21 +49,11 @@ namespace AllenatoreAPI.Controllers
                 TeamManager tm = new TeamManager(_connectionString);
                 List<Teams> teams = await tm.GetAll();
                 if (teams == null || teams.Count == 0)
-                {
                     return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Nessuna squadra trovata." });
-                }
-                else
-                {
-                    //List<TeamAPI> teamAPI = new List<TeamAPI>();
-                    //foreach (Team t in teams)
-                    //{
-                    //    teamAPI.Add(new TeamAPI(t));
-                    //}
 
-                    teams = teams.Where(x => x.IdCategory == _configuration.GetValue<int>("category")).ToList();
+                teams = teams.Where(x => x.IdCategory == _configuration.GetValue<int>("category")).ToList();
 
-                    return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Squadre trovate." });
-                }
+                return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Squadre trovate." });
             }
             catch (Exception exc)
             {
