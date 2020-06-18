@@ -14,10 +14,10 @@ namespace AllenatoreAPI.Utils
         {
             try
             {
-                if (idLastTeam == 0 || idTeam == 0)
+                if (idTeam == 0)
                     return string.Empty;
 
-                if (idTeam == idLastTeam)
+                if (idLastTeam == 0 || idTeam == idLastTeam)
                     return "Confermato";
 
                 TeamController controller = new TeamController();

@@ -12,12 +12,12 @@ export class UtilityService {
 
   // Importa le squadre
   importTeams() {
-      return this.http.get(this.baseUrl + '/api/Utility/ImportTeams');
+      return this.http.get(this.baseUrl + 'api/Utility/ImportTeams');
   }
 
   // Importa i giocatori di una squadra
   importPlayers(id: any) {
-      return this.http.get(this.baseUrl + '/api/Utility/ImportPlayers', {
+      return this.http.get(this.baseUrl + 'api/Utility/ImportPlayers', {
           params: {
               id: id
           }
@@ -26,6 +26,6 @@ export class UtilityService {
 
   // Importa il calendario delle partite
   importRounds() {
-      return this.http.get(this.baseUrl + '/api/Utility/Rounds');
+      return this.http.get(this.baseUrl + 'api/Utility/Rounds');
   }
 }

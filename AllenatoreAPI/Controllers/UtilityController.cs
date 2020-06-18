@@ -103,7 +103,7 @@ namespace AllenatoreAPI.Controllers
         /// <returns></returns>
         [Route("ImportPlayers")]
         [HttpGet]
-        public async Task<IActionResult> ImportPlayers([FromQuery] int idTeam)
+        public async Task<IActionResult> ImportPlayers([FromQuery] int id)
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 
@@ -111,7 +111,7 @@ namespace AllenatoreAPI.Controllers
             {
                 // Recupero il team
                 TeamController teamController = new TeamController();
-                ObjectResult objectResult = await teamController.GetById(idTeam) as ObjectResult;
+                ObjectResult objectResult = await teamController.GetById(id) as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
 
                 TeamAPI team = resultData.Data as TeamAPI;
@@ -140,7 +140,7 @@ namespace AllenatoreAPI.Controllers
 
                         Players player = new Players
                         {
-                            IdTeam = idTeam,
+                            IdTeam = id,
                             Lastname = rowValues["A" + row].Value.ToString()
                         };
 
