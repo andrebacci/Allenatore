@@ -35,7 +35,7 @@ export class TransferComponent {
 
   // Inizializza la lista delle squadre
   getTeams(): void {
-    this.teamService.getAll().subscribe(res => {
+    this.teamService.getAllTeams().subscribe(res => {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.teams = resultData.data as Team[];

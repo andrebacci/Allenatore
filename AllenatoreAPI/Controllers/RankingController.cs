@@ -49,7 +49,7 @@ namespace AllenatoreAPI.Controllers
 
                 // Recupero tutte le squadre
                 TeamController controller = new TeamController();
-                ObjectResult objectResult = controller.GetAll().Result as ObjectResult;
+                ObjectResult objectResult = controller.GetCategoryTeams().Result as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
 
                 List<Teams> teams = resultData.Data as List<Teams>;
@@ -151,7 +151,7 @@ namespace AllenatoreAPI.Controllers
 
                 // Recupero tutte le squadre
                 TeamController controller = new TeamController();
-                ObjectResult objectResult = controller.GetAll().Result as ObjectResult;
+                ObjectResult objectResult = controller.GetCategoryTeams().Result as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
 
                 List<Teams> teams = resultData.Data as List<Teams>;
@@ -232,7 +232,7 @@ namespace AllenatoreAPI.Controllers
 
                 // Recupero tutte le squadre
                 TeamController controller = new TeamController();
-                ObjectResult objectResult = controller.GetAll().Result as ObjectResult;
+                ObjectResult objectResult = controller.GetCategoryTeams().Result as ObjectResult;
                 ResultData resultData = objectResult.Value as ResultData;
 
                 List<Teams> teams = resultData.Data as List<Teams>;

@@ -38,9 +38,35 @@ namespace AllenatoreAPI.Controllers
         /// </summary>
         /// <param name="body"></param>
         /// <returns></returns>
-        [Route("Teams")]
+        [Route("AllTeams")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                TeamManager tm = new TeamManager(_connectionString);
+                List<Teams> teams = await tm.GetAll();
+                if (teams == null || teams.Count == 0)
+                    return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Nessuna squadra trovata." });                
+
+                return StatusCode(200, new ResultData { Data = teams, Status = true, FunctionName = functionName, Message = $"Squadre trovate." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
+        /// Ritorna tutte le squadre della categoria
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        [Route("Teams")]
+        [HttpGet]
+        public async Task<IActionResult> GetCategoryTeams()
         {
             string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
 

@@ -11,9 +11,14 @@ export class TeamService {
 
   }
 
-  // Restituisce tutti i team
+  // Restituisce tutti i team della categoria
   getAll() {
     return this.http.get(this.baseUrl + 'api/Team/Teams');
+  }
+
+  // Restituisce tutti i team
+  getAllTeams() {
+    return this.http.get(this.baseUrl + 'api/Team/AllTeams');
   }
 
   // Restituisce un team dato il suo id
