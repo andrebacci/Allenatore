@@ -225,6 +225,9 @@ namespace AllenatoreAPI.Controllers
                 if (body.LastTeam == 0)
                     body.LastTeam = null;
 
+                if (body.Feet == 0)
+                    body.Feet = null;
+
                 PlayerManager manager = new PlayerManager(_connectionString);
                 Players player = await manager.Insert(body);
                 if (player == null)
@@ -253,6 +256,9 @@ namespace AllenatoreAPI.Controllers
 
             try
             {
+                if (body.Feet == 0)
+                    body.Feet = null;
+
                 PlayerManager manager = new PlayerManager(_connectionString);
                 Players player = await manager.Update(body);
                 if (player == null)

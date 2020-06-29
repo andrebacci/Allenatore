@@ -121,6 +121,7 @@ export class PlayerComponent {
       var resultData = res as ResultData;
       if (resultData.status) {
         this.feets = resultData.data as Feet[];
+        this.feets.push(new Feet('Sconosciuto'))
       } else {
         // Errore
       }
@@ -263,7 +264,10 @@ export class PlayerComponent {
     if (feet == 'Sinistro')
       return 1;
 
-    return 2;
+    if (feet == 'Destro')
+      return 2;
+
+    return 0;
   }
 
   convertRoleToNumber(role: string): number {
