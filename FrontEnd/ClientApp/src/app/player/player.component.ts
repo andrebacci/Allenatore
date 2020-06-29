@@ -14,6 +14,7 @@ import { Penalty } from "../../models/penalty";
 import Utility from "../../utility/utility";
 import { GamePlayer } from "../../models/gamePlayer";
 import { PlayerStatistics } from "../../models/playerStatistics";
+import { Team } from "../../models/team";
 
 @Component({
   selector: 'app-player',
@@ -23,6 +24,7 @@ import { PlayerStatistics } from "../../models/playerStatistics";
 export class PlayerComponent {
 
   player: Player = null;
+  teams: Team[] = [];
 
   games: GamePlayer[] = [];
 
@@ -55,6 +57,11 @@ export class PlayerComponent {
 
   playerFullName: string = "";
 
+  teamNull: Team = new Team("Svincolato");
+
+  selectedTeam;
+  selectedTeamOld;
+
   constructor(private playerService: PlayerService, private gameService: GameService, private teamService: TeamService, private feetService: FeetService, private roleService: RoleService, private route: ActivatedRoute, private router: Router) {
 
   }
@@ -65,6 +72,9 @@ export class PlayerComponent {
 
       // Inizializzo le variabili constanti
       this.initConstant();
+
+      // Recupero tutte le squadre
+      this.getTeams();
 
       if (this.mode == "create") {
         this.isReadOnly = false;
@@ -119,6 +129,21 @@ export class PlayerComponent {
     // Inizializzo penalties
     this.penalties.push(new Penalty(1, 'Sì'));
     this.penalties.push(new Penalty(2, 'No'));
+  }
+
+  // Inizializza la lista delle squadre
+  getTeams(): void {
+    this.teamService.getAllTeams().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.teams = resultData.data as Team[];
+
+        // Aggiungo la squadra "svincolato"
+        this.teams.push(this.teamNull);
+      } else {
+        // Errore
+      }
+    });
   }
 
   // Inizializzo il giocatore dato il suo id

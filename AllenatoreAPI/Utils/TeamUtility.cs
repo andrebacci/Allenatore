@@ -15,7 +15,7 @@ namespace AllenatoreAPI.Utils
             try
             {
                 if (idTeam == 0)
-                    return string.Empty;
+                    return "Svincolato";
 
                 if (idLastTeam == 0 || idTeam == idLastTeam)
                     return "Confermato";

@@ -42,7 +42,8 @@ export class TransferService {
       id: transfer.id,
       idTeamNew: transfer.idTeamNew,
       idTeamOld: transfer.idTeamOld,
-      idPlayer: transfer.idPlayer
+      idPlayer: transfer.idPlayer,
+      //date: transfer.date
     });
 
     return this.http.post(this.baseUrl + 'api/Transfer/Insert', body, options);

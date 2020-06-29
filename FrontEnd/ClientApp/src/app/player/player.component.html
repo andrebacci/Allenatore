@@ -49,11 +49,17 @@
             <div class="form-row">
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Squadra Attuale</label>
-                <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="team" name="team" #ctrl="ngModel" [disabled]="true" required>                
+                <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="team" name="team" #ctrl="ngModel" [disabled]="true" required *ngIf="player">
+                <select name="select-team" id="select-role" class="form-control" [(ngModel)]="selectedTeam" (change)="onChangeTeam($event)" *ngIf="!player">
+                  <option *ngFor="let t of teams" [value]="t.id">{{t.name}}</option>
+                </select>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Provenienza</label>
-                <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="lastteam" name="lastteam" #ctrl="ngModel" [disabled]="true" required>
+                <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="lastteam" name="lastteam" #ctrl="ngModel" [disabled]="true" required *ngIf="player">
+                <select name="select-team-old" id="select-role" class="form-control" [(ngModel)]="selectedTeamOld" (change)="onChangeTeam($event)" *ngIf="!player">
+                  <option *ngFor="let t of teams" [value]="t.id">{{t.name}}</option>
+                </select>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="validationCustom03">Ruolo</label>
