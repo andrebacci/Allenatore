@@ -14,6 +14,8 @@ import { TransferService } from '../../services/transferService';
 
 import * as Chart from 'chart.js';
 import { TeamStatistics } from '../../models/teamStatistics';
+import { Category } from '../../models/category';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-team',
@@ -25,8 +27,8 @@ export class TeamComponent implements AfterViewInit {
   team: Team = null;
 
   players: Player[] = [];
-
   games: Game[] = [];
+  categories: Category[] = [];
 
   transfers: Transfer[] = [];
   transfersIn: Transfer[] = [];
@@ -42,8 +44,9 @@ export class TeamComponent implements AfterViewInit {
 
   teamName: string = "";
   teamCity: string = "";
-  teamCategory: string = "";
+  //teamCategory: string = "";
   teamMister: string = "";
+  selectedCategory: string = "";
 
   isReadOnly: boolean = false;
 
@@ -64,7 +67,7 @@ export class TeamComponent implements AfterViewInit {
 
   ctx: any;
 
-  constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService,
+  constructor(private teamService: TeamService, private playerService: PlayerService, private gameService: GameService, private transferService: TransferService, private categoryService: CategoryService,
     private route: ActivatedRoute, private router: Router) {
 
   }
@@ -96,6 +99,9 @@ export class TeamComponent implements AfterViewInit {
         // Recupero le statistiche
         this.getStatistics(this.idTeam);
       }
+
+      // Recupero le categorie
+      this.getCategories();
     });
   }
 
@@ -236,6 +242,18 @@ export class TeamComponent implements AfterViewInit {
     });
   }
 
+  // Recupero le categorie
+  getCategories(): void {
+    this.categoryService.getAll().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+        this.categories = resultData.data as Category[];
+      } else {
+        // Errore
+      }
+    });
+  }
+
   // Recupero il team dato il suo id
   getTeamById(id: number): void {
     this.teamService.getById(id).subscribe(res => {
@@ -325,7 +343,8 @@ export class TeamComponent implements AfterViewInit {
   initForm(): void {
     this.teamName = this.team.name;
     this.teamCity = this.team.city;
-    this.teamCategory = this.team.category;
+    //this.teamCategory = this.team.category;
+    this.selectedCategory = this.team.category;
     this.teamMister = this.team.mister;
   }
 
@@ -333,7 +352,7 @@ export class TeamComponent implements AfterViewInit {
   cleanForm(): void {
     this.teamName = "";
     this.teamCity = "";
-    this.teamCategory = "";
+    //this.teamCategory = "";
     this.teamMister = "";
   }
 
@@ -343,7 +362,7 @@ export class TeamComponent implements AfterViewInit {
       this.team = new Team(this.teamName);
 
     this.team.city = this.teamCity;
-    this.team.category = this.teamCategory;
+    this.team.category = this.selectedCategory;
     this.team.mister = this.teamMister;
 
     if (this.mode == "update") {

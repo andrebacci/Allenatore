@@ -6,8 +6,9 @@ var Team = /** @class */ (function () {
         this.name = "";
         this.city = "";
         this.mister = "";
-        this.category = "";
+        this.idCategory = 0;
         this.logo = "";
+        this.category = "";
         this.name = name;
     }
     return Team;

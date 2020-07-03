@@ -48,7 +48,10 @@
           <div class="form-row">
             <div class="col-md-6 mb-3">
               <label for="validationCustom03">Categoria</label>
-              <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="teamCategory" name="teamCategory" #ctrl="ngModel" [readonly]="isReadOnly" required>
+              <input type="text" class="form-control" id="validationCustom04" placeholder="" [(ngModel)]="teamCategory" name="teamCategory" #ctrl="ngModel" [readonly]="isReadOnly" required *ngIf="team">              
+              <select name="select-team" id="select-role" class="form-control" [(ngModel)]="selectedCategory" *ngIf="!team">
+                <option *ngFor="let c of categories" [value]="c.id">{{c.name}}</option>
+              </select>
               <div class="invalid-feedback">
                 Please provide a valid city.
               </div>

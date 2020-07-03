@@ -3,8 +3,10 @@ export class Team {
   name: string = "";
   city: string = "";
   mister: string = "";
-  category: string = "";
+  idCategory: number = 0;
   logo: string = "";
+
+  category: string = "";
 
   constructor(name: string) {
     this.name = name;

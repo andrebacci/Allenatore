@@ -32,7 +32,7 @@ namespace AllenatoreAPI.Models
 
         public string Logo { get; set; }
 
-        public int IdCategory { get; set; }
+        public int IdCategory { get; set; }        
 
         public TeamStatisticsAPI Statistics { get; set; }
     }
