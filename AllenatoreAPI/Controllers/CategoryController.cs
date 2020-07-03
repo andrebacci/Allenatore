@@ -54,5 +54,31 @@ namespace AllenatoreAPI.Controllers
                 return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
             }
         }
+
+        /// <summary>
+        /// Aggiunge una nuova categoria
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        [Route("Insert")]
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] Category body)
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                CategoryManager manager = new CategoryManager(_connectionString);
+                Category category = await manager.Insert(body);
+                if (category != null)
+                    return StatusCode(200, new ResultData { Data = category, Status = true, FunctionName = functionName, Message = $"Categoria inserita correttamente." });
+
+                return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della categoria {body.Name}." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
     }
 }

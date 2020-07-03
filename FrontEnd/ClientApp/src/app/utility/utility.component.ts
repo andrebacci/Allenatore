@@ -47,6 +47,18 @@ export class UtilityComponent {
     })
   }
 
+  // Importa le categorie
+  importCategories(): void {
+    this.utilityService.importCategories().subscribe(res => {
+      var resultData = res as ResultData;
+      if (resultData.status) {
+
+      } else {
+        // Errore
+      }
+    })
+  }
+
   // Importa i giocatori di una squadra
   importPlayers(): void {
     this.utilityService.importPlayers(this.selectedTeam).subscribe(res => {

@@ -15,6 +15,11 @@ export class UtilityService {
       return this.http.get(this.baseUrl + 'api/Utility/ImportTeams');
   }
 
+  // Importa le categorie
+  importCategories() {
+    return this.http.get(this.baseUrl + 'api/Utility/ImportCategories');
+  }
+
   // Importa i giocatori di una squadra
   importPlayers(id: any) {
       return this.http.get(this.baseUrl + 'api/Utility/ImportPlayers', {

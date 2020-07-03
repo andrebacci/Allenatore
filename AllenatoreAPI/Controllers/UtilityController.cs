@@ -37,6 +37,66 @@ namespace AllenatoreAPI.Controllers
         }
 
         /// <summary>
+        /// Importa le categorie
+        /// </summary>
+        /// <returns></returns>
+        [Route("ImportCategories")]
+        [HttpGet]
+        public async Task<IActionResult> ImportCategories()
+        {
+            string functionName = Utility.GetRealMethodFromAsyncMethod(MethodBase.GetCurrentMethod());
+
+            try
+            {
+                string filepath = _configuration.GetValue<string>("TeamCategory");
+
+                // Controllo l'esistenza del file
+                if (!System.IO.File.Exists(filepath))
+                    return StatusCode(200, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"File delle categorie non trovato." });
+
+                // Svuoto la tabella
+                //UtilityManager utilityManager = new UtilityManager(_connectionString);
+                //await utilityManager.Truncate("Teams");
+
+                FileInfo fi = new FileInfo(filepath);
+
+                using (ExcelPackage excelPackage = new ExcelPackage(fi))
+                {
+                    CategoryController controller = new CategoryController();
+
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.First();
+
+                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                    {
+                        ExcelRange rowValues = worksheet.Cells[row, 1, row, worksheet.Dimension.End.Column];
+
+                        if (rowValues["A" + row].Value == null)
+                            return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+
+                        Category category = new Category
+                        {
+                            Name = rowValues["A" + row].Value.ToString()
+                        };
+
+                        if (rowValues["B" + row].Value != null)
+                            category.Round = rowValues["B" + row].Value.ToString();
+
+                        ObjectResult objectResult = await controller.Insert(category) as ObjectResult;
+                        ResultData resultData = objectResult.Value as ResultData;
+                        if (resultData.Data == null)
+                            return StatusCode(200, new ResultData { Data = false, Status = false, FunctionName = functionName, Message = $"Errore durante l'inserimento della categoria {category.Name}." });
+                    }
+                }
+
+                return StatusCode(200, new ResultData { Data = true, Status = true, FunctionName = functionName, Message = $"Ok." });
+            }
+            catch (Exception exc)
+            {
+                return StatusCode(500, new ResultData { Data = null, Status = false, FunctionName = functionName, Message = $"{exc.Message}" });
+            }
+        }
+
+        /// <summary>
         /// Importa le squadre
         /// </summary>
         /// <returns></returns>

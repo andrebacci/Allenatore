@@ -25,5 +25,17 @@ namespace BusinessLogic
                 return await ctx.Category.Where(x => x.Id == id).FirstOrDefaultAsync();
             }
         }
+
+        // Aggiunge una nuova squadra
+        public async Task<Category> Insert(Category category)
+        {
+            using (POContextDb ctx = new POContextDb(_connectionString))
+            {
+                await ctx.Category.AddAsync(category);
+                await ctx.SaveChangesAsync();
+            }
+
+            return await GetById(category.Id);
+        }
     }
 }
