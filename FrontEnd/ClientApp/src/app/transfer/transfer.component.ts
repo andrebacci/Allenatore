@@ -62,9 +62,9 @@ export class TransferComponent {
 
   save(): void {
     var transfer = new Transfer();
-    transfer.idPlayer = this.selectedPlayer;
-    transfer.idTeamNew = this.selectedTeamNew;
-    transfer.idTeamOld = this.selectedTeamOld;
+    transfer.idPlayer = +this.selectedPlayer;
+    transfer.idTeamNew = +this.selectedTeamNew;
+    transfer.idTeamOld = +this.selectedTeamOld;
 
     this.transferService.insert(transfer).subscribe(res => {
       var resultData = res as ResultData;

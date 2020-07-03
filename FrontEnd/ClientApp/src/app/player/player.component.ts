@@ -204,7 +204,7 @@ export class PlayerComponent {
 
   // Inizializzo i campi della form se sono in modalità create
   initFormCreate(): void {
-    this.selectedFeet = 'Destro';
+    this.selectedFeet = 'Sconosciuto';
     this.selectedRole = 'Portiere';
     this.selectedPenalty = 'No';
   }
